@@ -1,0 +1,12 @@
+name: LuckyEssentials
+version: $version
+author: LyraMS
+main: dev.luckynetwork.id.lyrams.LuckyEssentials
+
+commands:
+  gamemode:
+    aliases: [gm, gmc, gms, gmsp, gma]
+  feed:
+    aliases: [eat]
+  heal:
+  fly:
