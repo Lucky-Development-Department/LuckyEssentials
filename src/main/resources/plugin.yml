@@ -1,5 +1,5 @@
 name: LuckyEssentials
-version: $version
+version: 0.0.2
 author: LyraMS
 main: dev.luckynetwork.id.lyrams.LuckyEssentials
 
@@ -10,3 +10,7 @@ commands:
     aliases: [eat]
   heal:
   fly:
+  give:
+    aliases: [i]
+  teleport:
+    aliases: [tp, tppos, tphere, s]

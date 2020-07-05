@@ -24,8 +24,6 @@ class GamemodeCMD : CommandExecutor {
 
         commandName ?: return false
 
-        Bukkit.broadcastMessage("DEBUG: Command name: $commandName")
-
         if (commandName.startsWith("gm")) {
             var target = sender
             var others = false
@@ -42,15 +40,10 @@ class GamemodeCMD : CommandExecutor {
             }
 
             val targetGamemode = when (commandName.split("gm")[1].toLowerCase()) {
-                // todo: clean up this shit
-                "s" -> "survival"
-                "0" -> "survival"
-                "c" -> "creative"
-                "1" -> "creative"
-                "a" -> "adventure"
-                "2" -> "adventure"
-                "sp" -> "spectator"
-                "3" -> "spectator"
+                "s", "0" -> "survival"
+                "c", "1" -> "creative"
+                "a", "2" -> "adventure"
+                "sp", "3" -> "spectator"
                 else -> args[0].toLowerCase()
             }
 
@@ -88,15 +81,10 @@ class GamemodeCMD : CommandExecutor {
             }
 
             val targetGamemode = when (args[0].toLowerCase()) {
-                // todo: clean up this shit
-                "s" -> "survival"
-                "0" -> "survival"
-                "c" -> "creative"
-                "1" -> "creative"
-                "a" -> "adventure"
-                "2" -> "adventure"
-                "sp" -> "spectator"
-                "3" -> "spectator"
+                "s", "0" -> "survival"
+                "c", "1" -> "creative"
+                "a", "2" -> "adventure"
+                "sp", "3" -> "spectator"
                 else -> args[0].toLowerCase()
             }
 
