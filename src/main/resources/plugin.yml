@@ -1,5 +1,5 @@
 name: LuckyEssentials
-version: 0.0.2
+version: 0.0.3
 author: LyraMS
 main: dev.luckynetwork.id.lyrams.LuckyEssentials
 
@@ -14,3 +14,9 @@ commands:
     aliases: [i]
   teleport:
     aliases: [tp, tppos, tphere, s]
+  clear:
+    aliases: [ci]
+  editsign:
+  smite:
+    aliases: [thor]
+  explode:

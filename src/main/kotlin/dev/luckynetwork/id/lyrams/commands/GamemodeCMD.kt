@@ -39,6 +39,11 @@ class GamemodeCMD : CommandExecutor {
                 others = true
             }
 
+            if (commandName.split("gm")[1].isEmpty()) {
+                sendUsage(sender)
+                return false
+            }
+
             val targetGamemode = when (commandName.split("gm")[1].toLowerCase()) {
                 "s", "0" -> "survival"
                 "c", "1" -> "creative"

@@ -5,7 +5,7 @@ import org.bukkit.inventory.ItemStack
 
 object IMaterial {
 
-    fun getMaterial(name: String, amount: Int): ItemStack {
+    fun getMaterial(name: String, amount: Int = 64): ItemStack {
 
         if (Material.getMaterial(name.toUpperCase()) != null)
             return ItemStack(Material.getMaterial(name.toUpperCase()), amount)

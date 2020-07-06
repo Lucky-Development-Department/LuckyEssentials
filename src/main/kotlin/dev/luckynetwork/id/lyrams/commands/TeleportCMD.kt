@@ -26,12 +26,12 @@ class TeleportCMD : CommandExecutor {
         commandName ?: return false
 
         if (args!!.isEmpty()) {
-            // todo: send usage message
+            sendUsage(sender)
             return false
         }
 
         when (commandName.toUpperCase()) {
-            "teleport", "tp" -> {
+            "TELEPORT", "TP" -> {
                 var target: Player = sender
                 var toTarget: Player
                 var others = false
@@ -52,14 +52,14 @@ class TeleportCMD : CommandExecutor {
 
                 if (args.size == 2) {
                     if (Bukkit.getPlayer(args[0]) == null) {
-                        sender.sendMessage("§e§lLuckyNetwork §a/ §c§l" + args[0] + " §cnot found!")
+                        sender.sendMessage("§e§lLuckyNetwork §a/ §c§l${args[0]} §cnot found!")
                         return false
                     }
 
                     target = Bukkit.getPlayer(args[0])
 
                     if (Bukkit.getPlayer(args[1]) == null) {
-                        sender.sendMessage("§e§lLuckyNetwork §a/ §c§l" + args[1] + " §cnot found!")
+                        sender.sendMessage("§e§lLuckyNetwork §a/ §c§l${args[1]} §cnot found!")
                         return false
                     }
 
@@ -72,11 +72,20 @@ class TeleportCMD : CommandExecutor {
 
                     target.teleport(toTarget.location)
 
+                    when {
+                        others -> {
+                            sender.sendMessage("§e§lLuckyNetwork §a/ §aTeleported ${target.name} to ${args[1]}")
+                            target.sendMessage("§e§lLuckyNetwork §a/ §aTeleported you to ${args[1]}")
+                        }
+                        else -> target.sendMessage("§e§lLuckyNetwork §a/ §aTeleported you to ${args[1]}")
+                    }
+
                 }
 
             }
-            "tppos" -> {
+            "TPPOS" -> {
                 var target: Player = sender
+                var others = false
 
                 var world = sender.world
                 var x = args[0].toDouble()
@@ -86,35 +95,38 @@ class TeleportCMD : CommandExecutor {
                 var pitch = sender.location.pitch
 
                 if (args.size < 3) {
-                    // todo: send usage message
+                    sendUsage(sender)
                     return false
                 }
 
-                var startFrom = 0
+                var offset = 0
 
                 if (Bukkit.getPlayer(args[0]) != null) {
-                    startFrom = 1
+                    offset = 1
                     target = Bukkit.getPlayer(args[0])
+                    others = true
                 }
 
-                when (args.size + startFrom) {
+                when (args.size + offset) {
                     6 -> {
-                        world = Bukkit.getWorld(args[0 + startFrom])
-                        x = args[1 + startFrom].toDouble()
-                        y = args[2 + startFrom].toDouble()
-                        z = args[3 + startFrom].toDouble()
-                        yaw = args[4 + startFrom].toFloat()
-                        pitch = args[5 + startFrom].toFloat()
+                        world = Bukkit.getWorld(args[0 + offset])
+                        x = args[1 + offset].toDouble()
+                        y = args[2 + offset].toDouble()
+                        z = args[3 + offset].toDouble()
+                        yaw = args[4 + offset].toFloat()
+                        pitch = args[5 + offset].toFloat()
                     }
                     5 -> {
-                        yaw = args[3 + startFrom].toFloat()
-                        pitch = args[4 + startFrom].toFloat()
+                        yaw = args[3 + offset].toFloat()
+                        pitch = args[4 + offset].toFloat()
                     }
                     4 -> {
-                        world = Bukkit.getWorld(args[0 + startFrom])
+                        world = Bukkit.getWorld(args[0 + offset])
                     }
                 }
 
+                if (!sender.checkPermission("teleport.position", others))
+                    return false
 
                 if (world == null) {
                     sender.sendMessage("§e§lLuckyNetwork §a/ §cWorld not found!")
@@ -125,8 +137,16 @@ class TeleportCMD : CommandExecutor {
 
                 target.teleport(location)
 
+                when {
+                    others -> {
+                        sender.sendMessage("§e§lLuckyNetwork §a/ §aTeleported ${target.name} to ${world.name} $x $y $z")
+                        target.sendMessage("§e§lLuckyNetwork §a/ §aTeleported you to ${world.name} $x $y $z")
+                    }
+                    else -> target.sendMessage("§e§lLuckyNetwork §a/ §aTeleported you to ${world.name} $x $y $z")
+                }
+
             }
-            "tphere", "s" -> {
+            "TPHERE", "S" -> {
                 if (Bukkit.getPlayer(args[0]) == null) {
                     sender.sendMessage("§e§lLuckyNetwork §a/ §cPlayer not found!")
                     return false
@@ -138,10 +158,21 @@ class TeleportCMD : CommandExecutor {
                     return false
 
                 toTarget.teleport(sender.location)
+
+                sender.sendMessage("§e§lLuckyNetwork §a/ §aTeleported ${toTarget.name} to ${sender.name}")
+                toTarget.sendMessage("§e§lLuckyNetwork §a/ §aTeleported you to ${sender.name}")
+
             }
+            else -> sendUsage(sender)
         }
 
         return false
     }
 
+}
+
+private fun sendUsage(sender: CommandSender) {
+    sender.sendMessage("§cUsage: /tp <player> [<otherPlayer>]")
+    sender.sendMessage("§cUsage: /tppos [world] <x> <y> <z> [yaw] [pitch]")
+    sender.sendMessage("§cUsage: /tphere <player>")
 }

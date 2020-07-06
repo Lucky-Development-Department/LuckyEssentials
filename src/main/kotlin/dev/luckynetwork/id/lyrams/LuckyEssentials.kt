@@ -29,6 +29,10 @@ class LuckyEssentials : JavaPlugin() {
         getCommand("fly").executor = FlyCMD()
         getCommand("give").executor = GiveCMD()
         getCommand("teleport").executor = TeleportCMD()
+        getCommand("clear").executor = ClearCMD()
+        getCommand("editsign").executor = EditSignCMD()
+        getCommand("smite").executor = SmiteCMD()
+        getCommand("explode").executor = ExplodeCMD()
     }
 
     private fun registerListeners() {

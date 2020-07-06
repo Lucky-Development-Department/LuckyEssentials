@@ -44,15 +44,15 @@ class FlyCMD : CommandExecutor {
             others -> {
                 if (newFlightState) {
                     sender.sendMessage("§e§lLuckyNetwork §a/ §aFlight has been enabled for §l" + target.name + "§a!")
-                    target.sendMessage("§e§lLuckyNetwork §a/ §aYou can now fly!!")
+                    target.sendMessage("§e§lLuckyNetwork §a/ §aYou can now fly!")
                     return false
                 }
                 sender.sendMessage("§e§lLuckyNetwork §a/ §cFlight has been disabled for §l" + target.name + "§a!")
-                target.sendMessage("§e§lLuckyNetwork §a/ §cYou can no longer fly!!")
+                target.sendMessage("§e§lLuckyNetwork §a/ §cYou can no longer fly!")
             }
             else -> {
-                if (newFlightState) target.sendMessage("§e§lLuckyNetwork §a/ §aYou can now fly!!")
-                else target.sendMessage("§e§lLuckyNetwork §a/ §cYou can no longer fly!!")
+                if (newFlightState) target.sendMessage("§e§lLuckyNetwork §a/ §aYou can now fly!")
+                else target.sendMessage("§e§lLuckyNetwork §a/ §cYou can no longer fly!")
             }
         }
 

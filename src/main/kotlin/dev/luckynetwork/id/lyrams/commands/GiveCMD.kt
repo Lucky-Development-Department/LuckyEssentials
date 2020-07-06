@@ -35,7 +35,7 @@ class GiveCMD : CommandExecutor {
 
         // get where should the args start from...
         // its complicated :/
-        val startFrom =
+        val offset =
             if (commandName.equals("i", true)) 0
             else 1
 
@@ -68,14 +68,14 @@ class GiveCMD : CommandExecutor {
 
         // what material
         val material =
-            if (args[startFrom].contains(":"))
-                args[startFrom].split(":")[0].toUpperCase()
-            else args[startFrom].toUpperCase()
+            if (args[offset].contains(":"))
+                args[offset].split(":")[0].toUpperCase()
+            else args[offset].toUpperCase()
 
         // whats the material damage amount
         val damage =
-            if (args[startFrom].contains(":"))
-                args[startFrom].split(":")[1].toInt()
+            if (args[offset].contains(":"))
+                args[offset].split(":")[1].toInt()
             else 0
 
         // how much
@@ -83,7 +83,7 @@ class GiveCMD : CommandExecutor {
 
         // any more properties for the item
         var itemName = ""
-        var enchantments = "".split("")
+        var enchantments: List<String>? = null
 
         // bla bla bla, ignore this
         val sb = StringBuilder()
@@ -118,17 +118,7 @@ class GiveCMD : CommandExecutor {
 
         // is sender is giving items to other player
         if (args.size > 1) {
-            // if player is null, perhaps args[0] is for the item amount
-            if (Bukkit.getPlayer(args[0]) == null) {
-                try {
-                    amount = args[startFrom + 1].toInt()
-                } catch (ignored: Exception) {
-                    sender.sendMessage("§e§lLuckyNetwork §a/ §cPlayer not found!")
-                    return false
-                }
-
-                // ok it's not null :D
-            } else {
+            if (Bukkit.getPlayer(args[0]) != null) {
                 target = Bukkit.getPlayer(args[0]) as Player
 
                 others = true
@@ -144,6 +134,15 @@ class GiveCMD : CommandExecutor {
 
                 }
 
+                // surely args[0] is for the item amount, right?
+            } else {
+                try {
+                    amount = args[offset + 1].toInt()
+                } catch (ignored: Exception) {
+                    sender.sendMessage("§e§lLuckyNetwork §a/ §cPlayer not found!")
+                    return false
+                }
+
             }
 
         }
@@ -152,11 +151,12 @@ class GiveCMD : CommandExecutor {
         if (!sender.checkPermission("give", others))
             return false
 
-        var itemStack: ItemStack
+        var itemStack = ItemStack(Material.AIR)
 
         try {
             // tries to use IMaterial to get itemStack
-            itemStack = IMaterial.getMaterial(material, amount)
+            if (!args[offset].contains(":"))
+                itemStack = IMaterial.getMaterial(material, amount)
 
             // if IMaterial hasn't supported the itemStack yet
             if (itemStack.type == Material.AIR)
@@ -176,7 +176,7 @@ class GiveCMD : CommandExecutor {
             itemStack.itemMeta = itemMeta
         }
 
-        if (enchantments.isNotEmpty()) {
+        if (enchantments != null) {
             for (enchantment in enchantments) {
                 val enchantLevel =
                     if (enchantment.contains(":"))
@@ -205,6 +205,16 @@ class GiveCMD : CommandExecutor {
         }
 
         target.updateInventory()
+
+        when {
+            others -> {
+                sender.sendMessage("§e§lLuckyNetwork §a/ §aGiven §l" + target.name + " §a$amount $material!")
+                target.sendMessage("§e§lLuckyNetwork §a/ §aGave you $amount $material!")
+            }
+            else -> {
+                target.sendMessage("§e§lLuckyNetwork §a/ §aGave you $amount $material!")
+            }
+        }
 
         return false
 
