@@ -1,4 +1,4 @@
-package dev.luckynetwork.id.lyrams.commands
+package dev.luckynetwork.id.lyrams.commands.features
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import org.bukkit.Bukkit
@@ -16,21 +16,41 @@ class GamemodeCMD : CommandExecutor {
         commandName: String?,
         args: Array<out String>?
     ): Boolean {
-        if (sender !is Player)
-            return false
 
-        if (!sender.checkPermission("gamemode"))
+        if (!sender!!.checkPermission("gamemode"))
             return false
 
         commandName ?: return false
 
         if (commandName.startsWith("gm")) {
-            var target = sender
+            var target: Player
+
+            // casts target
+            target =
+                    // if console executes this
+                if (sender !is Player) {
+                    // console must specify a player
+                    if (args!!.isEmpty()) {
+                        sendUsage(sender)
+                        return false
+                    }
+
+                    if (Bukkit.getPlayer(args[0]) == null) {
+                        sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
+                        return false
+                    }
+
+                    Bukkit.getPlayer(args[0])
+
+                    // if executed by player
+                } else
+                    sender
+
             var others = false
 
-            if (args!!.isNotEmpty()) {
+            if (args!!.isNotEmpty() && sender is Player) {
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage("§e§lLuckyNetwork §a/ §cPlayer not found!")
+                    sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
                     return false
                 }
 
@@ -59,14 +79,36 @@ class GamemodeCMD : CommandExecutor {
 
             // todo: maybe implement a logging feature
             if (others) {
-                sender.sendMessage("§e§lLuckyNetwork §a/ §a§l" + target.name + "('s) §agamemode has been updated!")
-                target.sendMessage("§e§lLuckyNetwork §a/ §aYour gamemode has been updated!")
+                sender.sendMessage("§e§lLuckyEssentials §a/ §a§l" + target.name + "('s) §agamemode has been updated!")
+                target.sendMessage("§e§lLuckyEssentials §a/ §aYour gamemode has been updated!")
             } else {
-                sender.sendMessage("§e§lLuckyNetwork §a/ §aYour gamemode has been updated!")
+                sender.sendMessage("§e§lLuckyEssentials §a/ §aYour gamemode has been updated!")
             }
 
         } else if (commandName.startsWith("gamemode")) {
-            var target = sender
+            var target: Player
+
+            // casts target
+            target =
+                    // if console executes this
+                if (sender !is Player) {
+                    // console must specify a player
+                    if (args!!.isEmpty()) {
+                        sendUsage(sender)
+                        return false
+                    }
+
+                    if (Bukkit.getPlayer(args[1]) == null) {
+                        sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
+                        return false
+                    }
+
+                    Bukkit.getPlayer(args[1])
+
+                    // if executed by player
+                } else
+                    sender
+
             var others = false
 
             if (args!!.isEmpty()) {
@@ -74,9 +116,9 @@ class GamemodeCMD : CommandExecutor {
                 return false
             }
 
-            if (args.size == 2) {
+            if (args.size == 2 && sender !is Player) {
                 if (Bukkit.getPlayer(args[1]) == null) {
-                    sender.sendMessage("§e§lLuckyNetwork §a/ §cPlayer not found!")
+                    sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
                     return false
                 }
 
@@ -105,10 +147,10 @@ class GamemodeCMD : CommandExecutor {
 
             // todo: maybe implement a logging feature
             if (others) {
-                sender.sendMessage("§e§lLuckyNetwork §a/ §a§l" + target.name + "('s) §agamemode has been updated!")
-                target.sendMessage("§e§lLuckyNetwork §a/ §aYour gamemode has been updated!")
+                sender.sendMessage("§e§lLuckyEssentials §a/ §a§l" + target.name + "('s) §agamemode has been updated!")
+                target.sendMessage("§e§lLuckyEssentials §a/ §aYour gamemode has been updated!")
             } else {
-                sender.sendMessage("§e§lLuckyNetwork §a/ §aYour gamemode has been updated!")
+                sender.sendMessage("§e§lLuckyEssentials §a/ §aYour gamemode has been updated!")
             }
 
         } else {
@@ -121,7 +163,7 @@ class GamemodeCMD : CommandExecutor {
 }
 
 
-private fun sendUsage(player: Player) {
-    player.sendMessage("§cUsage: /gamemode <mode> [player]")
-    player.sendMessage("§cUsage: /gm<mode> [player]")
+private fun sendUsage(sender: CommandSender) {
+    sender.sendMessage("§cUsage: /gamemode <mode> [player]")
+    sender.sendMessage("§cUsage: /gm<mode> [player]")
 }

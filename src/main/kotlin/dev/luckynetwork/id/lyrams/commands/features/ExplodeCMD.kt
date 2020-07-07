@@ -1,4 +1,4 @@
-package dev.luckynetwork.id.lyrams.commands
+package dev.luckynetwork.id.lyrams.commands.features
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import org.bukkit.Bukkit
@@ -17,7 +17,7 @@ class ExplodeCMD : CommandExecutor {
         commandName: String?,
         args: Array<out String>?
     ): Boolean {
-        if (sender !is Player)
+        if (sender !is Player || !sender.checkPermission("explode"))
             return false
 
         val nullSet: Set<Material>? = null
@@ -29,7 +29,7 @@ class ExplodeCMD : CommandExecutor {
 
         if (args!!.isNotEmpty() && !(args[0].contains("-power=") || args[0].contains("-nodamage"))) {
             if (Bukkit.getPlayer(args[0]) == null) {
-                sender.sendMessage("§e§lLuckyNetwork §a/ §cPlayer not found!")
+                sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
                 return false
             }
 
@@ -63,7 +63,7 @@ class ExplodeCMD : CommandExecutor {
         targetBlock.world.createExplosion(location, power, damage)
 
         if (others) {
-            target.sendMessage("§e§lLuckyNetwork §a/ §aYou have been exploded!")
+            target.sendMessage("§e§lLuckyEssentials §a/ §aYou have been exploded!")
         }
 
         return false

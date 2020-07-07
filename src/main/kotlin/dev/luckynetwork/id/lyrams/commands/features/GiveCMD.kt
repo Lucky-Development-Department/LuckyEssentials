@@ -1,8 +1,8 @@
-package dev.luckynetwork.id.lyrams.commands
+package dev.luckynetwork.id.lyrams.commands.features
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
-import dev.luckynetwork.id.lyrams.objects.IEnchantment
-import dev.luckynetwork.id.lyrams.objects.IMaterial
+import dev.luckynetwork.id.lyrams.objects.XEnchantment
+import dev.luckynetwork.id.lyrams.objects.XItemStack
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -44,11 +44,15 @@ class GiveCMD : CommandExecutor {
                 // if console executes this
             if (sender !is Player) {
                 // console must specify a player
-                if (args!!.isEmpty())
+                if (args!!.isEmpty()) {
+                    sendUsage(sender)
                     return false
+                }
 
-                if (Bukkit.getPlayer(args[0]) == null)
+                if (Bukkit.getPlayer(args[0]) == null) {
+                    sender.sendMessage("§e§lLuckyEssentials §a/ §cPlease specify a player!")
                     return false
+                }
 
                 Bukkit.getPlayer(args[0])
 
@@ -79,7 +83,7 @@ class GiveCMD : CommandExecutor {
             else 0
 
         // how much
-        var amount = 64
+        var amount = -1
 
         // any more properties for the item
         var itemName = ""
@@ -118,7 +122,7 @@ class GiveCMD : CommandExecutor {
 
         // is sender is giving items to other player
         if (args.size > 1) {
-            if (Bukkit.getPlayer(args[0]) != null) {
+            if (Bukkit.getPlayer(args[0]) != null && sender is Player) {
                 target = Bukkit.getPlayer(args[0]) as Player
 
                 others = true
@@ -128,19 +132,24 @@ class GiveCMD : CommandExecutor {
                     try {
                         amount = args[2].toInt()
                     } catch (ignored: Exception) {
-                        sender.sendMessage("§e§lLuckyNetwork §a/ §c" + args[2] + " is not a number")
+                        sender.sendMessage("§e§lLuckyEssentials §a/ §c" + args[2] + " is not a number")
                         return false
                     }
 
                 }
 
-                // surely args[0] is for the item amount, right?
+                // surely args[0 + offset] is for the item amount, right?
             } else {
-                try {
-                    amount = args[offset + 1].toInt()
-                } catch (ignored: Exception) {
-                    sender.sendMessage("§e§lLuckyNetwork §a/ §cPlayer not found!")
-                    return false
+
+                if (!args[offset + 1].contains("-")) {
+
+                    try {
+                        amount = args[offset + 1].toInt()
+                    } catch (ignored: Exception) {
+                        sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
+                        return false
+                    }
+
                 }
 
             }
@@ -151,20 +160,19 @@ class GiveCMD : CommandExecutor {
         if (!sender.checkPermission("give", others))
             return false
 
-        var itemStack = ItemStack(Material.AIR)
+        var itemStack: ItemStack?
 
         try {
-            // tries to use IMaterial to get itemStack
-            if (!args[offset].contains(":"))
-                itemStack = IMaterial.getMaterial(material, amount)
+            // tries to use XItemStack to get itemStack
+            itemStack = XItemStack.getByName(material, amount, damage)
 
-            // if IMaterial hasn't supported the itemStack yet
-            if (itemStack.type == Material.AIR)
+            // if XItemStack hasn't supported the itemStack yet
+            if (itemStack == null)
                 itemStack = ItemStack(Material.valueOf(material), amount, damage.toShort())
 
         } catch (e: Exception) {
 
-            sender.sendMessage("§e§lLuckyNetwork §a/ §c§l$material §cmight not be an item!")
+            sender.sendMessage("§e§lLuckyEssentials §a/ §c§l$material §cmight not be an item!")
             return false
 
         }
@@ -184,7 +192,7 @@ class GiveCMD : CommandExecutor {
                     else 1
 
                 itemStack.addUnsafeEnchantment(
-                    IEnchantment.getEnchantment(
+                    XEnchantment.getByName(
                         if (enchantment.contains(":"))
                             enchantment.split(":")[0]
                         else enchantment
@@ -197,7 +205,11 @@ class GiveCMD : CommandExecutor {
         }
 
 
-        val leftOvers = addOversizedItems(target.inventory, itemStack)
+        val leftOvers = addOversizedItems(
+            target.inventory,
+            itemStack
+        )
+
 
         for (item in leftOvers.values) {
             val world = target.world
@@ -208,11 +220,18 @@ class GiveCMD : CommandExecutor {
 
         when {
             others -> {
-                sender.sendMessage("§e§lLuckyNetwork §a/ §aGiven §l" + target.name + " §a$amount $material!")
-                target.sendMessage("§e§lLuckyNetwork §a/ §aGave you $amount $material!")
+                sender.sendMessage(
+                    "§e§lLuckyEssentials §a/ §aGiven §l" + target.name + " §a${itemStack.amount}x ${(itemStack.type).toString()
+                        .toLowerCase()}!"
+                )
+                target.sendMessage(
+                    "§e§lLuckyEssentials §a/ §aGave you ${itemStack.amount}x ${(itemStack.type).toString().toLowerCase()}!"
+                )
             }
             else -> {
-                target.sendMessage("§e§lLuckyNetwork §a/ §aGave you $amount $material!")
+                target.sendMessage(
+                    "§e§lLuckyEssentials §a/ §aGave you ${itemStack.amount}x ${(itemStack.type).toString().toLowerCase()}!"
+                )
             }
         }
 
@@ -263,7 +282,8 @@ private fun addOversizedItems(
         while (true) {
             // Do we already have a stack of it?
             val maxAmount = 64.coerceAtLeast(item.type.maxStackSize)
-            val firstPartial: Int = firstPartial(inventory, item, maxAmount)
+            val firstPartial: Int =
+                firstPartial(inventory, item, maxAmount)
 
             // Drat! no partial stack
             if (firstPartial == -1) {

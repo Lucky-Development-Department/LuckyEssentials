@@ -1,7 +1,7 @@
-package dev.luckynetwork.id.lyrams.commands
+package dev.luckynetwork.id.lyrams.commands.features
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
-import dev.luckynetwork.id.lyrams.objects.IMaterial
+import dev.luckynetwork.id.lyrams.objects.XItemStack
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -19,14 +19,37 @@ class ClearCMD : CommandExecutor {
         commandName: String?,
         args: Array<out String>?
     ): Boolean {
-        if (sender !is Player)
+
+        if (!sender!!.checkPermission("clear"))
             return false
 
-        var target = sender
+        var target: Player
+
+        // casts target
+        target =
+                // if console executes this
+            if (sender !is Player) {
+                // console must specify a player
+                if (args!!.isEmpty()) {
+                    sender.sendMessage("§e§lLuckyEssentials §a/ §cInvalid usage!")
+                    return false
+                }
+
+                if (Bukkit.getPlayer(args[0]) == null) {
+                    sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
+                    return false
+                }
+
+                Bukkit.getPlayer(args[0])
+
+                // if executed by player
+            } else
+                sender
+
         var others = false
         var offset = 0
         var type = ClearType.ALL_EXCEPT_ARMOR
-        var itemStack = ItemStack(Material.AIR)
+        var itemStack: ItemStack? = null
 
         if (args!!.isNotEmpty() && Bukkit.getPlayer(args[0]) != null) {
 
@@ -40,7 +63,7 @@ class ClearCMD : CommandExecutor {
         if (!sender.checkPermission("clear", others))
             return false
 
-        if (args.isNotEmpty() && args[0 + offset].isNotEmpty()) {
+        if (args.size > 1 + offset && args[0 + offset].isNotEmpty()) {
 
             if (args[0 + offset] == "**") {
                 type = ClearType.ALL
@@ -52,41 +75,50 @@ class ClearCMD : CommandExecutor {
 
                 try {
                     // tries to use IMaterial to get itemStack
-                    if (!args[0 + offset].contains(":"))
-                        itemStack = IMaterial.getMaterial(args[0 + offset])
+                    itemStack = XItemStack.getByName(args[0 + offset], damage)
 
                     // if IMaterial hasn't supported the itemStack yet
-                    if (itemStack.type == Material.AIR)
+                    if (itemStack == null)
                         itemStack = ItemStack(Material.valueOf(args[0 + offset]), 64, damage.toShort())
 
                     type = ClearType.SPECIFIC_ITEM
 
                 } catch (e: Exception) {
 
-                    sender.sendMessage("§e§lLuckyNetwork §a/ §c§l" + args[0 + offset] + " §cmight not be an item!")
+                    sender.sendMessage("§e§lLuckyEssentials §a/ §c§l" + args[0 + offset] + " §cmight not be an item!")
                     return false
 
                 }
 
             }
+
         }
 
+        if (itemStack == null)
+            itemStack = ItemStack(Material.AIR)
 
         when (type) {
-            ClearType.ALL -> clearInventory(target)
-            ClearType.ALL_EXCEPT_ARMOR -> clearInventoryNoArmor(target)
-            ClearType.SPECIFIC_ITEM -> clearSpecificItem(target, itemStack.type)
+            ClearType.ALL -> clearInventory(
+                target
+            )
+            ClearType.ALL_EXCEPT_ARMOR -> clearInventoryNoArmor(
+                target
+            )
+            ClearType.SPECIFIC_ITEM -> clearSpecificItem(
+                target,
+                itemStack.type
+            )
         }
 
         target.updateInventory()
 
         when {
             others -> {
-                sender.sendMessage("§e§lLuckyNetwork §a/ §aCleared §l" + target.name + "('s) §ainventory!")
-                target.sendMessage("§e§lLuckyNetwork §a/ §aInventory cleared!")
+                sender.sendMessage("§e§lLuckyEssentials §a/ §aCleared §l" + target.name + "('s) §ainventory!")
+                target.sendMessage("§e§lLuckyEssentials §a/ §aInventory cleared!")
             }
             else -> {
-                target.sendMessage("§e§lLuckyNetwork §a/ §aInventory cleared!")
+                target.sendMessage("§e§lLuckyEssentials §a/ §aInventory cleared!")
             }
         }
 

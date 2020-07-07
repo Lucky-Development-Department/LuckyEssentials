@@ -1,9 +1,12 @@
 name: LuckyEssentials
-version: 0.0.3
+version: 0.0.4
 author: LyraMS
 main: dev.luckynetwork.id.lyrams.LuckyEssentials
+softdepend: [KtLoader]
 
 commands:
+  luckyessentials:
+    aliases: [less, ess]
   gamemode:
     aliases: [gm, gmc, gms, gmsp, gma]
   feed:
@@ -20,3 +23,10 @@ commands:
   smite:
     aliases: [thor]
   explode:
+  invsee:
+  more:
+  speed:
+  kickall:
+  fix:
+  ewhitelist:
+    aliases: [ewl]
