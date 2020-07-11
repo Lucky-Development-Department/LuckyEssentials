@@ -66,8 +66,6 @@ object XEnchantment {
         ENCHANTMENT_MAP["LURE"] = Enchantment.LURE
 
         // 1.9
-
-        // 1.9
         try {
             val frostWalker =
                 Enchantment.getByName("FROST_WALKER")

@@ -51,7 +51,7 @@ class ClearCMD : CommandExecutor {
         var type = ClearType.ALL_EXCEPT_ARMOR
         var itemStack: ItemStack? = null
 
-        if (args!!.isNotEmpty() && Bukkit.getPlayer(args[0]) != null) {
+        if (args!!.isNotEmpty() && Bukkit.getPlayer(args[0]) != null && sender is Player) {
 
             target = Bukkit.getPlayer(args[0]) as Player
 

@@ -1,8 +1,8 @@
 name: LuckyEssentials
-version: 0.0.4
+version: 0.0.5
 author: LyraMS
 main: dev.luckynetwork.id.lyrams.LuckyEssentials
-softdepend: [KtLoader]
+softdepend: [MYSlots, LuckyInjector]
 
 commands:
   luckyessentials:
@@ -11,22 +11,28 @@ commands:
     aliases: [gm, gmc, gms, gmsp, gma]
   feed:
     aliases: [eat]
-  heal:
-  fly:
   give:
     aliases: [i]
   teleport:
     aliases: [tp, tppos, tphere, s]
   clear:
     aliases: [ci]
-  editsign:
   smite:
     aliases: [thor]
+  ewhitelist:
+    aliases: [ewl]
+  heal:
+  fly:
+  editsign:
   explode:
   invsee:
   more:
   speed:
   kickall:
   fix:
-  ewhitelist:
-    aliases: [ewl]
+  slots:
+  god:
+  getpos:
+  top:
+  sudo:
+  enchant:

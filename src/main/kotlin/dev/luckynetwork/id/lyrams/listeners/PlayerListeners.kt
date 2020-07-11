@@ -3,19 +3,76 @@ package dev.luckynetwork.id.lyrams.listeners
 import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermissionSilent
 import dev.luckynetwork.id.lyrams.extensions.removeMetadata
+import dev.luckynetwork.id.lyrams.objects.Slots
 import dev.luckynetwork.id.lyrams.objects.Whitelist
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.bukkit.event.entity.EntityDamageByBlockEvent
+import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerLoginEvent
+import org.bukkit.event.player.PlayerQuitEvent
 
 class PlayerListeners : Listener {
+
+    @EventHandler
+    fun onPlayerDamage(event: EntityDamageEvent) {
+        if (event.entity == null || event.entity !is Player)
+            return
+
+        val victim = event.entity as Player
+
+        if (victim.hasMetadata("GOD")) {
+            event.isCancelled = true
+        }
+
+    }
+
+    @EventHandler
+    fun onPlayerDamage2(event: EntityDamageByBlockEvent) {
+        if (event.damager == null || event.entity == null || event.entity !is Player)
+            return
+
+        val victim = event.entity as Player
+
+        if (victim.hasMetadata("GOD")) {
+            event.isCancelled = true
+        }
+
+    }
+
+    @EventHandler
+    fun onPlayerDamage3(event: EntityDamageByEntityEvent) {
+        if (event.damager == null || event.entity == null || event.entity !is Player)
+            return
+
+        val victim = event.entity as Player
+
+        if (victim.hasMetadata("GOD")) {
+            event.isCancelled = true
+        }
+
+    }
+
+    @EventHandler
+    fun onDisconnect(event: PlayerQuitEvent) {
+        val player = event.player
+
+        if (player.hasMetadata("GOD"))
+            player.removeMetadata("GOD")
+        if (player.hasMetadata("INVSEE"))
+            player.removeMetadata("INVSEE")
+
+    }
 
     @EventHandler
     fun onConnect(event: PlayerLoginEvent) {
@@ -27,7 +84,38 @@ class PlayerListeners : Listener {
         if (Whitelist.isWhitelisted(player.name.toLowerCase()))
             return
 
-        event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, Whitelist.whitelistMessage)
+        event.disallow(
+            PlayerLoginEvent.Result.KICK_WHITELIST,
+            ChatColor.translateAlternateColorCodes('&', Whitelist.kickMessage)
+        )
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    fun onConnect2(event: PlayerLoginEvent) {
+        if (!Slots.enabled)
+            return
+
+        val player = event.player
+
+        when (event.result) {
+            PlayerLoginEvent.Result.KICK_FULL, PlayerLoginEvent.Result.ALLOWED -> {
+
+                if (Bukkit.getOnlinePlayers().size < Slots.getSlots())
+                    event.allow()
+                else if (Bukkit.getOnlinePlayers().size >= Slots.amount && player.checkPermissionSilent("join_full"))
+                    event.allow()
+                else
+                    event.disallow(
+                        PlayerLoginEvent.Result.KICK_FULL,
+                        ChatColor.translateAlternateColorCodes('&', Slots.fullMessage)
+                    )
+
+            }
+
+            else -> return
+
+        }
+
     }
 
     @EventHandler
@@ -57,9 +145,16 @@ class PlayerListeners : Listener {
                     return
                 }
 
-                if (whoClicked.hasMetadata("INVSEE") && (!whoClicked.checkPermissionSilent("invsee.modify") || !(inventoryOwner as Player).isOnline)) {
-                    event.isCancelled = true
+                inventoryOwner as Player
+
+                if (whoClicked.hasMetadata("INVSEE")) {
                     refreshPlayer = whoClicked
+
+                    if ((!whoClicked.checkPermissionSilent("invsee.modify") || !inventoryOwner.isOnline))
+                        event.isCancelled = true
+                    else
+                        Bukkit.getScheduler()
+                            .scheduleSyncDelayedTask(LuckyEssentials.instance, inventoryOwner::updateInventory, 1)
                 }
 
             }
