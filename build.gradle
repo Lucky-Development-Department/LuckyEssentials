@@ -4,7 +4,7 @@ plugins {
 
 def pluginName = 'LuckyEssentials'
 group 'dev.luckynetwork.ldd.lyrams'
-version '0.0.6'
+version '1.0.0'
 
 repositories {
     mavenCentral()
@@ -16,19 +16,11 @@ repositories {
 dependencies {
     implementation 'org.jetbrains:annotations:19.0.0'
 
-//    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
 }
 
 jar {
-//    configurations.compile.each { dep ->
-//        from(project.zipTree(dep)) {
-//            exclude "META-INF", "META-INF/**", "**/about.html", "*/about.html", "about.html"
-//        }
-//    }
-
     archiveFileName = pluginName + "-" + project.version + ".jar"
 }
 
