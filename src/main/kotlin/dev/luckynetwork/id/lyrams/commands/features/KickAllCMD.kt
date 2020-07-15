@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.extensions.asString
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.checkPermissionSilent
 import org.bukkit.Bukkit
@@ -20,15 +21,10 @@ class KickAllCMD : CommandExecutor {
             return false
 
         val reason =
-            if (args!!.isNotEmpty()) {
-                val sb = StringBuilder()
-                for (arg in args)
-                    sb.append(arg).append(" ")
-
-                sb.toString()
-            } else {
+            if (args!!.isNotEmpty())
+                args.asString()
+            else
                 "Kicked by a staff member"
-            }
 
         for (online in Bukkit.getOnlinePlayers()) {
             if (sender !is Player || !online.name.equals(sender.name, true)) {

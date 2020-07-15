@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.extensions.asString
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.XEnchantment
 import org.bukkit.Bukkit
@@ -61,24 +62,66 @@ class EnchantCMD : CommandExecutor {
         target.inventory.itemInHand ?: return false
 
         val itemInHand = target.inventory.itemInHand
-        var enchantment = args[0 + offset]
-        var enchantLevel = 1
+        val enchantments: ArrayList<String> = ArrayList()
+        val argsAsString = args.asString()
 
-        if (enchantment.contains(":")) {
-            enchantLevel = enchantment.split(":")[1].toInt()
-            enchantment = enchantment.split(":")[0]
-        } else if (args.size == 2 + offset) {
-            try {
-                enchantLevel = args[1 + offset].toInt()
-            } catch (ignored: Exception) {
+        when {
+            args[0 + offset].contains(",") -> {
+
+                if (others) {
+                    for (s in argsAsString
+                        .split(target.name + " ")[1]
+                        .split(" ")[0]
+                        .split(",")) {
+                        enchantments.add(s)
+                    }
+                } else {
+
+                    for (s in argsAsString
+                        .split(" ")[0]
+                        .split(",")) {
+                        enchantments.add(s)
+                    }
+
+                }
 
             }
+
+            else -> {
+
+                enchantments.add(args[0 + offset])
+
+            }
+
         }
 
+        for (enchantment in enchantments) {
 
-        itemInHand.addUnsafeEnchantment(
-            XEnchantment.getByName(enchantment), enchantLevel
-        )
+            val level =
+                if (enchantment.contains(":"))
+                    enchantment.split(":")[1].toInt()
+                else 1
+
+            if (level > 0)
+                itemInHand.addUnsafeEnchantment(
+                    XEnchantment.getByName(
+                        if (enchantment.contains(":"))
+                            enchantment.split(":")[0]
+                        else enchantment
+                    ), level
+
+                )
+            else
+                itemInHand.removeEnchantment(
+                    XEnchantment.getByName(
+                        if (enchantment.contains(":"))
+                            enchantment.split(":")[0]
+                        else enchantment
+                    )
+
+                )
+
+        }
 
 
         target.updateInventory()

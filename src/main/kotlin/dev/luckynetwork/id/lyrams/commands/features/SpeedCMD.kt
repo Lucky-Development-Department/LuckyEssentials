@@ -42,7 +42,7 @@ class SpeedCMD : CommandExecutor {
 
             type =
                 when (args[1].toUpperCase()) {
-                    "WALK" -> SpeedType.WALKING
+                    "WALK", "WALKING" -> SpeedType.WALKING
                     "FLY", "FLIGHT", "FLYING" -> SpeedType.FLYING
                     else -> {
                         sender.sendMessage("§e§lLuckyEssentials §a/ §cInvalid movement type!")
@@ -82,10 +82,14 @@ class SpeedCMD : CommandExecutor {
 
         if (type == SpeedType.FLYING) {
             target.flySpeed = speed
-            sender.sendMessage("§e§lLuckyEssentials §a/ §aYour flying speed has been set to ${args[0]}")
+            if (others)
+                sender.sendMessage("§e§lLuckyEssentials §a/ §aSet ${target.name}('s) flying speed to ${args[0]}")
+            target.sendMessage("§e§lLuckyEssentials §a/ §aYour flying speed has been set to ${args[0]}")
         } else {
-            sender.sendMessage("§e§lLuckyEssentials §a/ §aYour walking speed has been set to ${args[0]}")
             target.walkSpeed = speed
+            if (others)
+                sender.sendMessage("§e§lLuckyEssentials §a/ §aSet ${target.name}('s) walking speed to ${args[0]}")
+            target.sendMessage("§e§lLuckyEssentials §a/ §aYour walking speed has been set to ${args[0]}")
         }
 
 

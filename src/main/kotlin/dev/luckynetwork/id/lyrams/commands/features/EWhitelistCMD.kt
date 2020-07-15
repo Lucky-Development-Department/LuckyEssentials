@@ -6,7 +6,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 
-class WhitelistCMD : CommandExecutor {
+class EWhitelistCMD : CommandExecutor {
 
     override fun onCommand(
         sender: CommandSender?,
@@ -15,7 +15,7 @@ class WhitelistCMD : CommandExecutor {
         args: Array<out String>?
     ): Boolean {
 
-        if (!sender!!.checkPermission("whitelist"))
+        if (!sender!!.checkPermission("ewhitelist"))
             return false
 
         if (args!!.isEmpty()) {

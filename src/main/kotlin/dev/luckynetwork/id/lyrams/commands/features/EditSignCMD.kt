@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.extensions.asString
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -41,12 +42,7 @@ class EditSignCMD : CommandExecutor {
         try {
             if (args[0].equals("set", true) && args.size > 2) {
                 val line = args[1].toInt() - 1
-
-                val sb = StringBuilder()
-                for (arg in args)
-                    sb.append(arg).append(" ")
-
-                val argsAsString = sb.toString()
+                val argsAsString = args.asString()
 
                 val text =
                     ChatColor.translateAlternateColorCodes('&', argsAsString.split(args[1] + " ")[1])

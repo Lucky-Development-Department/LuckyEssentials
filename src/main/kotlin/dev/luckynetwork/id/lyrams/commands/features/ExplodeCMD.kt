@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.extensions.asString
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -42,11 +43,7 @@ class ExplodeCMD : CommandExecutor {
         if (!sender.checkPermission("explode", others))
             return false
 
-        val sb = StringBuilder()
-        for (arg in args)
-            sb.append(arg).append(" ")
-
-        val argsAsString = sb.toString()
+        val argsAsString = args.asString()
 
         if (argsAsString.toLowerCase().contains("-nodamage"))
             damage = false

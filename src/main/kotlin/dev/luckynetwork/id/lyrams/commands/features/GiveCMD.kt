@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.extensions.asString
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.XEnchantment
 import dev.luckynetwork.id.lyrams.objects.XItemStack
@@ -88,14 +89,7 @@ class GiveCMD : CommandExecutor {
         // any more properties for the item
         var itemName = ""
         var enchantments: List<String>? = null
-
-        // bla bla bla, ignore this
-        val sb = StringBuilder()
-
-        for (arg in args)
-            sb.append(arg).append(" ")
-
-        val argsAsString = sb.toString()
+        val argsAsString = args.asString()
 
         // does it contain '-name='
         if (argsAsString.toLowerCase().contains("-name=\""))

@@ -58,6 +58,7 @@ class FeedCMD : CommandExecutor {
             return false
 
         target.foodLevel = 20
+        target.saturation = 20f
 
         when {
             others -> {
