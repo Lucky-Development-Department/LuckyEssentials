@@ -1,7 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
 import dev.luckynetwork.id.lyrams.LuckyEssentials
-import dev.luckynetwork.id.lyrams.extensions.asString
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.XEnchantment
 import org.bukkit.Bukkit
@@ -64,7 +63,7 @@ class EnchantCMD : CommandExecutor {
 
         val itemInHand = target.inventory.itemInHand
         val enchantments: ArrayList<String> = ArrayList()
-        val argsAsString = args.asString()
+        val argsAsString = args.joinToString(" ")
 
         when {
             args[0 + offset].contains(",") -> {

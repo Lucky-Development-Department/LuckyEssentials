@@ -1,7 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
 import dev.luckynetwork.id.lyrams.LuckyEssentials
-import dev.luckynetwork.id.lyrams.extensions.asString
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.checkPermissionSilent
 import org.bukkit.Bukkit
@@ -23,7 +22,7 @@ class KickAllCMD : CommandExecutor {
 
         val reason =
             if (args!!.isNotEmpty())
-                args.asString()
+                args.joinToString(" ")
             else
                 "Kicked by a staff member"
 

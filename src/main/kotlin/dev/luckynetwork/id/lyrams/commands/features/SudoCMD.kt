@@ -1,7 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
 import dev.luckynetwork.id.lyrams.LuckyEssentials
-import dev.luckynetwork.id.lyrams.extensions.asString
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -69,7 +68,7 @@ class SudoCMD : CommandExecutor {
             return false
         }
 
-        val argsAsString = args.asString()
+        val argsAsString = args.joinToString(" ")
             .split(target.name + " ")[1]
 
         if (!argsAsString.startsWith("c:"))
