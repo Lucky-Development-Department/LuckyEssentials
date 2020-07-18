@@ -125,7 +125,7 @@ class EWhitelistCMD : CommandExecutor {
                     }
                 }
             }
-            "LIST" -> {
+            "LIST", "INFO" -> {
                 val list = Whitelist.list()
 
                 val state = Whitelist.enabled
@@ -170,7 +170,7 @@ private fun sendUsage(sender: CommandSender) {
     sender.sendMessage("§cUsage: /ewl add <name>")
     sender.sendMessage("§cUsage: /ewl remove <name>")
     sender.sendMessage("§cUsage: /ewl check <name>")
-    sender.sendMessage("§cUsage: /ewl list")
+    sender.sendMessage("§cUsage: /ewl list/info")
     sender.sendMessage("§cUsage: /ewl clear")
     sender.sendMessage("§cUsage: /ewl toggle")
     sender.sendMessage("§cUsage: /ewl on")

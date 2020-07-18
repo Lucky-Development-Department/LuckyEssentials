@@ -45,7 +45,12 @@ class GetPosCMD : CommandExecutor {
 
         var others = false
 
-        if (args!!.isNotEmpty() && Bukkit.getPlayer(args[0]) != null && sender is Player) {
+        if (args!!.isNotEmpty() && sender is Player) {
+
+            if (Bukkit.getPlayer(args[0]) == null){
+                sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                return false
+            }
 
             target = Bukkit.getPlayer(args[0]) as Player
 
