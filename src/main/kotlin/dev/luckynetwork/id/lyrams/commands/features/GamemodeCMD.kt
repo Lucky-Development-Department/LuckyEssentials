@@ -1,7 +1,7 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
-import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.objects.Config
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.command.Command
@@ -37,7 +37,7 @@ class GamemodeCMD : CommandExecutor {
                     }
 
                     if (Bukkit.getPlayer(args[0]) == null) {
-                        sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                        sender.sendMessage(Config.prefix + " §cPlayer not found!")
                         return false
                     }
 
@@ -51,7 +51,7 @@ class GamemodeCMD : CommandExecutor {
 
             if (args!!.isNotEmpty() && sender is Player) {
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
                     return false
                 }
 
@@ -80,10 +80,10 @@ class GamemodeCMD : CommandExecutor {
 
             // todo: maybe implement a logging feature
             if (others) {
-                sender.sendMessage(LuckyEssentials.prefix + " §a§l" + target.name + "('s) §agamemode has been updated!")
-                target.sendMessage(LuckyEssentials.prefix + " §aYour gamemode has been updated!")
+                sender.sendMessage(Config.prefix + " §a§l" + target.name + "('s) §agamemode has been updated!")
+                target.sendMessage(Config.prefix + " §aYour gamemode has been updated!")
             } else {
-                sender.sendMessage(LuckyEssentials.prefix + " §aYour gamemode has been updated!")
+                sender.sendMessage(Config.prefix + " §aYour gamemode has been updated!")
             }
 
         } else if (commandName.startsWith("gamemode")) {
@@ -100,8 +100,8 @@ class GamemodeCMD : CommandExecutor {
                     }
 
                     if (Bukkit.getPlayer(args[1]) == null) {
-                        sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
-                        sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                        sender.sendMessage(Config.prefix + " §cPlayer not found!")
+                        sender.sendMessage(Config.prefix + " §cPlayer not found!")
                         return false
                     }
 
@@ -120,7 +120,7 @@ class GamemodeCMD : CommandExecutor {
 
             if (args.size == 2 && sender !is Player) {
                 if (Bukkit.getPlayer(args[1]) == null) {
-                    sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
                     return false
                 }
 
@@ -149,10 +149,10 @@ class GamemodeCMD : CommandExecutor {
 
             // todo: maybe implement a logging feature
             if (others) {
-                sender.sendMessage(LuckyEssentials.prefix + " §a§l" + target.name + "('s) §agamemode has been updated!")
-                target.sendMessage(LuckyEssentials.prefix + " §aYour gamemode has been updated!")
+                sender.sendMessage(Config.prefix + " §a§l" + target.name + "('s) §agamemode has been updated!")
+                target.sendMessage(Config.prefix + " §aYour gamemode has been updated!")
             } else {
-                sender.sendMessage(LuckyEssentials.prefix + " §aYour gamemode has been updated!")
+                sender.sendMessage(Config.prefix + " §aYour gamemode has been updated!")
             }
 
         } else {

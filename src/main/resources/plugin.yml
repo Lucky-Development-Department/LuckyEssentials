@@ -7,32 +7,32 @@ softdepend: [MYSlots, LuckyInjector]
 commands:
   luckyessentials:
     aliases: [less, ess]
-  gamemode:
-    aliases: [gm, gmc, gms, gmsp, gma]
-  feed:
-    aliases: [eat]
-  give:
-    aliases: [i]
-  teleport:
-    aliases: [tp, tppos, tphere, s]
   clear:
     aliases: [ci]
+  ewhitelist:
+    aliases: [ewl, wl, whitelist]
+  feed:
+    aliases: [eat]
+  gamemode:
+    aliases: [gm, gmc, gms, gmsp, gma]
+  give:
+    aliases: [i]
   smite:
     aliases: [thor]
-  ewhitelist:
-    aliases: [ewl]
-  heal:
-  fly:
+  teleport:
+    aliases: [tp, tppos, tphere, s]
   editsign:
-  explode:
-  invsee:
-  more:
-  speed:
-  kickall:
-  fix:
-  slots:
-  god:
-  getpos:
-  top:
-  sudo:
   enchant:
+  explode:
+  fix:
+  fly:
+  getpos:
+  god:
+  heal:
+  invsee:
+  kickall:
+  more:
+  slots:
+  speed:
+  sudo:
+  top:

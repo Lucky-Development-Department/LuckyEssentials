@@ -1,7 +1,7 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
-import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.objects.Config
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -28,12 +28,12 @@ class FixCMD : CommandExecutor {
             if (sender !is Player) {
                 // console must specify a player
                 if (args!!.isEmpty()) {
-                    sender.sendMessage(LuckyEssentials.prefix + " §cInvalid usage!")
+                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
                     return false
                 }
 
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
                     return false
                 }
 
@@ -48,7 +48,7 @@ class FixCMD : CommandExecutor {
 
         if (args!!.isNotEmpty() && sender !is Player) {
             if (Bukkit.getPlayer(args[0]) == null) {
-                sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                sender.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false
             }
 
@@ -92,17 +92,17 @@ private fun repairHand(player: Player) {
     val itemInHand: ItemStack? = player.inventory.itemInHand
 
     if (itemInHand == null || itemInHand.type.isBlock || itemInHand.durability == 0.toShort() || itemInHand.type.maxDurability < 1) {
-        player.sendMessage(LuckyEssentials.prefix + " §cYou can't fix that!")
+        player.sendMessage(Config.prefix + " §cYou can't fix that!")
         return
     }
 
     if (itemInHand.durability == 0.toShort()) {
-        player.sendMessage(LuckyEssentials.prefix + " §cThis item doesn't need repairing!")
+        player.sendMessage(Config.prefix + " §cThis item doesn't need repairing!")
         return
     }
 
     itemInHand.durability = 0.toShort()
-    player.sendMessage(LuckyEssentials.prefix + " §aItem repaired!")
+    player.sendMessage(Config.prefix + " §aItem repaired!")
 
     player.updateInventory()
 
@@ -140,5 +140,5 @@ private fun repairAll(player: Player) {
 
     }
 
-    player.sendMessage(LuckyEssentials.prefix + " §a$count items repaired!")
+    player.sendMessage(Config.prefix + " §a$count items repaired!")
 }

@@ -1,7 +1,7 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
-import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.objects.Config
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -28,12 +28,12 @@ class SudoCMD : CommandExecutor {
             if (sender !is Player) {
                 // console must specify a player
                 if (args!!.isEmpty()) {
-                    sender.sendMessage(LuckyEssentials.prefix + " §cInvalid usage!")
+                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
                     return false
                 }
 
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
                     return false
                 }
 
@@ -44,13 +44,13 @@ class SudoCMD : CommandExecutor {
                 sender
 
         if (args!!.isEmpty()) {
-            sender.sendMessage(LuckyEssentials.prefix + " §cPlease provide a player!")
+            sender.sendMessage(Config.prefix + " §cPlease provide a player!")
             return false
         }
 
         if (sender is Player) {
             if (Bukkit.getPlayer(args[0]) == null) {
-                sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                sender.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false
             }
 
@@ -59,12 +59,12 @@ class SudoCMD : CommandExecutor {
         }
 
         if (target == sender) {
-            sender.sendMessage(LuckyEssentials.prefix + " §cYou can't sudo yourself!")
+            sender.sendMessage(Config.prefix + " §cYou can't sudo yourself!")
             return false
         }
 
         if (args.size < 2) {
-            sender.sendMessage(LuckyEssentials.prefix + " §cInvalid usage!")
+            sender.sendMessage(Config.prefix + " §cInvalid usage!")
             return false
         }
 

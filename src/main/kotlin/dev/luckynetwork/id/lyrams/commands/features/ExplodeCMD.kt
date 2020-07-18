@@ -1,7 +1,7 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
-import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.objects.Config
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -30,7 +30,7 @@ class ExplodeCMD : CommandExecutor {
 
         if (args!!.isNotEmpty() && !(args[0].contains("-power=") || args[0].contains("-nodamage"))) {
             if (Bukkit.getPlayer(args[0]) == null) {
-                sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                sender.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false
             }
 
@@ -60,7 +60,7 @@ class ExplodeCMD : CommandExecutor {
         targetBlock.world.createExplosion(location, power, damage)
 
         if (others) {
-            target.sendMessage(LuckyEssentials.prefix + " §aYou have been exploded!")
+            target.sendMessage(Config.prefix + " §aYou have been exploded!")
         }
 
         return false

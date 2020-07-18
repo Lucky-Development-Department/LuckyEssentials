@@ -1,7 +1,7 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
-import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.objects.Config
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -46,7 +46,7 @@ class SpeedCMD : CommandExecutor {
                     "WALK", "WALKING" -> SpeedType.WALKING
                     "FLY", "FLIGHT", "FLYING" -> SpeedType.FLYING
                     else -> {
-                        sender.sendMessage(LuckyEssentials.prefix + " §cInvalid movement type!")
+                        sender.sendMessage(Config.prefix + " §cInvalid movement type!")
                         return false
                     }
                 }
@@ -55,7 +55,7 @@ class SpeedCMD : CommandExecutor {
 
         if (args.size > 2) {
             if (Bukkit.getPlayer(args[2]) == null) {
-                sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                sender.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false
             } else {
                 target = Bukkit.getPlayer(args[2])
@@ -69,7 +69,7 @@ class SpeedCMD : CommandExecutor {
                 target.isFlying
             )
         } catch (e: Exception) {
-            sender.sendMessage(LuckyEssentials.prefix + " §c" + args[0] + " is not a number")
+            sender.sendMessage(Config.prefix + " §c" + args[0] + " is not a number")
             return false
         }
 
@@ -84,13 +84,13 @@ class SpeedCMD : CommandExecutor {
         if (type == SpeedType.FLYING) {
             target.flySpeed = speed
             if (others)
-                sender.sendMessage(LuckyEssentials.prefix + " §aSet ${target.name}('s) flying speed to ${args[0]}")
-            target.sendMessage(LuckyEssentials.prefix + " §aYour flying speed has been set to ${args[0]}")
+                sender.sendMessage(Config.prefix + " §aSet ${target.name}('s) flying speed to ${args[0]}")
+            target.sendMessage(Config.prefix + " §aYour flying speed has been set to ${args[0]}")
         } else {
             target.walkSpeed = speed
             if (others)
-                sender.sendMessage(LuckyEssentials.prefix + " §aSet ${target.name}('s) walking speed to ${args[0]}")
-            target.sendMessage(LuckyEssentials.prefix + " §aYour walking speed has been set to ${args[0]}")
+                sender.sendMessage(Config.prefix + " §aSet ${target.name}('s) walking speed to ${args[0]}")
+            target.sendMessage(Config.prefix + " §aYour walking speed has been set to ${args[0]}")
         }
 
 

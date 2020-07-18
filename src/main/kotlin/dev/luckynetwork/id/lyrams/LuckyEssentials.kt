@@ -3,25 +3,16 @@ package dev.luckynetwork.id.lyrams
 import dev.luckynetwork.id.lyrams.commands.LuckyEssentialsCMD
 import dev.luckynetwork.id.lyrams.commands.features.*
 import dev.luckynetwork.id.lyrams.listeners.PlayerListeners
+import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.objects.Slots
 import dev.luckynetwork.id.lyrams.objects.Whitelist
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor
-import org.bukkit.configuration.file.FileConfiguration
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
-import java.io.File
 
 class LuckyEssentials : JavaPlugin() {
 
     companion object {
         lateinit var instance: LuckyEssentials
-
-        lateinit var prefix: String
-        lateinit var whitelistFile: File
-        lateinit var whitelistData: FileConfiguration
-        lateinit var slotsFile: File
-        lateinit var slotsData: FileConfiguration
     }
 
 
@@ -30,19 +21,8 @@ class LuckyEssentials : JavaPlugin() {
             Bukkit.getLogger().warning("LuckyInjector not found! Plugin might not load!")
 
         instance = this
-        whitelistFile = File(this.dataFolder, "whitelist.yml")
-        slotsFile = File(this.dataFolder, "slots.yml")
 
-        if (!this.dataFolder.exists()) {
-            this.dataFolder.mkdirs()
-            this.saveResource("config.yml", false)
-            this.saveResource("whitelist.yml", false)
-            this.saveResource("slots.yml", false)
-        }
-
-        prefix = ChatColor.translateAlternateColorCodes('&', this.config.getString("prefix", "&e&lLuckyEssentials &a/"))
-        whitelistData = YamlConfiguration.loadConfiguration(whitelistFile)
-        slotsData = YamlConfiguration.loadConfiguration(slotsFile)
+        Config.init(this)
 
         registerCommands()
         registerListeners()

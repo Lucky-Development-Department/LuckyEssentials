@@ -12,23 +12,30 @@ object Slots {
     var enabled = false
 
     fun set(int: Int) {
+
         amount = int
 
         save()
+
     }
 
     fun toggle(boolean: Boolean?): Boolean {
+
         enabled = boolean ?: !enabled
 
         save()
         return enabled
+
     }
 
     fun getSlots(): Int {
+
         return amount
+
     }
 
     fun convert() {
+
         if (amount != -1)
             return
 
@@ -65,24 +72,22 @@ object Slots {
         pluginManager.disablePlugin(pluginManager.getPlugin("MYSlots"))
         logger.info("[MYSlots Converter] MySlots Disabled!")
         logger.info("[MYSlots Converter] Converting success!")
+
     }
 
     fun reload() {
-        LuckyEssentials.slotsFile = File(LuckyEssentials.instance.dataFolder, "slots.yml")
-        if (!LuckyEssentials.slotsFile.exists())
-            LuckyEssentials.instance.saveResource("slots.yml", false)
-        LuckyEssentials.slotsData = YamlConfiguration.loadConfiguration(LuckyEssentials.slotsFile)
 
-        enabled = LuckyEssentials.slotsData.getBoolean("slots.enabled")
-        fullMessage = LuckyEssentials.slotsData.getString("slots.kick_message")
-        amount = LuckyEssentials.slotsData.getInt("slots.max_player")
+        Config.reloadSlots()
+
     }
 
     fun save() {
-        LuckyEssentials.slotsData.set("slots.enabled", enabled)
-        LuckyEssentials.slotsData.set("slots.kick_message", fullMessage)
-        LuckyEssentials.slotsData.set("slots.max_player", amount)
 
-        LuckyEssentials.slotsData.save(LuckyEssentials.slotsFile)
+        Config.slotsData.set("slots.enabled", enabled)
+        Config.slotsData.set("slots.kick_message", fullMessage)
+        Config.slotsData.set("slots.max_player", amount)
+
+        Config.slotsData.save(Config.slotsFile)
+
     }
 }

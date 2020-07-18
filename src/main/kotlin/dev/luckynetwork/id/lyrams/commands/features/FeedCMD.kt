@@ -1,7 +1,7 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
-import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.objects.Config
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -27,12 +27,12 @@ class FeedCMD : CommandExecutor {
             if (sender !is Player) {
                 // console must specify a player
                 if (args!!.isEmpty()) {
-                    sender.sendMessage(LuckyEssentials.prefix + " §cInvalid usage!")
+                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
                     return false
                 }
 
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
                     return false
                 }
 
@@ -46,7 +46,7 @@ class FeedCMD : CommandExecutor {
 
         if (args!!.isNotEmpty()) {
             if (Bukkit.getPlayer(args[0]) == null) {
-                sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                sender.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false
             }
 
@@ -63,11 +63,11 @@ class FeedCMD : CommandExecutor {
 
         when {
             others -> {
-                sender.sendMessage(LuckyEssentials.prefix + " §a§l" + target.name + " §ahas been fed!")
-                target.sendMessage(LuckyEssentials.prefix + " §aYou have been fed!")
+                sender.sendMessage(Config.prefix + " §a§l" + target.name + " §ahas been fed!")
+                target.sendMessage(Config.prefix + " §aYou have been fed!")
             }
             else -> {
-                target.sendMessage(LuckyEssentials.prefix + " §aYou have been fed!")
+                target.sendMessage(Config.prefix + " §aYou have been fed!")
             }
         }
 

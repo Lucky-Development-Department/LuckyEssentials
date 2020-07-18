@@ -1,7 +1,7 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
-import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.objects.Config
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -27,12 +27,12 @@ class FlyCMD : CommandExecutor {
             if (sender !is Player) {
                 // console must specify a player
                 if (args!!.isEmpty()) {
-                    sender.sendMessage(LuckyEssentials.prefix + " §cInvalid usage!")
+                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
                     return false
                 }
 
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
                     return false
                 }
 
@@ -46,7 +46,7 @@ class FlyCMD : CommandExecutor {
 
         if (args!!.isNotEmpty() && sender !is Player) {
             if (Bukkit.getPlayer(args[0]) == null) {
-                sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                sender.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false
             }
 
@@ -65,16 +65,16 @@ class FlyCMD : CommandExecutor {
         when {
             others -> {
                 if (newFlightState) {
-                    sender.sendMessage(LuckyEssentials.prefix + " §aFlight has been enabled for §l" + target.name + "§a!")
-                    target.sendMessage(LuckyEssentials.prefix + " §aYou can now fly!")
+                    sender.sendMessage(Config.prefix + " §aFlight has been enabled for §l" + target.name + "§a!")
+                    target.sendMessage(Config.prefix + " §aYou can now fly!")
                     return false
                 }
-                sender.sendMessage(LuckyEssentials.prefix + " §cFlight has been disabled for §l" + target.name + "§a!")
-                target.sendMessage(LuckyEssentials.prefix + " §cYou can no longer fly!")
+                sender.sendMessage(Config.prefix + " §cFlight has been disabled for §l" + target.name + "§a!")
+                target.sendMessage(Config.prefix + " §cYou can no longer fly!")
             }
             else -> {
-                if (newFlightState) target.sendMessage(LuckyEssentials.prefix + " §aYou can now fly!")
-                else target.sendMessage(LuckyEssentials.prefix + " §cYou can no longer fly!")
+                if (newFlightState) target.sendMessage(Config.prefix + " §aYou can now fly!")
+                else target.sendMessage(Config.prefix + " §cYou can no longer fly!")
             }
         }
 

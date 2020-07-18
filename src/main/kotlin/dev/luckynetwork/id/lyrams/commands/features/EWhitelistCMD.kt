@@ -1,7 +1,7 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
-import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.objects.Whitelist
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -27,26 +27,26 @@ class EWhitelistCMD : CommandExecutor {
         when (args[0].toUpperCase()) {
             "RELOAD" -> {
                 Whitelist.reload()
-                sender.sendMessage(LuckyEssentials.prefix + " §aWhitelist cache reloaded!")
+                sender.sendMessage(Config.prefix + " §aWhitelist cache reloaded!")
             }
             "SAVE" -> {
                 Whitelist.save()
-                sender.sendMessage(LuckyEssentials.prefix + " §aWhitelist saved!")
+                sender.sendMessage(Config.prefix + " §aWhitelist saved!")
             }
             "TOGGLE" -> {
                 val state = Whitelist.toggle(null)
                 if (state)
-                    sender.sendMessage(LuckyEssentials.prefix + " §aWhitelist: §l$state!")
+                    sender.sendMessage(Config.prefix + " §aWhitelist: §l$state!")
                 else
-                    sender.sendMessage(LuckyEssentials.prefix + " §aWhitelist: §c§l$state!")
+                    sender.sendMessage(Config.prefix + " §aWhitelist: §c§l$state!")
             }
             "ON", "ENABLE", "ENABLED" -> {
                 val state = Whitelist.toggle(true)
-                sender.sendMessage(LuckyEssentials.prefix + " §aWhitelist: §l$state")
+                sender.sendMessage(Config.prefix + " §aWhitelist: §l$state")
             }
             "OFF", "DISABLE", "DISABLED" -> {
                 val state = Whitelist.toggle(false)
-                sender.sendMessage(LuckyEssentials.prefix + " §aWhitelist: §c§l$state")
+                sender.sendMessage(Config.prefix + " §aWhitelist: §c§l$state")
             }
             "ADD" -> {
                 if (args.size != 2)
@@ -70,9 +70,9 @@ class EWhitelistCMD : CommandExecutor {
                         val success = Whitelist.add(toBeAdded, false)
 
                         if (success)
-                            sender.sendMessage(LuckyEssentials.prefix + " §aAdded $toBeAdded to whitelist!")
+                            sender.sendMessage(Config.prefix + " §aAdded $toBeAdded to whitelist!")
                         else
-                            sender.sendMessage(LuckyEssentials.prefix + " §c$toBeAdded is already whitelisted!")
+                            sender.sendMessage(Config.prefix + " §c$toBeAdded is already whitelisted!")
                     }
                     Whitelist.save()
                 } else {
@@ -80,9 +80,9 @@ class EWhitelistCMD : CommandExecutor {
                         val success = Whitelist.add(toBeAdded, true)
 
                         if (success)
-                            sender.sendMessage(LuckyEssentials.prefix + " §aAdded $toBeAdded to whitelist!")
+                            sender.sendMessage(Config.prefix + " §aAdded $toBeAdded to whitelist!")
                         else
-                            sender.sendMessage(LuckyEssentials.prefix + " §c$toBeAdded is already whitelisted!")
+                            sender.sendMessage(Config.prefix + " §c$toBeAdded is already whitelisted!")
                     }
                 }
 
@@ -109,9 +109,9 @@ class EWhitelistCMD : CommandExecutor {
                         val success = Whitelist.remove(toBeRemoved, false)
 
                         if (success)
-                            sender.sendMessage(LuckyEssentials.prefix + " §aRemoved $toBeRemoved from the whitelist!")
+                            sender.sendMessage(Config.prefix + " §aRemoved $toBeRemoved from the whitelist!")
                         else
-                            sender.sendMessage(LuckyEssentials.prefix + " §c$toBeRemoved is not whitelisted!")
+                            sender.sendMessage(Config.prefix + " §c$toBeRemoved is not whitelisted!")
                     }
                     Whitelist.save()
                 } else {
@@ -119,9 +119,9 @@ class EWhitelistCMD : CommandExecutor {
                         val success = Whitelist.remove(toBeRemoved, true)
 
                         if (success)
-                            sender.sendMessage(LuckyEssentials.prefix + " §aRemoved $toBeRemoved from the whitelist!")
+                            sender.sendMessage(Config.prefix + " §aRemoved $toBeRemoved from the whitelist!")
                         else
-                            sender.sendMessage(LuckyEssentials.prefix + " §c$toBeRemoved is not whitelisted!")
+                            sender.sendMessage(Config.prefix + " §c$toBeRemoved is not whitelisted!")
                     }
                 }
             }
@@ -130,10 +130,10 @@ class EWhitelistCMD : CommandExecutor {
 
                 val state = Whitelist.enabled
                 if (state)
-                    sender.sendMessage(LuckyEssentials.prefix + " §aWhitelist: §l$state")
+                    sender.sendMessage(Config.prefix + " §aWhitelist: §l$state")
                 else
-                    sender.sendMessage(LuckyEssentials.prefix + " §aWhitelist: §c§l$state")
-                sender.sendMessage(LuckyEssentials.prefix + " §aWhitelisted:")
+                    sender.sendMessage(Config.prefix + " §aWhitelist: §c§l$state")
+                sender.sendMessage(Config.prefix + " §aWhitelisted:")
                 if (list.isEmpty()) {
                     sender.sendMessage("§cnone")
                 } else {
@@ -149,13 +149,13 @@ class EWhitelistCMD : CommandExecutor {
 
                 val check = Whitelist.isWhitelisted(target)
                 if (check)
-                    sender.sendMessage(LuckyEssentials.prefix + " §a$target is whitelisted!")
+                    sender.sendMessage(Config.prefix + " §a$target is whitelisted!")
                 else
-                    sender.sendMessage(LuckyEssentials.prefix + " §c$target is not whitelisted!")
+                    sender.sendMessage(Config.prefix + " §c$target is not whitelisted!")
             }
             "CLEAR" -> {
                 Whitelist.clear()
-                sender.sendMessage(LuckyEssentials.prefix + " §aWhitelist cleared!")
+                sender.sendMessage(Config.prefix + " §aWhitelist cleared!")
             }
             else -> sendUsage(sender)
         }

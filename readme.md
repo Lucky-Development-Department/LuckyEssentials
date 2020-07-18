@@ -4,6 +4,7 @@ Lucky Essentials is a plugin mainly created to replace EssentialsX's essential f
 
 ## Commands
   
+- [LuckyEssentials](#LuckyEssentials-Command)
 - [Clear](#Clear-Inventory-Command)  
 - [EditSign](#Edit-Sign-Command)  
 - [Enchant](#Enchant-Command)  
@@ -31,11 +32,28 @@ Lucky Essentials is a plugin mainly created to replace EssentialsX's essential f
 
 ### Permission Basics
 
-All permission nodes have a similar patteren, which is `luckyessentials.<command>.[others]`. So for any permissions that aren't documented here, will follow that permission node patteren.
+All permission nodes have a similar pattern, which is `luckyessentials.<command>.[others]`. So for any permissions that aren't documented here, will follow that permission node patteren.
 
 The `.others` suffix is used if the command sender is performing a command that is effecting other players. 
 Example: `luckyessentials.gamemode.creative.others`
 
+
+#### LuckyEssentials Command
+
+The main command of this plugin
+
+Usage:
+
+    /luckyessentials
+    /luckyessentials reload
+    
+    Example:
+      /luckyessentials
+      /luckyessentials reload
+      
+Permission Node(s):
+
+    luckyessentials.reload
 
 #### Clear Inventory Command
 Used to clear inventory of self or others

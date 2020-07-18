@@ -1,7 +1,7 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
-import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.objects.XEnchantment
 import dev.luckynetwork.id.lyrams.objects.XItemStack
 import org.bukkit.Bukkit
@@ -51,7 +51,7 @@ class GiveCMD : CommandExecutor {
                 }
 
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage(LuckyEssentials.prefix + " §cPlease specify a player!")
+                    sender.sendMessage(Config.prefix + " §cPlease specify a player!")
                     return false
                 }
 
@@ -126,7 +126,7 @@ class GiveCMD : CommandExecutor {
                     try {
                         amount = args[2].toInt()
                     } catch (ignored: Exception) {
-                        sender.sendMessage(LuckyEssentials.prefix + " §c" + args[2] + " is not a number")
+                        sender.sendMessage(Config.prefix + " §c" + args[2] + " is not a number")
                         return false
                     }
 
@@ -140,7 +140,7 @@ class GiveCMD : CommandExecutor {
                     try {
                         amount = args[offset + 1].toInt()
                     } catch (ignored: Exception) {
-                        sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                        sender.sendMessage(Config.prefix + " §cPlayer not found!")
                         return false
                     }
 
@@ -166,7 +166,7 @@ class GiveCMD : CommandExecutor {
 
         } catch (e: Exception) {
 
-            sender.sendMessage(LuckyEssentials.prefix + " §c§l$material §cmight not be an item!")
+            sender.sendMessage(Config.prefix + " §c§l$material §cmight not be an item!")
             return false
 
         }
@@ -215,16 +215,16 @@ class GiveCMD : CommandExecutor {
         when {
             others -> {
                 sender.sendMessage(
-                    LuckyEssentials.prefix + " §aGiven §l" + target.name + " §a${itemStack.amount}x ${(itemStack.type).toString()
+                    Config.prefix + " §aGiven §l" + target.name + " §a${itemStack.amount}x ${(itemStack.type).toString()
                         .toLowerCase()}!"
                 )
                 target.sendMessage(
-                    LuckyEssentials.prefix + " §aGave you ${itemStack.amount}x ${(itemStack.type).toString().toLowerCase()}!"
+                    Config.prefix + " §aGave you ${itemStack.amount}x ${(itemStack.type).toString().toLowerCase()}!"
                 )
             }
             else -> {
                 target.sendMessage(
-                    LuckyEssentials.prefix + " §aGave you ${itemStack.amount}x ${(itemStack.type).toString().toLowerCase()}!"
+                    Config.prefix + " §aGave you ${itemStack.amount}x ${(itemStack.type).toString().toLowerCase()}!"
                 )
             }
         }

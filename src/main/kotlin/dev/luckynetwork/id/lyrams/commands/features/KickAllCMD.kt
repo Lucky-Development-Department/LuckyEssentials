@@ -1,8 +1,8 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
-import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.checkPermissionSilent
+import dev.luckynetwork.id.lyrams.objects.Config
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -34,7 +34,7 @@ class KickAllCMD : CommandExecutor {
             }
         }
 
-        sender.sendMessage(LuckyEssentials.prefix + " §aKicked all players!")
+        sender.sendMessage(Config.prefix + " §aKicked all players!")
 
         return false
     }

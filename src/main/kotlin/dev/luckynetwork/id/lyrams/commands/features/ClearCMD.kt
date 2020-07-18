@@ -1,7 +1,7 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
-import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.objects.XItemStack
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -32,12 +32,12 @@ class ClearCMD : CommandExecutor {
             if (sender !is Player) {
                 // console must specify a player
                 if (args!!.isEmpty()) {
-                    sender.sendMessage(LuckyEssentials.prefix + " §cInvalid usage!")
+                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
                     return false
                 }
 
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
+                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
                     return false
                 }
 
@@ -86,7 +86,7 @@ class ClearCMD : CommandExecutor {
 
                 } catch (e: Exception) {
 
-                    sender.sendMessage(LuckyEssentials.prefix + " §c§l" + args[0 + offset] + " §cmight not be an item!")
+                    sender.sendMessage(Config.prefix + " §c§l" + args[0 + offset] + " §cmight not be an item!")
                     return false
 
                 }
@@ -115,11 +115,11 @@ class ClearCMD : CommandExecutor {
 
         when {
             others -> {
-                sender.sendMessage(LuckyEssentials.prefix + " §aCleared §l" + target.name + "('s) §ainventory!")
-                target.sendMessage(LuckyEssentials.prefix + " §aInventory cleared!")
+                sender.sendMessage(Config.prefix + " §aCleared §l" + target.name + "('s) §ainventory!")
+                target.sendMessage(Config.prefix + " §aInventory cleared!")
             }
             else -> {
-                target.sendMessage(LuckyEssentials.prefix + " §aInventory cleared!")
+                target.sendMessage(Config.prefix + " §aInventory cleared!")
             }
         }
 
