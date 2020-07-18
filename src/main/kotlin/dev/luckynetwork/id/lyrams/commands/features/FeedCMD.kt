@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -26,12 +27,12 @@ class FeedCMD : CommandExecutor {
             if (sender !is Player) {
                 // console must specify a player
                 if (args!!.isEmpty()) {
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §cInvalid usage!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §cInvalid usage!")
                     return false
                 }
 
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
                     return false
                 }
 
@@ -45,7 +46,7 @@ class FeedCMD : CommandExecutor {
 
         if (args!!.isNotEmpty()) {
             if (Bukkit.getPlayer(args[0]) == null) {
-                sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
+                sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
                 return false
             }
 
@@ -62,11 +63,11 @@ class FeedCMD : CommandExecutor {
 
         when {
             others -> {
-                sender.sendMessage("§e§lLuckyEssentials §a/ §a§l" + target.name + " §ahas been fed!")
-                target.sendMessage("§e§lLuckyEssentials §a/ §aYou have been fed!")
+                sender.sendMessage(LuckyEssentials.prefix + " §a§l" + target.name + " §ahas been fed!")
+                target.sendMessage(LuckyEssentials.prefix + " §aYou have been fed!")
             }
             else -> {
-                target.sendMessage("§e§lLuckyEssentials §a/ §aYou have been fed!")
+                target.sendMessage(LuckyEssentials.prefix + " §aYou have been fed!")
             }
         }
 

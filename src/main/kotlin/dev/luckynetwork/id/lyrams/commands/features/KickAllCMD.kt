@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.asString
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.checkPermissionSilent
@@ -34,7 +35,7 @@ class KickAllCMD : CommandExecutor {
             }
         }
 
-        sender.sendMessage("§e§lLuckyEssentials §a/ §aKicked all players!")
+        sender.sendMessage(LuckyEssentials.prefix + " §aKicked all players!")
 
         return false
     }

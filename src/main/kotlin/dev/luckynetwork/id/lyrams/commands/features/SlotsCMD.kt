@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.Slots
 import org.bukkit.command.Command
@@ -26,26 +27,26 @@ class SlotsCMD : CommandExecutor {
         when (args[0].toUpperCase()) {
             "RELOAD" -> {
                 Slots.reload()
-                sender.sendMessage("§e§lLuckyEssentials §a/ §aSlots cache reloaded!")
+                sender.sendMessage(LuckyEssentials.prefix + " §aSlots cache reloaded!")
             }
             "SAVE" -> {
                 Slots.save()
-                sender.sendMessage("§e§lLuckyEssentials §a/ §aSlots data saved!")
+                sender.sendMessage(LuckyEssentials.prefix + " §aSlots data saved!")
             }
             "TOGGLE" -> {
                 val state = Slots.toggle(null)
                 if (state)
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §aSlots Modifier: §l$state!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §aSlots Modifier: §l$state!")
                 else
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §aSlots Modifier: §c§l$state!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §aSlots Modifier: §c§l$state!")
             }
             "ON", "ENABLE", "ENABLED" -> {
                 val state = Slots.toggle(true)
-                sender.sendMessage("§e§lLuckyEssentials §a/ §aSlots Modifier: §l$state")
+                sender.sendMessage(LuckyEssentials.prefix + " §aSlots Modifier: §l$state")
             }
             "OFF", "DISABLE", "DISABLED" -> {
                 val state = Slots.toggle(false)
-                sender.sendMessage("§e§lLuckyEssentials §a/ §aSlots Modifier: §c§l$state")
+                sender.sendMessage(LuckyEssentials.prefix + " §aSlots Modifier: §c§l$state")
             }
             "SET" -> {
                 if (args.size != 2)
@@ -56,22 +57,22 @@ class SlotsCMD : CommandExecutor {
                 try {
                     amount = args[1].toInt()
                 } catch (ignored: Exception) {
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §c" + args[1] + " is not a number")
+                    sender.sendMessage(LuckyEssentials.prefix + " §c" + args[1] + " is not a number")
                     return false
                 }
 
                 Slots.set(amount)
-                sender.sendMessage("§e§lLuckyEssentials §a/ §aSlot: ${Slots.getSlots()} players!")
+                sender.sendMessage(LuckyEssentials.prefix + " §aSlot: ${Slots.getSlots()} players!")
 
             }
             "CHECK", "INFO" -> {
                 val state = Slots.enabled
                 if (state)
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §aSlots Modifier: §l$state")
+                    sender.sendMessage(LuckyEssentials.prefix + " §aSlots Modifier: §l$state")
                 else
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §aSlots Modifier: §c§l$state")
+                    sender.sendMessage(LuckyEssentials.prefix + " §aSlots Modifier: §c§l$state")
 
-                sender.sendMessage("§e§lLuckyEssentials §a/ §aSlot: ${Slots.getSlots()} players!")
+                sender.sendMessage(LuckyEssentials.prefix + " §aSlot: ${Slots.getSlots()} players!")
             }
             else -> sendUsage(sender)
         }

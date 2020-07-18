@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.asString
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import org.bukkit.Bukkit
@@ -28,12 +29,12 @@ class SudoCMD : CommandExecutor {
             if (sender !is Player) {
                 // console must specify a player
                 if (args!!.isEmpty()) {
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §cInvalid usage!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §cInvalid usage!")
                     return false
                 }
 
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
                     return false
                 }
 
@@ -44,13 +45,13 @@ class SudoCMD : CommandExecutor {
                 sender
 
         if (args!!.isEmpty()) {
-            sender.sendMessage("§e§lLuckyEssentials §a/ §cPlease provide a player!")
+            sender.sendMessage(LuckyEssentials.prefix + " §cPlease provide a player!")
             return false
         }
 
         if (sender is Player) {
             if (Bukkit.getPlayer(args[0]) == null) {
-                sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
+                sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
                 return false
             }
 
@@ -59,12 +60,12 @@ class SudoCMD : CommandExecutor {
         }
 
         if (target == sender) {
-            sender.sendMessage("§e§lLuckyEssentials §a/ §cYou can't sudo yourself!")
+            sender.sendMessage(LuckyEssentials.prefix + " §cYou can't sudo yourself!")
             return false
         }
 
         if (args.size < 2) {
-            sender.sendMessage("§e§lLuckyEssentials §a/ §cInvalid usage!")
+            sender.sendMessage(LuckyEssentials.prefix + " §cInvalid usage!")
             return false
         }
 

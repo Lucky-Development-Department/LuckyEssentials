@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -27,7 +28,7 @@ class SmiteCMD : CommandExecutor {
 
         if (args!!.isNotEmpty()) {
             if (Bukkit.getPlayer(args[0]) == null) {
-                sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
+                sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
                 return false
             }
 
@@ -48,7 +49,7 @@ class SmiteCMD : CommandExecutor {
         targetBlock.world.strikeLightning(location)
 
         if (others) {
-            target.sendMessage("§e§lLuckyEssentials §a/ §aYou have been smitten!")
+            target.sendMessage(LuckyEssentials.prefix + " §aYou have been smitten!")
         }
 
         return false

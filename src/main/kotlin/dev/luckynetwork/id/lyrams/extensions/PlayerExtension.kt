@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.extensions
 
+import dev.luckynetwork.id.lyrams.LuckyEssentials
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -12,7 +13,7 @@ internal fun Player.checkPermission(permission: String, others: Boolean = false)
     val boolean = this.hasPermission(toCheck)
 
     if (!boolean) {
-        this.sendMessage("§e§lLuckyEssentials §a/ §cYou are lacking the permission $toCheck!")
+        this.sendMessage(LuckyEssentials.prefix + " §cYou are lacking the permission $toCheck!")
     }
 
     return boolean
@@ -36,7 +37,7 @@ internal fun CommandSender.checkPermission(permission: String, others: Boolean =
     val boolean = this.hasPermission(toCheck)
 
     if (!boolean) {
-        this.sendMessage("§e§lLuckyEssentials §a/ §cYou are lacking the permission $toCheck!")
+        this.sendMessage(LuckyEssentials.prefix + " §cYou are lacking the permission $toCheck!")
     }
 
     return boolean

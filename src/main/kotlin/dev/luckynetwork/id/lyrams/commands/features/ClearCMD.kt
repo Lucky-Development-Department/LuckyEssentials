@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.XItemStack
 import org.bukkit.Bukkit
@@ -31,12 +32,12 @@ class ClearCMD : CommandExecutor {
             if (sender !is Player) {
                 // console must specify a player
                 if (args!!.isEmpty()) {
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §cInvalid usage!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §cInvalid usage!")
                     return false
                 }
 
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
                     return false
                 }
 
@@ -85,7 +86,7 @@ class ClearCMD : CommandExecutor {
 
                 } catch (e: Exception) {
 
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §c§l" + args[0 + offset] + " §cmight not be an item!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §c§l" + args[0 + offset] + " §cmight not be an item!")
                     return false
 
                 }
@@ -114,11 +115,11 @@ class ClearCMD : CommandExecutor {
 
         when {
             others -> {
-                sender.sendMessage("§e§lLuckyEssentials §a/ §aCleared §l" + target.name + "('s) §ainventory!")
-                target.sendMessage("§e§lLuckyEssentials §a/ §aInventory cleared!")
+                sender.sendMessage(LuckyEssentials.prefix + " §aCleared §l" + target.name + "('s) §ainventory!")
+                target.sendMessage(LuckyEssentials.prefix + " §aInventory cleared!")
             }
             else -> {
-                target.sendMessage("§e§lLuckyEssentials §a/ §aInventory cleared!")
+                target.sendMessage(LuckyEssentials.prefix + " §aInventory cleared!")
             }
         }
 

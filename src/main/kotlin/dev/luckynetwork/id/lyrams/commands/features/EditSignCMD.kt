@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.asString
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import org.bukkit.ChatColor
@@ -28,7 +29,7 @@ class EditSignCMD : CommandExecutor {
         val targetBlock = sender.getTargetBlock(nullSet, 5)
 
         if (targetBlock.state !is Sign) {
-            sender.sendMessage("§e§lLuckyEssentials §a/ §cThat block is not a sign!")
+            sender.sendMessage(LuckyEssentials.prefix + " §cThat block is not a sign!")
             return false
         }
 
@@ -50,7 +51,7 @@ class EditSignCMD : CommandExecutor {
                 sign.setLine(line, text)
                 sign.update()
 
-                sender.sendMessage("§e§lLuckyEssentials §a/ §aLine " + args[1] + " updated!")
+                sender.sendMessage(LuckyEssentials.prefix + " §aLine " + args[1] + " updated!")
 
             } else if (args[0].equals("clear", true)) {
                 if (args.size == 1) {
@@ -60,7 +61,7 @@ class EditSignCMD : CommandExecutor {
                         sign.update()
                     }
 
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §aSign cleared!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §aSign cleared!")
 
                 } else {
                     val line = args[1].toInt() - 1
@@ -68,7 +69,7 @@ class EditSignCMD : CommandExecutor {
                     sign.setLine(line, "")
                     sign.update()
 
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §aLine " + args[1] + " cleared!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §aLine " + args[1] + " cleared!")
                 }
 
             } else {

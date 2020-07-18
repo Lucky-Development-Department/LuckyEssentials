@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.applyMetadata
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.removeMetadata
@@ -23,12 +24,12 @@ class GodCMD : CommandExecutor {
             if (sender !is Player) {
                 // console must specify a player
                 if (args!!.isEmpty()) {
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §cInvalid usage!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §cInvalid usage!")
                     return false
                 }
 
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
                     return false
                 }
 
@@ -42,7 +43,7 @@ class GodCMD : CommandExecutor {
 
         if (args!!.size == 1) {
             if (Bukkit.getPlayer(args[0]) == null) {
-                target.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
+                target.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
                 return false
             }
 
@@ -67,17 +68,17 @@ class GodCMD : CommandExecutor {
         when {
             others ->
                 if (state) {
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §aEnabled god mode for §l" + target.name + "!")
-                    target.sendMessage("§e§lLuckyEssentials §a/ §aGod mode enabled!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §aEnabled god mode for §l" + target.name + "!")
+                    target.sendMessage(LuckyEssentials.prefix + " §aGod mode enabled!")
                 } else {
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §cDisabled god mode for §l" + target.name + "!")
-                    target.sendMessage("§e§lLuckyEssentials §a/ §cGod mode disabled!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §cDisabled god mode for §l" + target.name + "!")
+                    target.sendMessage(LuckyEssentials.prefix + " §cGod mode disabled!")
                 }
             else ->
                 if (state)
-                    target.sendMessage("§e§lLuckyEssentials §a/ §aGod mode enabled!")
+                    target.sendMessage(LuckyEssentials.prefix + " §aGod mode enabled!")
                 else
-                    target.sendMessage("§e§lLuckyEssentials §a/ §cGod mode disabled!")
+                    target.sendMessage(LuckyEssentials.prefix + " §cGod mode disabled!")
         }
 
         return false

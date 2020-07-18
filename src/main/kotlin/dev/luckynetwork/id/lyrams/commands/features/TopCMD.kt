@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import org.bukkit.Location
 import org.bukkit.Material
@@ -25,7 +26,7 @@ class TopCMD : CommandExecutor {
 
         sender.teleport(getHighestLocation(sender.location))
 
-        sender.sendMessage("§e§lLuckyEssentials §a/ §aTeleporting!")
+        sender.sendMessage(LuckyEssentials.prefix + " §aTeleporting!")
 
         return false
     }

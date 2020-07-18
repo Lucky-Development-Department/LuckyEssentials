@@ -6,6 +6,7 @@ import dev.luckynetwork.id.lyrams.listeners.PlayerListeners
 import dev.luckynetwork.id.lyrams.objects.Slots
 import dev.luckynetwork.id.lyrams.objects.Whitelist
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
@@ -16,6 +17,7 @@ class LuckyEssentials : JavaPlugin() {
     companion object {
         lateinit var instance: LuckyEssentials
 
+        lateinit var prefix: String
         lateinit var whitelistFile: File
         lateinit var whitelistData: FileConfiguration
         lateinit var slotsFile: File
@@ -24,9 +26,8 @@ class LuckyEssentials : JavaPlugin() {
 
 
     override fun onEnable() {
-        if (Bukkit.getPluginManager().getPlugin("LuckyInjector") == null) {
+        if (Bukkit.getPluginManager().getPlugin("LuckyInjector") == null)
             Bukkit.getLogger().warning("LuckyInjector not found! Plugin might not load!")
-        }
 
         instance = this
         whitelistFile = File(this.dataFolder, "whitelist.yml")
@@ -34,10 +35,12 @@ class LuckyEssentials : JavaPlugin() {
 
         if (!this.dataFolder.exists()) {
             this.dataFolder.mkdirs()
+            this.saveResource("config.yml", false)
             this.saveResource("whitelist.yml", false)
             this.saveResource("slots.yml", false)
         }
 
+        prefix = ChatColor.translateAlternateColorCodes('&', this.config.getString("prefix", "&e&lLuckyEssentials &a/"))
         whitelistData = YamlConfiguration.loadConfiguration(whitelistFile)
         slotsData = YamlConfiguration.loadConfiguration(slotsFile)
 

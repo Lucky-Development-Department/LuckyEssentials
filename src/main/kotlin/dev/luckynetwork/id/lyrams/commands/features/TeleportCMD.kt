@@ -1,5 +1,6 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
+import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -38,7 +39,7 @@ class TeleportCMD : CommandExecutor {
 
                 if (args.size == 1) {
                     if (Bukkit.getPlayer(args[0]) == null) {
-                        sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
+                        sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
                         return false
                     }
 
@@ -52,14 +53,14 @@ class TeleportCMD : CommandExecutor {
 
                 if (args.size == 2) {
                     if (Bukkit.getPlayer(args[0]) == null) {
-                        sender.sendMessage("§e§lLuckyEssentials §a/ §c§l${args[0]} §cnot found!")
+                        sender.sendMessage(LuckyEssentials.prefix + " §c§l${args[0]} §cnot found!")
                         return false
                     }
 
                     target = Bukkit.getPlayer(args[0])
 
                     if (Bukkit.getPlayer(args[1]) == null) {
-                        sender.sendMessage("§e§lLuckyEssentials §a/ §c§l${args[1]} §cnot found!")
+                        sender.sendMessage(LuckyEssentials.prefix + " §c§l${args[1]} §cnot found!")
                         return false
                     }
 
@@ -74,10 +75,10 @@ class TeleportCMD : CommandExecutor {
 
                     when {
                         others -> {
-                            sender.sendMessage("§e§lLuckyEssentials §a/ §aTeleported ${target.name} to ${args[1]}")
-                            target.sendMessage("§e§lLuckyEssentials §a/ §aTeleported you to ${args[1]}")
+                            sender.sendMessage(LuckyEssentials.prefix + " §aTeleported ${target.name} to ${args[1]}")
+                            target.sendMessage(LuckyEssentials.prefix + " §aTeleported you to ${args[1]}")
                         }
-                        else -> target.sendMessage("§e§lLuckyEssentials §a/ §aTeleported you to ${args[1]}")
+                        else -> target.sendMessage(LuckyEssentials.prefix + " §aTeleported you to ${args[1]}")
                     }
 
                 }
@@ -129,7 +130,7 @@ class TeleportCMD : CommandExecutor {
                     return false
 
                 if (world == null) {
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §cWorld not found!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §cWorld not found!")
                     return false
                 }
 
@@ -139,16 +140,16 @@ class TeleportCMD : CommandExecutor {
 
                 when {
                     others -> {
-                        sender.sendMessage("§e§lLuckyEssentials §a/ §aTeleported ${target.name} to ${world.name} $x $y $z")
-                        target.sendMessage("§e§lLuckyEssentials §a/ §aTeleported you to ${world.name} $x $y $z")
+                        sender.sendMessage(LuckyEssentials.prefix + " §aTeleported ${target.name} to ${world.name} $x $y $z")
+                        target.sendMessage(LuckyEssentials.prefix + " §aTeleported you to ${world.name} $x $y $z")
                     }
-                    else -> target.sendMessage("§e§lLuckyEssentials §a/ §aTeleported you to ${world.name} $x $y $z")
+                    else -> target.sendMessage(LuckyEssentials.prefix + " §aTeleported you to ${world.name} $x $y $z")
                 }
 
             }
             "TPHERE", "S" -> {
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage("§e§lLuckyEssentials §a/ §cPlayer not found!")
+                    sender.sendMessage(LuckyEssentials.prefix + " §cPlayer not found!")
                     return false
                 }
 
@@ -159,8 +160,8 @@ class TeleportCMD : CommandExecutor {
 
                 toTarget.teleport(sender.location)
 
-                sender.sendMessage("§e§lLuckyEssentials §a/ §aTeleported ${toTarget.name} to ${sender.name}")
-                toTarget.sendMessage("§e§lLuckyEssentials §a/ §aTeleported you to ${sender.name}")
+                sender.sendMessage(LuckyEssentials.prefix + " §aTeleported ${toTarget.name} to ${sender.name}")
+                toTarget.sendMessage(LuckyEssentials.prefix + " §aTeleported you to ${sender.name}")
 
             }
             else -> sendUsage(sender)
