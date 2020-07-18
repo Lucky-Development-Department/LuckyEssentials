@@ -2,7 +2,6 @@ package dev.luckynetwork.id.lyrams.commands.features
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.Slots
-import dev.luckynetwork.id.lyrams.objects.Whitelist
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -41,11 +40,11 @@ class SlotsCMD : CommandExecutor {
                     sender.sendMessage("§e§lLuckyEssentials §a/ §aSlots Modifier: §c§l$state!")
             }
             "ON", "ENABLE", "ENABLED" -> {
-                val state = Whitelist.toggle(true)
+                val state = Slots.toggle(true)
                 sender.sendMessage("§e§lLuckyEssentials §a/ §aSlots Modifier: §l$state")
             }
             "OFF", "DISABLE", "DISABLED" -> {
-                val state = Whitelist.toggle(false)
+                val state = Slots.toggle(false)
                 sender.sendMessage("§e§lLuckyEssentials §a/ §aSlots Modifier: §c§l$state")
             }
             "SET" -> {
