@@ -1,5 +1,5 @@
 name: LuckyEssentials
-version: 1.0.2
+version: 1.0.4
 author: LyraMS
 main: dev.luckynetwork.id.lyrams.LuckyEssentials
 softdepend: [MYSlots, LuckyInjector]
@@ -21,9 +21,12 @@ commands:
     aliases: [thor]
   teleport:
     aliases: [tp, tppos, tphere, s]
+  troll:
+    aliases: [trolls]
   editsign:
   enchant:
   explode:
+  fakeplace:
   fix:
   fly:
   getpos:
@@ -32,6 +35,13 @@ commands:
   invsee:
   kickall:
   more:
+  nobreak:
+  nodamage:
+  nohit:
+  nointeract:
+  nopickup:
+  noplace:
+  onetap:
   slots:
   speed:
   sudo:

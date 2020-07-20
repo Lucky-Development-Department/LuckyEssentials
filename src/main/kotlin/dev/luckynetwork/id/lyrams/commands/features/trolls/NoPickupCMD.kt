@@ -1,4 +1,4 @@
-package dev.luckynetwork.id.lyrams.commands.features
+package dev.luckynetwork.id.lyrams.commands.features.trolls
 
 import dev.luckynetwork.id.lyrams.extensions.applyMetadata
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
@@ -10,11 +10,14 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class GodCMD : CommandExecutor {
+class NoPickupCMD : CommandExecutor {
 
     override fun onCommand(sender: CommandSender?, command: Command?, cmd: String?, args: Array<out String>?): Boolean {
 
-        if (!sender!!.checkPermission("god"))
+        if (!Config.trollEnabled)
+            return false
+
+        if (!sender!!.checkPermission("troll.nopickup"))
             return false
 
         var target: Player
@@ -52,33 +55,32 @@ class GodCMD : CommandExecutor {
 
         }
 
-        if (!sender.checkPermission("god", others))
+        if (!sender.checkPermission("troll.nopickup", others))
             return false
 
         val state =
-            if (target.hasMetadata("GOD")) {
-                target.removeMetadata("GOD")
-                false
-            } else {
-                target.applyMetadata("GOD", true)
+            if (target.hasMetadata("NOPICKUP")) {
+                target.removeMetadata("NOPICKUP")
                 true
+            } else {
+                target.applyMetadata("NOPICKUP", true)
+                false
             }
 
 
         when {
+
             others ->
-                if (state) {
-                    sender.sendMessage(Config.prefix + " §aEnabled god mode for §l" + target.name + "!")
-                    target.sendMessage(Config.prefix + " §aGod mode enabled!")
-                } else {
-                    sender.sendMessage(Config.prefix + " §cDisabled god mode for §l" + target.name + "!")
-                    target.sendMessage(Config.prefix + " §cGod mode disabled!")
-                }
+                if (state)
+                    sender.sendMessage(Config.prefix + " §aEnabled item-pickup for §l" + target.name + "!")
+                else
+                    sender.sendMessage(Config.prefix + " §cDisabled item-pickup for §l" + target.name + "!")
             else ->
                 if (state)
-                    target.sendMessage(Config.prefix + " §aGod mode enabled!")
+                    target.sendMessage(Config.prefix + " §aYou can now pickup items!")
                 else
-                    target.sendMessage(Config.prefix + " §cGod mode disabled!")
+                    target.sendMessage(Config.prefix + " §cYou can no longer pickup items!")
+
         }
 
         return false

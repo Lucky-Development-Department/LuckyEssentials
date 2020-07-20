@@ -1,4 +1,4 @@
-package dev.luckynetwork.id.lyrams.commands.features
+package dev.luckynetwork.id.lyrams.commands.features.trolls
 
 import dev.luckynetwork.id.lyrams.extensions.applyMetadata
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
@@ -10,11 +10,14 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class GodCMD : CommandExecutor {
+class FakePlaceCMD : CommandExecutor {
 
     override fun onCommand(sender: CommandSender?, command: Command?, cmd: String?, args: Array<out String>?): Boolean {
 
-        if (!sender!!.checkPermission("god"))
+        if (!Config.trollEnabled)
+            return false
+
+        if (!sender!!.checkPermission("troll.fakeplace"))
             return false
 
         var target: Player
@@ -52,33 +55,32 @@ class GodCMD : CommandExecutor {
 
         }
 
-        if (!sender.checkPermission("god", others))
+        if (!sender.checkPermission("troll.fakeplace", others))
             return false
 
         val state =
-            if (target.hasMetadata("GOD")) {
-                target.removeMetadata("GOD")
+            if (target.hasMetadata("FAKEPLACE")) {
+                target.removeMetadata("FAKEPLACE")
                 false
             } else {
-                target.applyMetadata("GOD", true)
+                target.applyMetadata("FAKEPLACE", true)
                 true
             }
 
 
         when {
+
             others ->
-                if (state) {
-                    sender.sendMessage(Config.prefix + " §aEnabled god mode for §l" + target.name + "!")
-                    target.sendMessage(Config.prefix + " §aGod mode enabled!")
-                } else {
-                    sender.sendMessage(Config.prefix + " §cDisabled god mode for §l" + target.name + "!")
-                    target.sendMessage(Config.prefix + " §cGod mode disabled!")
-                }
+                if (state)
+                    sender.sendMessage(Config.prefix + " §aEnabled fake-block-placing for §l" + target.name + "!")
+                else
+                    sender.sendMessage(Config.prefix + " §cDisabled fake-block-placing for §l" + target.name + "!")
             else ->
                 if (state)
-                    target.sendMessage(Config.prefix + " §aGod mode enabled!")
+                    target.sendMessage(Config.prefix + " §aYour placed blocks will now start disappearing!")
                 else
-                    target.sendMessage(Config.prefix + " §cGod mode disabled!")
+                    target.sendMessage(Config.prefix + " §cYour placed blocks will no longer disappear!")
+
         }
 
         return false

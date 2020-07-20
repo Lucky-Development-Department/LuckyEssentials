@@ -19,6 +19,8 @@ object Config {
     lateinit var slotsFile: File
     lateinit var slotsData: FileConfiguration
 
+    var trollEnabled: Boolean = true
+
     fun init(plugin: LuckyEssentials) {
         this.plugin = plugin
 
@@ -46,12 +48,26 @@ object Config {
     fun reloadAll() {
 
         reloadConfig()
+        reloadMessages()
         reloadSlots()
         reloadWhitelist()
 
     }
 
     fun reloadConfig() {
+
+        val configFile = File(plugin.dataFolder, "config.yml")
+
+        if (!configFile.exists())
+            plugin.saveResource("config.yml", false)
+
+        plugin.reloadConfig()
+
+        trollEnabled = plugin.config.getBoolean("troll-features", true)
+
+    }
+
+    fun reloadMessages() {
 
         messagesFile = File(plugin.dataFolder, "messages.yml")
 
