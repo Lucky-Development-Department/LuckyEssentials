@@ -27,6 +27,7 @@ Lucky Essentials is a plugin mainly created to replace EssentialsX's essential f
 - [Sudo](#Sudo-Command)  
 - [Teleport](#Teleport-Command)  
 - [Top](#Top-Command)
+- [Trolls](#Troll-Commands)
 
 ## Permissions
 
@@ -461,3 +462,36 @@ Usage:
 Permission Node(s):
 
     luckyessentials.top
+    
+#### Troll Commands
+Used to troll other players(preferably hackers)
+
+Usage:
+
+    /troll check [player]
+    /troll clear [player]
+    /<troll> [player]
+        
+    Example:
+      /troll check
+      /troll clear LyraMS
+      /nobreak
+      /onetap LyraMS
+      
+Permission Node(s):
+
+    luckyessentials.troll
+    luckyessentials.troll.others
+    luckyessentials.troll.<troll>
+    luckyessentials.troll.<troll>.others
+    
+Available Trolls:
+
+    FakePlace -> Placed blocks will shortly disappear
+    NoBreak -> Can't break blocks
+    NoDamage -> Can't damage other entities
+    NoHit -> Can't hit other entities
+    NoInteract -> Can't interact with anything(basically no rightclick)
+    NoPickup -> Can't pickup items
+    NoPlace -> Can't place blocks
+    OneTap -> Death in 1 hit
