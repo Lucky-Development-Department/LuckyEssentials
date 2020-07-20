@@ -46,7 +46,7 @@ class FixCMD : CommandExecutor {
         var others = false
         var offset = 0
 
-        if (args!!.isNotEmpty() && sender !is Player) {
+        if (args!!.isNotEmpty() && sender is Player) {
             if (Bukkit.getPlayer(args[0]) == null) {
                 sender.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false

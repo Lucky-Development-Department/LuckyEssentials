@@ -118,7 +118,7 @@ class GamemodeCMD : CommandExecutor {
                 return false
             }
 
-            if (args.size == 2 && sender !is Player) {
+            if (args.size == 2 && sender is Player) {
                 if (Bukkit.getPlayer(args[1]) == null) {
                     sender.sendMessage(Config.prefix + " §cPlayer not found!")
                     return false

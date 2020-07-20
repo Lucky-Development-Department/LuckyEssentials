@@ -44,7 +44,7 @@ class FlyCMD : CommandExecutor {
 
         var others = false
 
-        if (args!!.isNotEmpty() && sender !is Player) {
+        if (args!!.isNotEmpty() && sender is Player) {
             if (Bukkit.getPlayer(args[0]) == null) {
                 sender.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false

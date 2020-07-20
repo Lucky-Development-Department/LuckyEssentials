@@ -64,7 +64,7 @@ class ClearCMD : CommandExecutor {
         if (!sender.checkPermission("clear", others))
             return false
 
-        if (args.size > 1 + offset && args[0 + offset].isNotEmpty()) {
+        if (args.size == 1 + offset && args[0 + offset].isNotEmpty()) {
 
             if (args[0 + offset] == "**") {
                 type = ClearType.ALL
