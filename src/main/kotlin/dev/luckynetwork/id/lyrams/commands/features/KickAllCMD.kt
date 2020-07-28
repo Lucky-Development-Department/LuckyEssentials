@@ -20,17 +20,26 @@ class KickAllCMD : CommandExecutor {
         if (!sender!!.checkPermission("kickall"))
             return false
 
+        var ignoreStaff = false
+
+        if (args!!.isNotEmpty() && args[0] == "**")
+            ignoreStaff = true
+
         val reason =
-            if (args!!.isNotEmpty())
-                args.joinToString(" ")
+            if (args.isNotEmpty())
+                if (ignoreStaff)
+                    args.joinToString("** ")
+                else
+                    args.joinToString(" ")
             else
                 "Kicked by a staff member"
 
         for (online in Bukkit.getOnlinePlayers()) {
             if (sender !is Player || !online.name.equals(sender.name, true)) {
-                if (!online.checkPermissionSilent("kickall.exempt")) {
-                    online.kickPlayer(reason)
+                if (online.checkPermissionSilent("kickall.exempt") && !ignoreStaff) {
+                    continue
                 }
+                online.kickPlayer(reason)
             }
         }
 
