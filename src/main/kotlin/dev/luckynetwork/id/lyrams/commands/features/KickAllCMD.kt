@@ -17,6 +17,7 @@ class KickAllCMD : CommandExecutor {
         commandName: String?,
         args: Array<out String>?
     ): Boolean {
+
         if (!sender!!.checkPermission("kickall"))
             return false
 
@@ -26,13 +27,16 @@ class KickAllCMD : CommandExecutor {
             ignoreStaff = true
 
         val reason =
-            if (args.isNotEmpty())
-                if (ignoreStaff)
+            if (ignoreStaff)
+                if (args.size > 1)
                     args.joinToString("** ")
                 else
-                    args.joinToString(" ")
+                    "Kicked by a staff member"
             else
-                "Kicked by a staff member"
+                if (args.isNotEmpty())
+                    args.joinToString(" ")
+                else
+                    "Kicked by a staff member"
 
         for (online in Bukkit.getOnlinePlayers()) {
             if (sender !is Player || !online.name.equals(sender.name, true)) {
@@ -46,5 +50,7 @@ class KickAllCMD : CommandExecutor {
         sender.sendMessage(Config.prefix + " §aKicked all players!")
 
         return false
+
     }
+
 }
