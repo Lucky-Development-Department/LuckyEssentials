@@ -46,7 +46,9 @@ class FixCMD : CommandExecutor {
         var others = false
         var offset = 0
 
-        if (args!!.isNotEmpty() && sender is Player) {
+        if (args!!.isNotEmpty() && sender is Player &&
+            !(args[0].equals("hand", true) || args[0].equals("all", true))
+        ) {
             if (Bukkit.getPlayer(args[0]) == null) {
                 sender.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false
@@ -82,6 +84,7 @@ class FixCMD : CommandExecutor {
         return false
 
     }
+
 }
 
 private fun sendUsage(sender: CommandSender) {

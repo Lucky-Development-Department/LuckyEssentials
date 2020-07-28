@@ -1,5 +1,5 @@
 name: LuckyEssentials
-version: 1.0.4
+version: 1.0.5
 author: LyraMS
 main: dev.luckynetwork.id.lyrams.LuckyEssentials
 softdepend: [MYSlots, LuckyInjector]
