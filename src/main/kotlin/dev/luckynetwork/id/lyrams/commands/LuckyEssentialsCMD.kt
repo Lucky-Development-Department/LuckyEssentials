@@ -43,6 +43,7 @@ class LuckyEssentialsCMD : CommandExecutor {
         }
 
         return false
+        
     }
 
 }

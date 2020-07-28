@@ -4,6 +4,7 @@ import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.Config
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.World
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -88,18 +89,17 @@ class TeleportCMD : CommandExecutor {
                 var target: Player = sender
                 var others = false
 
-                var world = sender.world
-                var x = args[0].toDouble()
-                var y = args[1].toDouble()
-                var z = args[2].toDouble()
-                var yaw = sender.location.yaw
-                var pitch = sender.location.pitch
-
                 if (args.size < 3) {
                     sendUsage(sender)
                     return false
                 }
 
+                var world: World? = null
+                val x: Double
+                val y: Double
+                val z: Double
+                val yaw: Float
+                val pitch: Float
                 var offset = 0
 
                 if (Bukkit.getPlayer(args[0]) != null) {
@@ -118,11 +118,31 @@ class TeleportCMD : CommandExecutor {
                         pitch = args[5 + offset].toFloat()
                     }
                     5 -> {
+                        x = args[0 + offset].toDouble()
+                        y = args[1 + offset].toDouble()
+                        z = args[2 + offset].toDouble()
                         yaw = args[3 + offset].toFloat()
                         pitch = args[4 + offset].toFloat()
                     }
                     4 -> {
                         world = Bukkit.getWorld(args[0 + offset])
+                        x = args[1 + offset].toDouble()
+                        y = args[2 + offset].toDouble()
+                        z = args[3 + offset].toDouble()
+                        yaw = sender.location.yaw
+                        pitch = sender.location.pitch
+                    }
+                    3 -> {
+                        world = sender.world
+                        x = args[0 + offset].toDouble()
+                        y = args[1 + offset].toDouble()
+                        z = args[2 + offset].toDouble()
+                        yaw = sender.location.yaw
+                        pitch = sender.location.pitch
+                    }
+                    else -> {
+                        sendUsage(sender)
+                        return false
                     }
                 }
 

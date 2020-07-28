@@ -31,9 +31,8 @@ class PlayerListeners : Listener {
 
         val victim = event.entity as Player
 
-        if (victim.hasMetadata("GOD")) {
+        if (victim.hasMetadata("GOD"))
             event.isCancelled = true
-        }
 
     }
 
@@ -44,9 +43,8 @@ class PlayerListeners : Listener {
 
         val victim = event.entity as Player
 
-        if (victim.hasMetadata("GOD")) {
+        if (victim.hasMetadata("GOD"))
             event.isCancelled = true
-        }
 
     }
 
@@ -57,9 +55,8 @@ class PlayerListeners : Listener {
 
         val victim = event.entity as Player
 
-        if (victim.hasMetadata("GOD")) {
+        if (victim.hasMetadata("GOD"))
             event.isCancelled = true
-        }
 
     }
 
@@ -141,9 +138,8 @@ class PlayerListeners : Listener {
                 val whoClicked = event.whoClicked as Player
                 val inventoryOwner = topInventory.holder
 
-                if (inventoryOwner !is HumanEntity) {
+                if (inventoryOwner !is HumanEntity)
                     return
-                }
 
                 inventoryOwner as Player
 
@@ -163,9 +159,8 @@ class PlayerListeners : Listener {
                 val whoClicked = event.whoClicked as Player
                 val inventoryOwner = topInventory.holder
 
-                if (inventoryOwner !is HumanEntity) {
+                if (inventoryOwner !is HumanEntity)
                     return
-                }
 
                 if (whoClicked.hasMetadata("INVSEE")) {
                     event.isCancelled = true

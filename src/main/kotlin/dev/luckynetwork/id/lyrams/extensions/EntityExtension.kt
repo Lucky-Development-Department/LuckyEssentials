@@ -7,13 +7,12 @@ import org.bukkit.metadata.FixedMetadataValue
 /**
  * applies a metadata easily
  */
-internal fun Entity.applyMetadata(metadata: String, value: Any?) {
+internal fun Entity.applyMetadata(metadata: String, value: Any?) =
     this.setMetadata(metadata, FixedMetadataValue(LuckyEssentials.instance, value))
-}
+
 
 /**
  * removes a metadata easily
  */
-internal fun Entity.removeMetadata(metadata: String) {
+internal fun Entity.removeMetadata(metadata: String) =
     this.removeMetadata(metadata, LuckyEssentials.instance)
-}
