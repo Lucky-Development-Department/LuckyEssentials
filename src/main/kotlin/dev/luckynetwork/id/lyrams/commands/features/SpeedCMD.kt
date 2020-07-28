@@ -12,13 +12,13 @@ class SpeedCMD : CommandExecutor {
 
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
 
-        if (!sender!!.checkPermission("speed"))
+        if (!sender.checkPermission("speed"))
             return false
 
         if (sender !is Player)
@@ -34,7 +34,7 @@ class SpeedCMD : CommandExecutor {
                 SpeedType.FLYING
             else SpeedType.WALKING
 
-        if (args!!.isEmpty()) {
+        if (args.isEmpty()) {
             sender.sendMessage("§cUsage: /speed <speed> [type] [player]")
             return false
         }

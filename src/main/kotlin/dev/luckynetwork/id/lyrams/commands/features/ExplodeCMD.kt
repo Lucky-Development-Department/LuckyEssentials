@@ -13,10 +13,10 @@ import org.bukkit.entity.Player
 class ExplodeCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
         if (sender !is Player || !sender.checkPermission("explode"))
             return false
@@ -28,7 +28,7 @@ class ExplodeCMD : CommandExecutor {
         var damage = true
         var power = 4f
 
-        if (args!!.isNotEmpty() && !(args[0].contains("-power=") || args[0].contains("-nodamage"))) {
+        if (args.isNotEmpty() && !(args[0].contains("-power=") || args[0].contains("-nodamage"))) {
             if (Bukkit.getPlayer(args[0]) == null) {
                 sender.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false

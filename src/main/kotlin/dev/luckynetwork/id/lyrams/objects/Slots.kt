@@ -1,6 +1,5 @@
 package dev.luckynetwork.id.lyrams.objects
 
-import dev.luckynetwork.id.lyrams.LuckyEssentials
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File

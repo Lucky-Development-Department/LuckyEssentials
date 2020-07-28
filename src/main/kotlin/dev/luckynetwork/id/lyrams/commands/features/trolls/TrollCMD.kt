@@ -11,17 +11,17 @@ import org.bukkit.entity.Player
 
 class TrollCMD : CommandExecutor {
 
-    override fun onCommand(sender: CommandSender?, command: Command?, cmd: String?, args: Array<out String>?): Boolean {
+    override fun onCommand(sender: CommandSender, command: Command, cmd: String, args: Array<out String>): Boolean {
 
         if (!Config.trollEnabled)
             return false
 
-        if (!sender!!.checkPermission("troll"))
+        if (!sender.checkPermission("troll"))
             return false
 
         var others = false
 
-        if (args!!.isEmpty() && sender is Player) {
+        if (args.isEmpty() && sender is Player) {
             sender.sendMessage("§cUsage: /troll check [player]")
             sender.sendMessage("§cUsage: /troll clear [player]")
             return false

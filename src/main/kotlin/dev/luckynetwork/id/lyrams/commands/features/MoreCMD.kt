@@ -9,10 +9,10 @@ import org.bukkit.entity.Player
 class MoreCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
         if (sender !is Player)
             return false

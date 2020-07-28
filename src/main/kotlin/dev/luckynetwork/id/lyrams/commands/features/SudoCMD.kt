@@ -11,13 +11,13 @@ import org.bukkit.entity.Player
 class SudoCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
 
-        if (!sender!!.checkPermission("sudo"))
+        if (!sender.checkPermission("sudo"))
             return false
 
         var target: Player
@@ -27,7 +27,7 @@ class SudoCMD : CommandExecutor {
                 // if console executes this
             if (sender !is Player) {
                 // console must specify a player
-                if (args!!.isEmpty()) {
+                if (args.isEmpty()) {
                     sender.sendMessage(Config.prefix + " §cInvalid usage!")
                     return false
                 }
@@ -43,7 +43,7 @@ class SudoCMD : CommandExecutor {
             } else
                 sender
 
-        if (args!!.isEmpty()) {
+        if (args.isEmpty()) {
             sender.sendMessage(Config.prefix + " §cPlease provide a player!")
             return false
         }

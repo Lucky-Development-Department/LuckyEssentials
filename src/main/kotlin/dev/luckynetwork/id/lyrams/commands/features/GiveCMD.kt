@@ -24,14 +24,14 @@ import org.bukkit.inventory.meta.ItemMeta
 class GiveCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
         var target: Player
 
-        if (!sender!!.checkPermission("give"))
+        if (!sender.checkPermission("give"))
             return false
 
         // get where should the args start from...
@@ -45,7 +45,7 @@ class GiveCMD : CommandExecutor {
                 // if console executes this
             if (sender !is Player) {
                 // console must specify a player
-                if (args!!.isEmpty()) {
+                if (args.isEmpty()) {
                     sendUsage(sender)
                     return false
                 }
@@ -66,7 +66,7 @@ class GiveCMD : CommandExecutor {
         var others = false
 
         // please specify at least the items... duh
-        if (args!!.isEmpty()) {
+        if (args.isEmpty()) {
             sendUsage(sender)
             return false
         }
@@ -240,8 +240,10 @@ private fun sendUsage(sender: CommandSender) {
     sender.sendMessage("§cUsage: /i [item] [amount]")
 }
 
-// Returns what it couldn't store
-// Set oversizedStack to below normal stack size to disable oversized stacks
+/* Returns what it couldn't store
+* Set oversizedStack to below normal stack size to disable oversized stacks
+* Original code from EssentialsX
+*/
 private fun addOversizedItems(
     inventory: Inventory,
     vararg items: ItemStack?
@@ -321,6 +323,9 @@ private fun addOversizedItems(
     return leftover
 }
 
+/*
+* Original code from EssentialsX
+ */
 private fun firstPartial(inventory: Inventory, item: ItemStack?, maxAmount: Int): Int {
     if (item == null) {
         return -1

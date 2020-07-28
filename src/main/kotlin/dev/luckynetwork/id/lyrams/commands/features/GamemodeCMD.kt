@@ -12,16 +12,14 @@ import org.bukkit.entity.Player
 class GamemodeCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
 
-        if (!sender!!.checkPermission("gamemode"))
+        if (!sender.checkPermission("gamemode"))
             return false
-
-        commandName ?: return false
 
         if (commandName.startsWith("gm")) {
             var target: Player
@@ -31,7 +29,7 @@ class GamemodeCMD : CommandExecutor {
                     // if console executes this
                 if (sender !is Player) {
                     // console must specify a player
-                    if (args!!.isEmpty()) {
+                    if (args.isEmpty()) {
                         sendUsage(sender)
                         return false
                     }
@@ -49,7 +47,7 @@ class GamemodeCMD : CommandExecutor {
 
             var others = false
 
-            if (args!!.isNotEmpty() && sender is Player) {
+            if (args.isNotEmpty() && sender is Player) {
                 if (Bukkit.getPlayer(args[0]) == null) {
                     sender.sendMessage(Config.prefix + " §cPlayer not found!")
                     return false
@@ -94,7 +92,7 @@ class GamemodeCMD : CommandExecutor {
                     // if console executes this
                 if (sender !is Player) {
                     // console must specify a player
-                    if (args!!.isEmpty()) {
+                    if (args.isEmpty()) {
                         sendUsage(sender)
                         return false
                     }
@@ -113,7 +111,7 @@ class GamemodeCMD : CommandExecutor {
 
             var others = false
 
-            if (args!!.isEmpty()) {
+            if (args.isEmpty()) {
                 sendUsage(sender)
                 return false
             }

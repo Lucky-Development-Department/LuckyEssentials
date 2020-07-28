@@ -11,12 +11,12 @@ import org.bukkit.entity.Player
 class HealCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
-        if (!sender!!.checkPermission("heal"))
+        if (!sender.checkPermission("heal"))
             return false
 
         var target: Player
@@ -26,7 +26,7 @@ class HealCMD : CommandExecutor {
                 // if console executes this
             if (sender !is Player) {
                 // console must specify a player
-                if (args!!.isEmpty()) {
+                if (args.isEmpty()) {
                     sender.sendMessage(Config.prefix + " §cInvalid usage!")
                     return false
                 }
@@ -44,7 +44,7 @@ class HealCMD : CommandExecutor {
 
         var others = false
 
-        if (args!!.isNotEmpty() && sender is Player) {
+        if (args.isNotEmpty() && sender is Player) {
             if (Bukkit.getPlayer(args[0]) == null) {
                 sender.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false

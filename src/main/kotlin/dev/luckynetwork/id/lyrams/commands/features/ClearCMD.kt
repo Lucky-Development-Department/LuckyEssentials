@@ -15,13 +15,13 @@ import org.bukkit.inventory.ItemStack
 class ClearCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
 
-        if (!sender!!.checkPermission("clear"))
+        if (!sender.checkPermission("clear"))
             return false
 
         var target: Player
@@ -31,7 +31,7 @@ class ClearCMD : CommandExecutor {
                 // if console executes this
             if (sender !is Player) {
                 // console must specify a player
-                if (args!!.isEmpty()) {
+                if (args.isEmpty()) {
                     sender.sendMessage(Config.prefix + " §cInvalid usage!")
                     return false
                 }
@@ -52,7 +52,7 @@ class ClearCMD : CommandExecutor {
         var type = ClearType.ALL_EXCEPT_ARMOR
         var itemStack: ItemStack? = null
 
-        if (args!!.isNotEmpty() && Bukkit.getPlayer(args[0]) != null && sender is Player) {
+        if (args.isNotEmpty() && Bukkit.getPlayer(args[0]) != null && sender is Player) {
 
             target = Bukkit.getPlayer(args[0]) as Player
 

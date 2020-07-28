@@ -12,13 +12,13 @@ import org.bukkit.entity.Player
 class EnchantCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
 
-        if (!sender!!.checkPermission("enchant"))
+        if (!sender.checkPermission("enchant"))
             return false
 
         var target: Player
@@ -28,7 +28,7 @@ class EnchantCMD : CommandExecutor {
                 // if console executes this
             if (sender !is Player) {
                 // console must specify a player
-                if (args!!.isEmpty()) {
+                if (args.isEmpty()) {
                     sender.sendMessage(Config.prefix + " §cInvalid usage!")
                     return false
                 }
@@ -47,7 +47,7 @@ class EnchantCMD : CommandExecutor {
         var others = false
         var offset = 0
 
-        if (args!!.isNotEmpty() && Bukkit.getPlayer(args[0]) != null && sender is Player) {
+        if (args.isNotEmpty() && Bukkit.getPlayer(args[0]) != null && sender is Player) {
 
             target = Bukkit.getPlayer(args[0]) as Player
 

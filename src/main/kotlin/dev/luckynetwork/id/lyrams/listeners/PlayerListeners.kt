@@ -87,6 +87,9 @@ class PlayerListeners : Listener {
         )
     }
 
+    /*
+    * Original code from MYSlots
+     */
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onConnect2(event: PlayerLoginEvent) {
         if (!Slots.enabled)
@@ -127,6 +130,9 @@ class PlayerListeners : Listener {
 
     }
 
+    /*
+    * Original code from EssentialsX
+     */
     @EventHandler
     fun onInventoryClick(event: InventoryClickEvent) {
         val topInventory = event.view.topInventory
@@ -177,6 +183,9 @@ class PlayerListeners : Listener {
 
     }
 
+    /*
+    * Original code from EssentialsX
+     */
     @EventHandler
     fun onInventoryClose(event: InventoryCloseEvent) {
         val topInventory = event.view.topInventory

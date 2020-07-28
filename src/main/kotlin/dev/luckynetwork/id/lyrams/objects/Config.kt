@@ -54,7 +54,7 @@ object Config {
 
     }
 
-    fun reloadConfig() {
+    private fun reloadConfig() {
 
         val configFile = File(plugin.dataFolder, "config.yml")
 

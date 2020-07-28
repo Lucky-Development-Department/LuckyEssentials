@@ -10,17 +10,15 @@ import org.bukkit.command.CommandSender
 class LuckyEssentialsCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
-
-        sender ?: return false
 
         val plugin = LuckyEssentials.instance
 
-        if (args!!.isEmpty()) {
+        if (args.isEmpty()) {
             sender.sendMessage(
                 Config.prefix + " §aCurrently using §eLuckyEssentials §dv" + plugin.description.version +
                         " §aby §e" +

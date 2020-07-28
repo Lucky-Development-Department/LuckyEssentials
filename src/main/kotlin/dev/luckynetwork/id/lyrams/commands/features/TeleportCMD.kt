@@ -13,10 +13,10 @@ import org.bukkit.entity.Player
 class TeleportCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
 
         if (sender !is Player)
@@ -25,9 +25,7 @@ class TeleportCMD : CommandExecutor {
         if (!sender.checkPermission("teleport"))
             return false
 
-        commandName ?: return false
-
-        if (args!!.isEmpty()) {
+        if (args.isEmpty()) {
             sendUsage(sender)
             return false
         }

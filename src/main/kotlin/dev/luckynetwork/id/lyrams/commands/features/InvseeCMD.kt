@@ -12,10 +12,10 @@ import org.bukkit.entity.Player
 class InvseeCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
         if (sender !is Player)
             return false
@@ -23,7 +23,7 @@ class InvseeCMD : CommandExecutor {
         if (!sender.checkPermission("invsee"))
             return false
 
-        if (args!!.isEmpty()) {
+        if (args.isEmpty()) {
             sender.sendMessage("§cUsage: /invsee <target> [armorContents = true/false]!")
             return false
         }

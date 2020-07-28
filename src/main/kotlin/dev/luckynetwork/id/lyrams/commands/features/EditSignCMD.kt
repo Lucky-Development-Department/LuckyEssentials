@@ -13,10 +13,10 @@ import org.bukkit.entity.Player
 class EditSignCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
         if (sender !is Player)
             return false
@@ -34,7 +34,7 @@ class EditSignCMD : CommandExecutor {
 
         val sign = targetBlock.state as Sign
 
-        if (args!!.isEmpty()) {
+        if (args.isEmpty()) {
             sendUsage(sender)
             return false
         }

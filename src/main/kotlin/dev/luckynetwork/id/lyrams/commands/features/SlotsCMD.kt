@@ -10,16 +10,16 @@ import org.bukkit.command.CommandSender
 class SlotsCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
 
-        if (!sender!!.checkPermission("slots"))
+        if (!sender.checkPermission("slots"))
             return false
 
-        if (args!!.isEmpty()) {
+        if (args.isEmpty()) {
             sendUsage(sender)
             return false
         }

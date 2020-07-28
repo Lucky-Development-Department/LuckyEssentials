@@ -12,12 +12,12 @@ import org.bukkit.entity.Player
 
 class FakePlaceCMD : CommandExecutor {
 
-    override fun onCommand(sender: CommandSender?, command: Command?, cmd: String?, args: Array<out String>?): Boolean {
+    override fun onCommand(sender: CommandSender, command: Command, cmd: String, args: Array<out String>): Boolean {
 
         if (!Config.trollEnabled)
             return false
 
-        if (!sender!!.checkPermission("troll.fakeplace"))
+        if (!sender.checkPermission("troll.fakeplace"))
             return false
 
         var target: Player
@@ -26,7 +26,7 @@ class FakePlaceCMD : CommandExecutor {
                 // if console executes this
             if (sender !is Player) {
                 // console must specify a player
-                if (args!!.isEmpty()) {
+                if (args.isEmpty()) {
                     sender.sendMessage(Config.prefix + " §cInvalid usage!")
                     return false
                 }
@@ -44,7 +44,7 @@ class FakePlaceCMD : CommandExecutor {
 
         var others = false
 
-        if (args!!.isNotEmpty() && sender is Player) {
+        if (args.isNotEmpty() && sender is Player) {
             if (Bukkit.getPlayer(args[0]) == null) {
                 target.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false

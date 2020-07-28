@@ -13,10 +13,10 @@ import org.bukkit.entity.Player
 class SmiteCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
         if (sender !is Player || !sender.checkPermission("smite"))
             return false
@@ -26,7 +26,7 @@ class SmiteCMD : CommandExecutor {
         var targetBlock = sender.getTargetBlock(nullSet, 120)
         var others = false
 
-        if (args!!.isNotEmpty()) {
+        if (args.isNotEmpty()) {
             if (Bukkit.getPlayer(args[0]) == null) {
                 sender.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false

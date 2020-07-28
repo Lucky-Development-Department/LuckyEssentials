@@ -12,9 +12,9 @@ import org.bukkit.entity.Player
 
 class GodCMD : CommandExecutor {
 
-    override fun onCommand(sender: CommandSender?, command: Command?, cmd: String?, args: Array<out String>?): Boolean {
+    override fun onCommand(sender: CommandSender, command: Command, cmd: String, args: Array<out String>): Boolean {
 
-        if (!sender!!.checkPermission("god"))
+        if (!sender.checkPermission("god"))
             return false
 
         var target: Player
@@ -23,7 +23,7 @@ class GodCMD : CommandExecutor {
                 // if console executes this
             if (sender !is Player) {
                 // console must specify a player
-                if (args!!.isEmpty()) {
+                if (args.isEmpty()) {
                     sender.sendMessage(Config.prefix + " §cInvalid usage!")
                     return false
                 }
@@ -41,7 +41,7 @@ class GodCMD : CommandExecutor {
 
         var others = false
 
-        if (args!!.isNotEmpty() && sender is Player) {
+        if (args.isNotEmpty() && sender is Player) {
             if (Bukkit.getPlayer(args[0]) == null) {
                 target.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false

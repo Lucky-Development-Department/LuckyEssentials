@@ -12,18 +12,18 @@ import org.bukkit.entity.Player
 class KickAllCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
 
-        if (!sender!!.checkPermission("kickall"))
+        if (!sender.checkPermission("kickall"))
             return false
 
         var ignoreStaff = false
 
-        if (args!!.isNotEmpty() && args[0] == "**")
+        if (args.isNotEmpty() && args[0] == "**")
             ignoreStaff = true
 
         val reason =

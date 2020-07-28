@@ -12,12 +12,12 @@ import org.bukkit.inventory.ItemStack
 class FixCMD : CommandExecutor {
 
     override fun onCommand(
-        sender: CommandSender?,
-        command: Command?,
-        commandName: String?,
-        args: Array<out String>?
+        sender: CommandSender,
+        command: Command,
+        commandName: String,
+        args: Array<out String>
     ): Boolean {
-        if (!sender!!.checkPermission("fix"))
+        if (!sender.checkPermission("fix"))
             return false
 
         var target: Player
@@ -27,7 +27,7 @@ class FixCMD : CommandExecutor {
                 // if console executes this
             if (sender !is Player) {
                 // console must specify a player
-                if (args!!.isEmpty()) {
+                if (args.isEmpty()) {
                     sender.sendMessage(Config.prefix + " §cInvalid usage!")
                     return false
                 }
@@ -46,7 +46,7 @@ class FixCMD : CommandExecutor {
         var others = false
         var offset = 0
 
-        if (args!!.isNotEmpty() && sender is Player &&
+        if (args.isNotEmpty() && sender is Player &&
             !(args[0].equals("hand", true) || args[0].equals("all", true))
         ) {
             if (Bukkit.getPlayer(args[0]) == null) {
