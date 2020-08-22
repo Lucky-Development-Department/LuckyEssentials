@@ -1,7 +1,6 @@
 package dev.luckynetwork.id.lyrams.listeners.trolls
 
 import dev.luckynetwork.id.lyrams.LuckyEssentials
-import dev.luckynetwork.id.lyrams.extensions.removeMetadata
 import dev.luckynetwork.id.lyrams.objects.Config
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -14,7 +13,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerPickupItemEvent
-import org.bukkit.event.player.PlayerQuitEvent
 
 class TrollPlayerListeners : Listener {
 
@@ -108,33 +106,5 @@ class TrollPlayerListeners : Listener {
             event.isCancelled = true
 
     }
-
-
-    @EventHandler
-    fun onLeave(event: PlayerQuitEvent) {
-
-        if (!Config.trollEnabled) return
-
-        val player = event.player
-
-        if (player.hasMetadata("FAKEPLACE"))
-            player.removeMetadata("FAKEPLACE")
-        if (player.hasMetadata("NOPICKUP"))
-            player.removeMetadata("NOPICKUP")
-        if (player.hasMetadata("NODAMAGE"))
-            player.removeMetadata("NODAMAGE")
-        if (player.hasMetadata("NOHIT"))
-            player.removeMetadata("NOHIT")
-        if (player.hasMetadata("NOPLACE"))
-            player.removeMetadata("NOPLACE")
-        if (player.hasMetadata("NOBREAK"))
-            player.removeMetadata("NOBREAK")
-        if (player.hasMetadata("NOINTERACT"))
-            player.removeMetadata("NOINTERACT")
-        if (player.hasMetadata("ONETAP"))
-            player.removeMetadata("ONETAP")
-
-    }
-
 
 }

@@ -1,6 +1,7 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.extensions.colorizeTrueOrFalse
 import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.objects.Whitelist
 import org.bukkit.command.Command
@@ -35,10 +36,7 @@ class EWhitelistCMD : CommandExecutor {
             }
             "TOGGLE" -> {
                 val state = Whitelist.toggle(null)
-                if (state)
-                    sender.sendMessage(Config.prefix + " §aWhitelist: §l$state!")
-                else
-                    sender.sendMessage(Config.prefix + " §aWhitelist: §c§l$state!")
+                sender.sendMessage(Config.prefix + " §aWhitelist: §l${state.toString().colorizeTrueOrFalse()}!")
             }
             "ON", "ENABLE", "ENABLED" -> {
                 val state = Whitelist.toggle(true)

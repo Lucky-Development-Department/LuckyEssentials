@@ -1,10 +1,12 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.4.0'
 }
 
 def pluginName = 'LuckyEssentials'
-group 'dev.luckynetwork.ldd.lyrams'
-version '1.0.6'
+group 'dev.luckynetwork.id.lyrams'
+version '1.0.7'
 
 repositories {
     mavenCentral()
@@ -25,8 +27,9 @@ jar {
 }
 
 processResources {
-    filter {
-        String line ->
-            line.replace('$version', project.version.toString())
-    }
+    filter ReplaceTokens, tokens: [
+            "version": project.version.toString(),
+            "mainClass": project.group + ".$pluginName",
+            "name": pluginName
+    ]
 }

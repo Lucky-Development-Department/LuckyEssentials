@@ -1,6 +1,7 @@
 package dev.luckynetwork.id.lyrams.commands.features
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.extensions.colorizeTrueOrFalse
 import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.objects.Slots
 import org.bukkit.command.Command
@@ -35,10 +36,7 @@ class SlotsCMD : CommandExecutor {
             }
             "TOGGLE" -> {
                 val state = Slots.toggle(null)
-                if (state)
-                    sender.sendMessage(Config.prefix + " §aSlots Modifier: §l$state!")
-                else
-                    sender.sendMessage(Config.prefix + " §aSlots Modifier: §c§l$state!")
+                sender.sendMessage(Config.prefix + " §aSlots Modifier: §l${state.toString().colorizeTrueOrFalse()}!")
             }
             "ON", "ENABLE", "ENABLED" -> {
                 val state = Slots.toggle(true)

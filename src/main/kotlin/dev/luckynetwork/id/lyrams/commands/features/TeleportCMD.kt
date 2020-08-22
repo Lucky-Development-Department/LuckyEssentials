@@ -48,18 +48,19 @@ class TeleportCMD : CommandExecutor {
                         return false
 
                     target.teleport(toTarget.location)
+                    sender.sendMessage(Config.prefix + " §aTeleported to ${args[0]}")
                 }
 
                 if (args.size == 2) {
                     if (Bukkit.getPlayer(args[0]) == null) {
-                        sender.sendMessage(Config.prefix + " §c§l${args[0]} §cnot found!")
+                        sender.sendMessage(Config.prefix + " §cPlayer §l${args[0]} §cnot found!")
                         return false
                     }
 
                     target = Bukkit.getPlayer(args[0])
 
                     if (Bukkit.getPlayer(args[1]) == null) {
-                        sender.sendMessage(Config.prefix + " §c§l${args[1]} §cnot found!")
+                        sender.sendMessage(Config.prefix + " §cPlayer §l${args[1]} §cnot found!")
                         return false
                     }
 
@@ -92,7 +93,7 @@ class TeleportCMD : CommandExecutor {
                     return false
                 }
 
-                var world: World? = null
+                val world: World
                 val x: Double
                 val y: Double
                 val z: Double
@@ -116,6 +117,7 @@ class TeleportCMD : CommandExecutor {
                         pitch = args[5 + offset].toFloat()
                     }
                     5 -> {
+                        world = sender.world
                         x = args[0 + offset].toDouble()
                         y = args[1 + offset].toDouble()
                         z = args[2 + offset].toDouble()

@@ -20,7 +20,6 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerLoginEvent
-import org.bukkit.event.player.PlayerQuitEvent
 
 class PlayerListeners : Listener {
 
@@ -57,17 +56,6 @@ class PlayerListeners : Listener {
 
         if (victim.hasMetadata("GOD"))
             event.isCancelled = true
-
-    }
-
-    @EventHandler
-    fun onDisconnect(event: PlayerQuitEvent) {
-        val player = event.player
-
-        if (player.hasMetadata("GOD"))
-            player.removeMetadata("GOD")
-        if (player.hasMetadata("INVSEE"))
-            player.removeMetadata("INVSEE")
 
     }
 

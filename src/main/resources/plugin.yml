@@ -1,7 +1,7 @@
-name: LuckyEssentials
-version: 1.0.6
+name: @name@
+version: @version@
 author: LyraMS
-main: dev.luckynetwork.id.lyrams.LuckyEssentials
+main: @mainClass@
 softdepend: [MYSlots, LuckyInjector]
 
 commands:

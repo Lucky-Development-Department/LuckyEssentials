@@ -215,8 +215,10 @@ class GiveCMD : CommandExecutor {
         when {
             others -> {
                 sender.sendMessage(
-                    Config.prefix + " §aGiven §l" + target.name + " §a${itemStack.amount}x ${(itemStack.type).toString()
-                        .toLowerCase()}!"
+                    Config.prefix + " §aGiven §l" + target.name + " §a${itemStack.amount}x ${
+                        (itemStack.type).toString()
+                            .toLowerCase()
+                    }!"
                 )
                 target.sendMessage(
                     Config.prefix + " §aGave you ${itemStack.amount}x ${(itemStack.type).toString().toLowerCase()}!"
@@ -240,10 +242,11 @@ private fun sendUsage(sender: CommandSender) {
     sender.sendMessage("§cUsage: /i [item] [amount]")
 }
 
-/* Returns what it couldn't store
-* Set oversizedStack to below normal stack size to disable oversized stacks
-* Original code from EssentialsX
-*/
+/** Returns what it couldn't store
+ * Set oversizedStack to below normal stack size to disable oversized stacks
+ *
+ * Original code from EssentialsX
+ */
 private fun addOversizedItems(
     inventory: Inventory,
     vararg items: ItemStack?
@@ -255,9 +258,9 @@ private fun addOversizedItems(
         arrayOfNulls<ItemStack>(items.size)
 
     for (item in items) {
-        if (item == null || item.amount < 1) {
+        if (item == null || item.amount < 1)
             continue
-        }
+
         for (j in combined.indices) {
             if (combined[j] == null) {
                 combined[j] = item.clone()
@@ -269,11 +272,11 @@ private fun addOversizedItems(
             }
         }
     }
+
     for (i in combined.indices) {
         val item = combined[i]
-        if (item == null || item.type == Material.AIR) {
+        if (item == null || item.type == Material.AIR)
             continue
-        }
 
         while (true) {
             // Do we already have a stack of it?
@@ -323,20 +326,21 @@ private fun addOversizedItems(
     return leftover
 }
 
-/*
-* Original code from EssentialsX
+/**
+ * Original code from EssentialsX
  */
 private fun firstPartial(inventory: Inventory, item: ItemStack?, maxAmount: Int): Int {
-    if (item == null) {
+    if (item == null)
         return -1
-    }
+
     val stacks = inventory.contents
+
     for (i in stacks.indices) {
         val cItem = stacks[i]
-        if (cItem != null && cItem.amount < maxAmount && cItem.isSimilar(item)) {
+        if (cItem != null && cItem.amount < maxAmount && cItem.isSimilar(item))
             return i
-        }
     }
+
     return -1
 
 }

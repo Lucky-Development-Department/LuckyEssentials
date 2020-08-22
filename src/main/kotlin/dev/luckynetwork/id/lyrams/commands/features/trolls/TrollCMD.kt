@@ -1,6 +1,7 @@
 package dev.luckynetwork.id.lyrams.commands.features.trolls
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.extensions.colorizeTrueOrFalse
 import dev.luckynetwork.id.lyrams.extensions.removeMetadata
 import dev.luckynetwork.id.lyrams.objects.Config
 import org.bukkit.Bukkit
@@ -67,14 +68,14 @@ class TrollCMD : CommandExecutor {
                     return false
 
                 sender.sendMessage("§6${target.name}('s) active troll attributes:")
-                sender.sendMessage("§6FakePlace: ${target.hasMetadata("FAKEPLACE")}")
-                sender.sendMessage("§6NoBreak: ${target.hasMetadata("NOBREAK")}")
-                sender.sendMessage("§6NoDamage: ${target.hasMetadata("NODAMAGE")}")
-                sender.sendMessage("§6NoHit: ${target.hasMetadata("NOHIT")}")
-                sender.sendMessage("§6NoInteract: ${target.hasMetadata("NOINTERACT")}")
-                sender.sendMessage("§6NoPickup: ${target.hasMetadata("NOPICKUP")}")
-                sender.sendMessage("§6NoPlace: ${target.hasMetadata("NOPLACE")}")
-                sender.sendMessage("§6OneTap: ${target.hasMetadata("ONETAP")}")
+                sender.sendMessage("§6FakePlace: ${target.hasMetadata("FAKEPLACE").toString().colorizeTrueOrFalse()}")
+                sender.sendMessage("§6NoBreak: ${target.hasMetadata("NOBREAK").toString().colorizeTrueOrFalse()}")
+                sender.sendMessage("§6NoDamage: ${target.hasMetadata("NODAMAGE").toString().colorizeTrueOrFalse()}")
+                sender.sendMessage("§6NoHit: ${target.hasMetadata("NOHIT").toString().colorizeTrueOrFalse()}")
+                sender.sendMessage("§6NoInteract: ${target.hasMetadata("NOINTERACT").toString().colorizeTrueOrFalse()}")
+                sender.sendMessage("§6NoPickup: ${target.hasMetadata("NOPICKUP").toString().colorizeTrueOrFalse()}")
+                sender.sendMessage("§6NoPlace: ${target.hasMetadata("NOPLACE").toString().colorizeTrueOrFalse()}")
+                sender.sendMessage("§6OneTap: ${target.hasMetadata("ONETAP").toString().colorizeTrueOrFalse()}")
 
             }
 
