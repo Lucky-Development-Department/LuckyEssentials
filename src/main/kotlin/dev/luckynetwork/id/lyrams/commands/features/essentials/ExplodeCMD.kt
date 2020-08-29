@@ -1,10 +1,12 @@
-package dev.luckynetwork.id.lyrams.commands.features
+package dev.luckynetwork.id.lyrams.commands.features.essentials
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.extensions.getTargetPlayer
 import dev.luckynetwork.id.lyrams.objects.Config
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.block.Block
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -22,23 +24,22 @@ class ExplodeCMD : CommandExecutor {
             return false
 
         val nullSet: Set<Material>? = null
-        var target = sender
-        var targetBlock = sender.getTargetBlock(nullSet, 120)
-        var others = false
+        val targets = args.getTargetPlayer(sender, 0)
+
+        if (targets.isEmpty())
+            return false
+
+        val others = !targets.contains(sender) || targets.size > 1
+        val targetBlocks = ArrayList<Block>()
         var damage = true
         var power = 4f
 
-        if (args.isNotEmpty() && !(args[0].contains("-power=") || args[0].contains("-nodamage"))) {
-            if (Bukkit.getPlayer(args[0]) == null) {
-                sender.sendMessage(Config.prefix + " §cPlayer not found!")
-                return false
+        if (others)
+            targets.forEach {
+                targetBlocks.add(it.location.block)
             }
-
-            target = Bukkit.getPlayer(args[0]) as Player
-            targetBlock = target.location.block
-
-            others = true
-        }
+        else
+            targetBlocks.add(sender.getTargetBlock(nullSet, 120))
 
         if (!sender.checkPermission("explode", others))
             return false
@@ -52,15 +53,22 @@ class ExplodeCMD : CommandExecutor {
             power = argsAsString
                 .split("-power=")[1].toFloat()
 
-        val location = Location(
-            targetBlock.world, targetBlock.x.toDouble(), (targetBlock.y + 1).toDouble(),
-            targetBlock.z.toDouble()
-        )
+        targetBlocks.forEach {
 
-        targetBlock.world.createExplosion(location, power, damage)
+            val location = Location(
+                it.world, it.x.toDouble(), (it.y + 1).toDouble(),
+                it.z.toDouble()
+            )
+
+            it.world.createExplosion(location, power, damage)
+
+        }
 
         if (others) {
-            target.sendMessage(Config.prefix + " §aYou have been exploded!")
+            targets.forEach {
+                it.sendMessage(Config.prefix + " §aYou have been exploded!")
+            }
+            sender.sendMessage(Config.prefix + " §aExploded ${targets.size} players!")
         }
 
         return false

@@ -1,4 +1,4 @@
-package dev.luckynetwork.id.lyrams.commands.features
+package dev.luckynetwork.id.lyrams.commands.features.essentials
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.Config
@@ -86,5 +86,5 @@ class EditSignCMD : CommandExecutor {
 private fun sendUsage(sender: CommandSender) {
     sender.sendMessage("§cUsage: /editsign <line> <text>")
     sender.sendMessage("§cUsage: /editsign <clear> <line>")
-    sender.sendMessage("§cUsage: /editsign <clear>")
+    sender.sendMessage("§cUsage: /editsign clear")
 }

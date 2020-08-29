@@ -1,4 +1,4 @@
-package dev.luckynetwork.id.lyrams.commands.features
+package dev.luckynetwork.id.lyrams.commands.features.essentials
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.checkPermissionSilent

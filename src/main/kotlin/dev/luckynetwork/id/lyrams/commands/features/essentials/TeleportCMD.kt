@@ -1,4 +1,4 @@
-package dev.luckynetwork.id.lyrams.commands.features
+package dev.luckynetwork.id.lyrams.commands.features.essentials
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.Config
@@ -48,7 +48,7 @@ class TeleportCMD : CommandExecutor {
                         return false
 
                     target.teleport(toTarget.location)
-                    sender.sendMessage(Config.prefix + " §aTeleported to ${args[0]}")
+                    sender.sendMessage(Config.prefix + " §aTeleported to ${toTarget.name}")
                 }
 
                 if (args.size == 2) {
@@ -76,9 +76,9 @@ class TeleportCMD : CommandExecutor {
                     when {
                         others -> {
                             sender.sendMessage(Config.prefix + " §aTeleported ${target.name} to ${args[1]}")
-                            target.sendMessage(Config.prefix + " §aTeleported you to ${args[1]}")
+                            target.sendMessage(Config.prefix + " §aTeleported you to ${toTarget.name}")
                         }
-                        else -> target.sendMessage(Config.prefix + " §aTeleported you to ${args[1]}")
+                        else -> target.sendMessage(Config.prefix + " §aTeleported you to ${toTarget.name}")
                     }
 
                 }
@@ -107,36 +107,36 @@ class TeleportCMD : CommandExecutor {
                     others = true
                 }
 
-                when (args.size + offset) {
+                when (args.size - offset) {
                     6 -> {
                         world = Bukkit.getWorld(args[0 + offset])
-                        x = args[1 + offset].toDouble()
+                        x = args[1 + offset].toDouble() + 0.5
                         y = args[2 + offset].toDouble()
-                        z = args[3 + offset].toDouble()
+                        z = args[3 + offset].toDouble() + 0.5
                         yaw = args[4 + offset].toFloat()
                         pitch = args[5 + offset].toFloat()
                     }
                     5 -> {
                         world = sender.world
-                        x = args[0 + offset].toDouble()
+                        x = args[0 + offset].toDouble() + 0.5
                         y = args[1 + offset].toDouble()
-                        z = args[2 + offset].toDouble()
+                        z = args[2 + offset].toDouble() + 0.5
                         yaw = args[3 + offset].toFloat()
                         pitch = args[4 + offset].toFloat()
                     }
                     4 -> {
                         world = Bukkit.getWorld(args[0 + offset])
-                        x = args[1 + offset].toDouble()
+                        x = args[1 + offset].toDouble() + 0.5
                         y = args[2 + offset].toDouble()
-                        z = args[3 + offset].toDouble()
+                        z = args[3 + offset].toDouble() + 0.5
                         yaw = sender.location.yaw
                         pitch = sender.location.pitch
                     }
                     3 -> {
                         world = sender.world
-                        x = args[0 + offset].toDouble()
+                        x = args[0 + offset].toDouble() + 0.5
                         y = args[1 + offset].toDouble()
-                        z = args[2 + offset].toDouble()
+                        z = args[2 + offset].toDouble() + 0.5
                         yaw = sender.location.yaw
                         pitch = sender.location.pitch
                     }

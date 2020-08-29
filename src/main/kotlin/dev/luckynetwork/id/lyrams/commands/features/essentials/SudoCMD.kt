@@ -1,4 +1,4 @@
-package dev.luckynetwork.id.lyrams.commands.features
+package dev.luckynetwork.id.lyrams.commands.features.essentials
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.Config
@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class FeedCMD : CommandExecutor {
+class SudoCMD : CommandExecutor {
 
     override fun onCommand(
         sender: CommandSender,
@@ -16,7 +16,8 @@ class FeedCMD : CommandExecutor {
         commandName: String,
         args: Array<out String>
     ): Boolean {
-        if (!sender.checkPermission("feed"))
+
+        if (!sender.checkPermission("sudo"))
             return false
 
         var target: Player
@@ -42,9 +43,12 @@ class FeedCMD : CommandExecutor {
             } else
                 sender
 
-        var others = false
+        if (args.isEmpty()) {
+            sender.sendMessage(Config.prefix + " §cPlease provide a player!")
+            return false
+        }
 
-        if (args.isNotEmpty() && sender is Player) {
+        if (sender is Player) {
             if (Bukkit.getPlayer(args[0]) == null) {
                 sender.sendMessage(Config.prefix + " §cPlayer not found!")
                 return false
@@ -52,26 +56,36 @@ class FeedCMD : CommandExecutor {
 
             target = Bukkit.getPlayer(args[0]) as Player
 
-            others = true
         }
 
-        if (!sender.checkPermission("feed", others))
+        if (target == sender) {
+            sender.sendMessage(Config.prefix + " §cYou can't sudo yourself!")
             return false
-
-        target.foodLevel = 20
-        target.saturation = 20f
-
-        when {
-            others -> {
-                sender.sendMessage(Config.prefix + " §a§l" + target.name + " §ahas been fed!")
-                target.sendMessage(Config.prefix + " §aYou have been fed!")
-            }
-            else -> {
-                target.sendMessage(Config.prefix + " §aYou have been fed!")
-            }
         }
+
+        if (args.size < 2) {
+            sender.sendMessage(Config.prefix + " §cInvalid usage!")
+            return false
+        }
+
+        val argsAsString = args.joinToString(" ")
+            .split(target.name + " ")[1]
+
+        if (!argsAsString.startsWith("c:"))
+            executeCommand(target, argsAsString)
+        else
+            target.chat(argsAsString.split("c:")[1])
 
         return false
+
     }
 
+}
+
+fun executeCommand(sender: CommandSender, command: String) {
+    var toExec = command
+    if (command.startsWith("/"))
+        toExec = command.replaceFirst("/", "")
+
+    Bukkit.dispatchCommand(sender, toExec)
 }

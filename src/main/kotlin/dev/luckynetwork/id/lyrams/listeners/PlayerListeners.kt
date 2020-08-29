@@ -1,6 +1,7 @@
 package dev.luckynetwork.id.lyrams.listeners
 
 import dev.luckynetwork.id.lyrams.LuckyEssentials
+import dev.luckynetwork.id.lyrams.extensions.applyMetadata
 import dev.luckynetwork.id.lyrams.extensions.checkPermissionSilent
 import dev.luckynetwork.id.lyrams.extensions.removeMetadata
 import dev.luckynetwork.id.lyrams.objects.Slots
@@ -19,9 +20,25 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerChangedWorldEvent
+import org.bukkit.event.player.PlayerInteractAtEntityEvent
 import org.bukkit.event.player.PlayerLoginEvent
 
+
 class PlayerListeners : Listener {
+
+    @EventHandler
+    fun onInteract(event: PlayerInteractAtEntityEvent) {
+        val player = event.player
+        val target = event.rightClicked
+
+        if (target !is Player || !player.hasMetadata("vanished"))
+            return
+
+        player.closeInventory()
+        player.openInventory(target.inventory)
+        player.applyMetadata("INVSEE", true)
+
+    }
 
     @EventHandler
     fun onPlayerDamage(event: EntityDamageEvent) {
@@ -179,14 +196,12 @@ class PlayerListeners : Listener {
         val topInventory = event.view.topInventory
         val inventoryType = topInventory.type
         val player = event.player as Player
-        val refreshPlayer: Player
 
         when (inventoryType) {
             InventoryType.PLAYER -> {
                 if (player.hasMetadata("INVSEE"))
                     player.removeMetadata("INVSEE")
 
-                refreshPlayer = player
             }
 
             InventoryType.CHEST -> {
@@ -198,15 +213,13 @@ class PlayerListeners : Listener {
                 if (player.hasMetadata("INVSEE"))
                     player.removeMetadata("INVSEE")
 
-                refreshPlayer = player
-
             }
 
             else -> return
 
         }
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(LuckyEssentials.instance, refreshPlayer::updateInventory, 1)
+        Bukkit.getScheduler().scheduleSyncDelayedTask(LuckyEssentials.instance, player::updateInventory, 1)
 
     }
 

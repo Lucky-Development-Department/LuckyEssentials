@@ -1,10 +1,11 @@
-package dev.luckynetwork.id.lyrams.commands.features
+package dev.luckynetwork.id.lyrams.commands.features.essentials
 
+import com.google.common.base.Joiner
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.extensions.getTargetPlayer
 import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.objects.XEnchantment
 import dev.luckynetwork.id.lyrams.objects.XItemStack
-import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -29,44 +30,69 @@ class GiveCMD : CommandExecutor {
         commandName: String,
         args: Array<out String>
     ): Boolean {
-        var target: Player
-
         if (!sender.checkPermission("give"))
             return false
 
         // get where should the args start from...
         // its complicated :/
         val offset =
-            if (commandName.equals("i", true)) 0
-            else 1
-
-        // casts target
-        target =
-                // if console executes this
-            if (sender !is Player) {
-                // console must specify a player
-                if (args.isEmpty()) {
-                    sendUsage(sender)
-                    return false
-                }
-
-                if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage(Config.prefix + " §cPlease specify a player!")
-                    return false
-                }
-
-                Bukkit.getPlayer(args[0])
-
-                // if executed by player
-            } else
-                sender
-
-        // a variable to determine if this command is used to give other
-        // players items
-        var others = false
+            if (commandName.equals("i", true))
+                0
+            else
+                1
 
         // please specify at least the items... duh
         if (args.isEmpty()) {
+            sendUsage(sender)
+            return false
+        }
+
+        var targets = ArrayList<Player>()
+        val targetNames = ArrayList<String>()
+        var others = false
+        var amount = -1
+
+        // now the target casting...
+        // boi this gonna be a confusing one
+
+        if (sender is Player) {
+
+            if (commandName.equals("i", true)) {
+                targets.add(sender)
+            } else {
+                targets = args.getTargetPlayer(sender, 0)
+                others = !targets.contains(sender) || targets.size > 1
+            }
+
+            // did sender specify the item amount?
+            if (args.size > 1 + offset) {
+                try {
+                    amount = args[1 + offset].toInt()
+                } catch (ignored: Exception) {
+                    sender.sendMessage(Config.prefix + " §cPlease specify a valid amount")
+                    return false
+                }
+            }
+
+        } else if (!args[offset + 1].contains("-")) {
+
+            try {
+                amount = args[offset + 1].toInt()
+            } catch (ignored: Exception) {
+                sender.sendMessage(Config.prefix + " §cPlayer not found!")
+                return false
+            }
+
+        }
+
+        if (targets.isEmpty())
+            return false
+
+        // now the actual permission checking
+        if (!sender.checkPermission("give", others))
+            return false
+
+        if (commandName.equals("give", true) && args.size < 2) {
             sendUsage(sender)
             return false
         }
@@ -82,9 +108,6 @@ class GiveCMD : CommandExecutor {
             if (args[offset].contains(":"))
                 args[offset].split(":")[1].toInt()
             else 0
-
-        // how much
-        var amount = -1
 
         // any more properties for the item
         var itemName = ""
@@ -113,47 +136,6 @@ class GiveCMD : CommandExecutor {
                 .split(" ")[0]
                 .split(",")
 
-
-        // is sender is giving items to other player
-        if (args.size > 1) {
-            if (Bukkit.getPlayer(args[0]) != null && sender is Player) {
-                target = Bukkit.getPlayer(args[0]) as Player
-
-                others = true
-
-                // did sender specify the item amount?
-                if (args.size > 2) {
-                    try {
-                        amount = args[2].toInt()
-                    } catch (ignored: Exception) {
-                        sender.sendMessage(Config.prefix + " §c" + args[2] + " is not a number")
-                        return false
-                    }
-
-                }
-
-                // surely args[0 + offset] is for the item amount, right?
-            } else {
-
-                if (!args[offset + 1].contains("-")) {
-
-                    try {
-                        amount = args[offset + 1].toInt()
-                    } catch (ignored: Exception) {
-                        sender.sendMessage(Config.prefix + " §cPlayer not found!")
-                        return false
-                    }
-
-                }
-
-            }
-
-        }
-
-        // now the actual permission checking
-        if (!sender.checkPermission("give", others))
-            return false
-
         var itemStack: ItemStack?
 
         try {
@@ -174,6 +156,7 @@ class GiveCMD : CommandExecutor {
 
         if (itemName.isNotEmpty()) {
             val itemMeta: ItemMeta = itemStack.itemMeta
+
             itemMeta.displayName = ChatColor.translateAlternateColorCodes('&', itemName)
             itemStack.itemMeta = itemMeta
         }
@@ -198,37 +181,42 @@ class GiveCMD : CommandExecutor {
 
         }
 
+        targets.forEach {
 
-        val leftOvers = addOversizedItems(
-            target.inventory,
-            itemStack
-        )
+            val leftOvers = addOversizedItems(
+                it.inventory,
+                itemStack
+            )
 
 
-        for (item in leftOvers.values) {
-            val world = target.world
-            world.dropItemNaturally(target.location, item)
+            for (item in leftOvers.values) {
+                val world = it.world
+                world.dropItemNaturally(it.location, item)
+            }
+
+            it.updateInventory()
+            it.sendMessage(Config.prefix + " §aGave you ${itemStack.amount}x ${(itemStack.type).toString().toLowerCase()}!")
+            targetNames.add(it.name)
+
         }
 
-        target.updateInventory()
-
-        when {
-            others -> {
+        if (others) {
+            if (targets.size < 21)
                 sender.sendMessage(
-                    Config.prefix + " §aGiven §l" + target.name + " §a${itemStack.amount}x ${
-                        (itemStack.type).toString()
-                            .toLowerCase()
-                    }!"
+                    Config.prefix + " §aGiven §l" + Joiner.on(", ").join(targetNames) + " §a${itemStack.amount}x " +
+                            "${
+                                (itemStack.type).toString()
+                                    .toLowerCase()
+                            }!"
                 )
-                target.sendMessage(
-                    Config.prefix + " §aGave you ${itemStack.amount}x ${(itemStack.type).toString().toLowerCase()}!"
+            else
+                sender.sendMessage(
+                    Config.prefix + " §aGiven §l" + targets.size + " players §a${itemStack.amount}x " +
+                            "${
+                                (itemStack.type).toString()
+                                    .toLowerCase()
+                            }!"
                 )
-            }
-            else -> {
-                target.sendMessage(
-                    Config.prefix + " §aGave you ${itemStack.amount}x ${(itemStack.type).toString().toLowerCase()}!"
-                )
-            }
         }
 
         return false

@@ -1,4 +1,4 @@
-package dev.luckynetwork.id.lyrams.commands.features
+package dev.luckynetwork.id.lyrams.commands.features.essentials
 
 import dev.luckynetwork.id.lyrams.extensions.applyMetadata
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
@@ -37,11 +37,10 @@ class InvseeCMD : CommandExecutor {
             }
 
         val inventory =
-            if (args.size > 1) {
+            if (args.size > 1)
                 Bukkit.getServer().createInventory(target, 9, "Equipment")
-            } else {
+            else
                 target.inventory
-            }
 
         if (args.size > 1)
             inventory.contents = target.inventory.armorContents
