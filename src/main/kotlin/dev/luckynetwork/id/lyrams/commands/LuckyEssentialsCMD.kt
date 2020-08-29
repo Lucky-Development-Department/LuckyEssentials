@@ -52,7 +52,7 @@ class LuckyEssentialsCMD : CommandExecutor {
                 sender.sendMessage("§cUsage: /less pm disable <plugin>")
                 sender.sendMessage("§cUsage: /less pm enable <plugin>")
                 sender.sendMessage("§cUsage: /less pm info <plugin>")
-                sender.sendMessage("§cUsage: /less pm list <plugin> [-v]")
+                sender.sendMessage("§cUsage: /less pm list [-v]")
                 sender.sendMessage("§cUsage: /less pm load <plugin>")
                 sender.sendMessage("§cUsage: /less pm lookup <command>")
                 sender.sendMessage("§cUsage: /less pm reload <plugin>")

@@ -94,7 +94,7 @@ class TeleportAllCMD : CommandExecutor {
 
                     toTarget = Bukkit.getPlayer(args[0])
 
-                    if (!sender.checkPermission("teleport", true))
+                    if (!sender.checkPermission("teleportall", true))
                         return false
 
                     targets = Bukkit.getOnlinePlayers().filter { it != toTarget }
