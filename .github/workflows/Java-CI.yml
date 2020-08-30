@@ -23,5 +23,3 @@ jobs:
         with:
           name: LuckyEssentials-1.2.0
           path: build/libs/LuckyEssentials-1.2.0.jar
-          if-no-files-found:
-            warn: LuckyEssentials-1.2.0.jar not found!
