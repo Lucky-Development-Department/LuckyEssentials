@@ -56,9 +56,11 @@ object XEnchantment {
         ENCHANTMENT_MAP["FORTUNE"] = Enchantment.LOOT_BONUS_BLOCKS
 
         ENCHANTMENT_MAP["POWER"] = Enchantment.ARROW_DAMAGE
+        ENCHANTMENT_MAP["POW"] = Enchantment.ARROW_DAMAGE
         ENCHANTMENT_MAP["PUNCH"] = Enchantment.ARROW_KNOCKBACK
         ENCHANTMENT_MAP["FLAME"] = Enchantment.ARROW_FIRE
         ENCHANTMENT_MAP["INFINITY"] = Enchantment.ARROW_INFINITE
+        ENCHANTMENT_MAP["INF"] = Enchantment.ARROW_INFINITE
 
         ENCHANTMENT_MAP["LOTS"] = Enchantment.LUCK
         ENCHANTMENT_MAP["LUCKOFTHESEA"] = Enchantment.LUCK

@@ -17,14 +17,15 @@ class LuckyEssentials : JavaPlugin() {
     companion object {
 
         lateinit var instance: LuckyEssentials
+        var isChatLocked: Boolean = false
 
     }
 
 
     override fun onEnable() {
 
-        if (Bukkit.getPluginManager().getPlugin("LuckyInjector") == null)
-            Bukkit.getLogger().warning("LuckyInjector not found! Plugin might not load!")
+        if (Bukkit.getPluginManager().getPlugin("LuckyInjector") == null && Bukkit.getPluginManager().getPlugin("KtLoader") == null)
+            Bukkit.getLogger().warning("LuckyInjector or KtLoader not found! Plugin might not load!")
 
         instance = this
 
@@ -52,6 +53,7 @@ class LuckyEssentials : JavaPlugin() {
         getCommand("luckyessentials").executor = LuckyEssentialsCMD()
         getCommand("luckyessentials").tabCompleter = PluginsTabCompleter()
 
+        getCommand("chatlock").executor = ChatLockCMD()
         getCommand("clear").executor = ClearCMD()
         getCommand("editsign").executor = EditSignCMD()
         getCommand("enchant").executor = EnchantCMD()
@@ -76,6 +78,7 @@ class LuckyEssentials : JavaPlugin() {
         getCommand("nopickup").executor = NoPickupCMD()
         getCommand("noplace").executor = NoPlaceCMD()
         getCommand("onetap").executor = OneTapCMD()
+        getCommand("playerinfo").executor = PlayerInfoCMD()
         getCommand("slots").executor = SlotsCMD()
         getCommand("smite").executor = SmiteCMD()
         getCommand("speed").executor = SpeedCMD()

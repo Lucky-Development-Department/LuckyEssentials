@@ -1,30 +1,34 @@
 name: @name@
-version: 1.1.1
+version: 1.2.0
 author: LyraMS
 main: @mainClass@
-softdepend: [MYSlots, LuckyInjector]
+softdepend: [ MYSlots, LuckyInjector, KtLoader ]
 
 commands:
   luckyessentials:
-    aliases: [less, ess]
+    aliases: [ less, ess ]
+  chatlock:
+    aliases: [ cl ]
   clear:
-    aliases: [ci]
+    aliases: [ ci ]
   ewhitelist:
-    aliases: [ewl, wl, whitelist]
+    aliases: [ ewl, wl, whitelist ]
   feed:
-    aliases: [eat]
+    aliases: [ eat ]
   gamemode:
-    aliases: [gm, gmc, gms, gmsp, gma]
+    aliases: [ gm, gmc, gms, gmsp, gma ]
   give:
-    aliases: [i]
+    aliases: [ i ]
+  playerinfo:
+    aliases: [ pinfo ]
   smite:
-    aliases: [thor]
+    aliases: [ thor ]
   teleportall:
     aliases: [ tpall, tpallpos ]
   teleport:
-    aliases: [tp, tppos, tphere, s]
+    aliases: [ tp, tppos, tphere, s ]
   troll:
-    aliases: [trolls]
+    aliases: [ trolls ]
   editsign:
   enchant:
   explode:

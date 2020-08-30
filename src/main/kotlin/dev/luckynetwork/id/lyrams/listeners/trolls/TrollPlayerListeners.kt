@@ -7,6 +7,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
@@ -77,7 +78,7 @@ class TrollPlayerListeners : Listener {
 
             Bukkit.getScheduler().runTaskLater(LuckyEssentials.instance, {
                 block.type = Material.AIR
-            }, 7L)
+            }, 17L)
 
         }
 
@@ -102,8 +103,12 @@ class TrollPlayerListeners : Listener {
 
         val player = event.player
 
-        if (player.hasMetadata("NOINTERACT"))
-            event.isCancelled = true
+        if (player.hasMetadata("NOINTERACT")) {
+
+            if (event.action != Action.RIGHT_CLICK_BLOCK || !event.isBlockInHand)
+                event.isCancelled = true
+
+        }
 
     }
 

@@ -453,6 +453,7 @@ object XItemStack {
         ITEMSTACK_MAP["NAMETAG"] = ItemStack(Material.NAME_TAG, 1)
         ITEMSTACK_MAP["FLINTANDSTEEL"] = ItemStack(Material.FLINT_AND_STEEL, 1)
         ITEMSTACK_MAP["FLINTSTEEL"] = ItemStack(Material.FLINT_AND_STEEL, 1)
+        ITEMSTACK_MAP["FNS"] = ItemStack(Material.FLINT_AND_STEEL, 1)
         ITEMSTACK_MAP["LIGHTER"] = ItemStack(Material.FLINT_AND_STEEL, 1)
         ITEMSTACK_MAP["FISHINGROD"] = ItemStack(Material.FISHING_ROD, 1)
         ITEMSTACK_MAP["ROD"] = ItemStack(Material.FISHING_ROD, 1)
@@ -460,6 +461,9 @@ object XItemStack {
         ITEMSTACK_MAP["WETSPONGE"] = ItemStack(Material.SPONGE, 1, 1)
         ITEMSTACK_MAP["LAPIS"] = ItemStack(Material.INK_SACK, 1, 4)
         ITEMSTACK_MAP["LAPISLAZULI"] = ItemStack(Material.INK_SACK, 1, 4)
+        ITEMSTACK_MAP["COMMANDBLOCK"] = ItemStack(Material.COMMAND, 1, 0)
+        ITEMSTACK_MAP["CMD"] = ItemStack(Material.COMMAND, 1, 0)
+        ITEMSTACK_MAP["COMMAND_BLOCK"] = ItemStack(Material.COMMAND, 1, 0)
 
 
         // colorful(gay) bed

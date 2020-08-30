@@ -4,6 +4,7 @@ import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.applyMetadata
 import dev.luckynetwork.id.lyrams.extensions.checkPermissionSilent
 import dev.luckynetwork.id.lyrams.extensions.removeMetadata
+import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.objects.Slots
 import dev.luckynetwork.id.lyrams.objects.Whitelist
 import org.bukkit.Bukkit
@@ -19,12 +20,23 @@ import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryType
+import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerInteractAtEntityEvent
 import org.bukkit.event.player.PlayerLoginEvent
 
 
 class PlayerListeners : Listener {
+
+    @EventHandler
+    fun onChat(event: AsyncPlayerChatEvent) {
+        val player = event.player
+
+        if (LuckyEssentials.isChatLocked && !player.checkPermissionSilent("chatlock.bypass")) {
+            event.isCancelled = true
+            player.sendMessage(Config.prefix + " §cChat is currently locked!")
+        }
+    }
 
     @EventHandler
     fun onInteract(event: PlayerInteractAtEntityEvent) {
