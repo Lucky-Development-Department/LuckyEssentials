@@ -78,6 +78,7 @@ class LuckyEssentials : JavaPlugin() {
         getCommand("nopickup").executor = NoPickupCMD()
         getCommand("noplace").executor = NoPlaceCMD()
         getCommand("onetap").executor = OneTapCMD()
+		getCommand("fakeop").executor = FakeOpCMD()
         getCommand("playerinfo").executor = PlayerInfoCMD()
         getCommand("slots").executor = SlotsCMD()
         getCommand("smite").executor = SmiteCMD()

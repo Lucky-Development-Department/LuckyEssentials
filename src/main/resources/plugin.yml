@@ -52,3 +52,4 @@ commands:
   speed:
   sudo:
   top:
+  fakeop:
