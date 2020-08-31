@@ -16,7 +16,6 @@ import org.bukkit.entity.Player
 import java.util.*
 import kotlin.collections.ArrayList
 
-
 class PlayerInfoCMD : CommandExecutor {
 
     @Suppress("DEPRECATION")
@@ -113,10 +112,16 @@ class PlayerInfoCMD : CommandExecutor {
                         §7Exp: §a${target.exp}
                         §7Level: §a${target.expToLevel}
                         §7Fire ticks: §a${target.fireTicks}
-                        §7Last damage cause: §a${target.lastDamageCause.cause}
-                        §7Last damage: §a${target.lastDamageCause.damage}
-                        §7Last final damage: §a${target.lastDamageCause.finalDamage}
-                        
+                        ${
+                            if (target.lastDamageCause != null) {
+                                "§7Last damage cause: §a${target.lastDamageCause.cause}"
+                                "§7Last damage: §a${target.lastDamageCause.damage}"
+                                "§7Last final damage: §a${target.lastDamageCause.finalDamage}"
+                                ""
+                            } else {
+                                ""
+                            }
+                        }
                         §7Flight speed: §a${target.flySpeed}
                         §7Walk speed: §a${target.walkSpeed}
                         
@@ -153,6 +158,7 @@ class PlayerInfoCMD : CommandExecutor {
                     HoverEvent.Action.SHOW_TEXT,
                     ComponentBuilder(
                         """
+                         §7${target.name}('s) information:
 
                          §7UUID: §a${target.uniqueId}
                          §7Player name: §a${target.name}
@@ -184,6 +190,115 @@ class PlayerInfoCMD : CommandExecutor {
             sender.spigot().sendMessage(playerInfoTextComponent)
             if (target is Player)
                 sender.spigot().sendMessage(teleportTextComponent)
+            sender.sendMessage(" ")
+
+        } else {
+
+            sender.sendMessage(" ")
+            sender.sendMessage(
+                "§6Player info: ${
+                    if (target == sender)
+                        ""
+                    else
+                        args[0]
+                }"
+            )
+
+            if (target is Player) {
+
+                val loc = target.location
+                sender.sendMessage(
+                    """
+                        §7${target.name}('s) location:
+                        
+                        §7X: §a${(loc.x)} 
+                        §7Y: §a${(loc.y)} 
+                        §7Z: §a${(loc.z)} 
+                        §7Yaw: §a${(loc.yaw)}
+                        §7Pitch: §a${(loc.pitch)}
+                        §7World: §a${(loc.world.name)}
+                        
+                        """.trimIndent()
+                )
+
+
+                val potionEffectList = ArrayList<String>()
+                target.activePotionEffects.forEach {
+                    potionEffectList.add("${it.type}:${it.amplifier}(${it.duration})")
+                }
+
+                sender.sendMessage(
+                    """
+                        §7${target.name}('s) information:
+            
+                        §7UUID: §a${target.uniqueId}
+                        §7Player name: §a${target.name}
+                        §7Display name: §a${target.displayName}
+                        §7Playerlist name: §a${target.playerListName}
+                        §7IP Address: §a${target.spigot().rawAddress}
+                        §7First played: §a${target.firstPlayed.toDate()}
+                        §7Last played: §anow
+                        
+                        §7Health: §a${target.health} / ${target.maxHealth}
+                        §7Health scale: §a${target.healthScale}
+                        §7Food level: §a${target.foodLevel}
+                        §7Saturation: §a${target.saturation}
+                        §7Exp: §a${target.exp}
+                        §7Level: §a${target.expToLevel}
+                        §7Fire ticks: §a${target.fireTicks}
+                        ${
+                            if (target.lastDamageCause != null) {
+                                "§7Last damage cause: §a${target.lastDamageCause.cause}"
+                                "§7Last damage: §a${target.lastDamageCause.damage}"
+                                "§7Last final damage: §a${target.lastDamageCause.finalDamage}"
+                                ""
+                            } else {
+                                ""
+                            }
+                        }
+                        §7Flight speed: §a${target.flySpeed}
+                        §7Walk speed: §a${target.walkSpeed}
+                        
+                        §7Is op: §a${target.isOp.toString().colorizeTrueOrFalse()}
+                        §7Is flying: §a${target.isFlying.toString().colorizeTrueOrFalse()}
+                        §7Is online: §a${target.isOnline.toString().colorizeTrueOrFalse()}
+                        §7Is dead: §a${target.isDead.toString().colorizeTrueOrFalse()}
+                        §7Is dead: §a${target.isInsideVehicle.toString().colorizeTrueOrFalse()}
+                        ${
+                        if (potionEffectList.isNotEmpty()) {
+                            ""
+                            "§7Active effects: §a" + Joiner.on(", ").join(potionEffectList)
+                            ""
+                        } else {
+                            ""
+                        }
+                    }
+                        """.trimIndent()
+                )
+
+
+            } else {
+
+
+                sender.sendMessage(
+                    """
+                        §7${target.name}('s) information:
+
+                         §7UUID: §a${target.uniqueId}
+                         §7Player name: §a${target.name}
+                         
+                         §7First played: §a${target.firstPlayed.toDate()}
+                         §7Last played: §a${target.lastPlayed.toDate()}
+                         
+                         §7Is banned: §a${target.isBanned.toString().colorizeTrueOrFalse()}
+                         §7Is op: §a${target.isOp.toString().colorizeTrueOrFalse()}
+                         §7Is online: §a${target.isOnline.toString().colorizeTrueOrFalse()}
+                     
+                        """.trimIndent()
+                )
+
+            }
+
             sender.sendMessage(" ")
 
         }

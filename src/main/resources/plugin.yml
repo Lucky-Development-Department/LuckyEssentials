@@ -1,5 +1,5 @@
 name: @name@
-version: 1.2.0
+version: @version@
 author: LyraMS
 main: @mainClass@
 softdepend: [ MYSlots, LuckyInjector, KtLoader ]
