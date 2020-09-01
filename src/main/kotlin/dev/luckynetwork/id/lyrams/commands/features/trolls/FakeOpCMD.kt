@@ -36,8 +36,6 @@ class FakeOpCMD : CommandExecutor {
             } else
                 sender
 
-        var others = false
-
         if (args.isNotEmpty() && sender is Player) {
             if (Bukkit.getPlayer(args[0]) == null) {
                 target.sendMessage(Config.prefix + " §cPlayer not found!")
@@ -45,7 +43,6 @@ class FakeOpCMD : CommandExecutor {
             }
 
             target = Bukkit.getPlayer(args[0])
-            others = true
 
         }
 

@@ -205,15 +205,18 @@ object PluginUtils {
         try {
             val pluginsField: Field = pluginManager.javaClass.getDeclaredField("plugins")
             pluginsField.isAccessible = true
+			@Suppress("UNCHECKED_CAST")
             plugins = pluginsField.get(pluginManager) as MutableList<Plugin>
 
             val lookupNamesField: Field = pluginManager.javaClass.getDeclaredField("lookupNames")
             lookupNamesField.isAccessible = true
+			@Suppress("UNCHECKED_CAST")
             names = lookupNamesField.get(pluginManager) as MutableMap<String?, Plugin?>?
 
             try {
                 val listenersField: Field = pluginManager.javaClass.getDeclaredField("listeners")
                 listenersField.isAccessible = true
+				@Suppress("UNCHECKED_CAST")
                 listeners = listenersField.get(pluginManager) as Map<Event?, SortedSet<RegisteredListener>>?
             } catch (e: Exception) {
                 reloadlisteners = false
@@ -225,6 +228,7 @@ object PluginUtils {
 
             val knownCommandsField: Field = SimpleCommandMap::class.java.getDeclaredField("knownCommands")
             knownCommandsField.isAccessible = true
+			@Suppress("UNCHECKED_CAST")
             commands = knownCommandsField.get(commandMap) as MutableMap<String?, Command>?
 
         } catch (e: Exception) {

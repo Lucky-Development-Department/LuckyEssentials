@@ -132,6 +132,7 @@ class PlayerInfoCMD : CommandExecutor {
                         §7Is dead: §a${target.isInsideVehicle.toString().colorizeTrueOrFalse()}
                         ${
                             if (potionEffectList.isNotEmpty()) {
+								@Suppress("UNUSED_EXPRESSION")
                                 ""
                                 "§7Active effects: §a" + Joiner.on(", ").join(potionEffectList)
                                 ""
@@ -266,6 +267,7 @@ class PlayerInfoCMD : CommandExecutor {
                         §7Is dead: §a${target.isInsideVehicle.toString().colorizeTrueOrFalse()}
                         ${
                         if (potionEffectList.isNotEmpty()) {
+							@Suppress("UNUSED_EXPRESSION")
                             ""
                             "§7Active effects: §a" + Joiner.on(", ").join(potionEffectList)
                             ""
