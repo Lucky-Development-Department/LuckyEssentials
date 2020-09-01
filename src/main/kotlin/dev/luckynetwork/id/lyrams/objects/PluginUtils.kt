@@ -16,7 +16,6 @@ import java.lang.reflect.Field
 import java.net.URLClassLoader
 import java.util.*
 
-
 /**
  * @credit Plugman
  * @link https://github.com/r-clancy/PlugMan
@@ -160,6 +159,7 @@ object PluginUtils {
                             break
                         }
                     } catch (e: InvalidDescriptionException) {
+                        e.printStackTrace()
                         return false
                     }
                 }
@@ -187,13 +187,10 @@ object PluginUtils {
      */
     fun unload(plugin: Plugin): Boolean {
         val name = plugin.name
-
         val pluginManager: PluginManager = Bukkit.getPluginManager()
-
         val commandMap: SimpleCommandMap?
 
         val plugins: MutableList<Plugin>
-
         val names: MutableMap<String?, Plugin?>?
         val commands: MutableMap<String?, Command>?
         var listeners: Map<Event?, SortedSet<RegisteredListener>>? = null
