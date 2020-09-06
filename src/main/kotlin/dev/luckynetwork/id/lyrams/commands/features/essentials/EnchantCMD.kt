@@ -2,7 +2,7 @@ package dev.luckynetwork.id.lyrams.commands.features.essentials
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.Config
-import dev.luckynetwork.id.lyrams.objects.XEnchantment
+import dev.luckynetwork.id.lyrams.enums.XEnchantment
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
