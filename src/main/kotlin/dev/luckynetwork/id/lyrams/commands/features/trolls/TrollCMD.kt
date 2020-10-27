@@ -4,59 +4,45 @@ import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.colorizeTrueOrFalse
 import dev.luckynetwork.id.lyrams.extensions.removeMetadata
 import dev.luckynetwork.id.lyrams.objects.Config
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.Bukkit
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class TrollCMD : CommandExecutor {
+class TrollCMD : BetterCommand {
 
-    override fun onCommand(sender: CommandSender, command: Command, cmd: String, args: Array<out String>): Boolean {
-
-        if (!Config.trollEnabled)
-            return false
-
-        if (!sender.checkPermission("troll"))
-            return false
+    override fun execute(sender: CommandSender, args: Array<String>) {
+        if (!Config.trollEnabled || !sender.checkPermission("troll"))
+            return
 
         var others = false
 
         if (args.isEmpty() && sender is Player) {
             sender.sendMessage("§cUsage: /troll check [player]")
             sender.sendMessage("§cUsage: /troll clear [player]")
-            return false
+            return
         }
 
         var target: Player
-
         when (args[0].toUpperCase()) {
             "CHECK", "INFO" -> {
-
                 target =
                         // if console executes this
                     if (sender !is Player) {
                         // console must specify a player
-                        if (args.isEmpty()) {
-                            sender.sendMessage(Config.prefix + " §cInvalid usage!")
-                            return false
-                        }
+                        if (args.isEmpty())
+                            return sender.sendMessage(Config.prefix + " §cInvalid usage!")
 
-                        if (Bukkit.getPlayer(args[1]) == null) {
-                            sender.sendMessage(Config.prefix + " §cPlayer not found!")
-                            return false
-                        }
+                        if (Bukkit.getPlayer(args[1]) == null)
+                            return sender.sendMessage(Config.prefix + " §cPlayer not found!")
 
                         Bukkit.getPlayer(args[1])
-
-                        // if executed by player
                     } else
                         sender
 
                 if (args.size == 2 && sender is Player) {
                     if (Bukkit.getPlayer(args[1]) == null) {
-                        target.sendMessage(Config.prefix + " §cPlayer not found!")
-                        return false
+                        return target.sendMessage(Config.prefix + " §cPlayer not found!")
                     } else {
                         target = Bukkit.getPlayer(args[1])
                         others = true
@@ -65,7 +51,7 @@ class TrollCMD : CommandExecutor {
 
 
                 if (!sender.checkPermission("troll", others))
-                    return false
+                    return
 
                 sender.sendMessage("§6${target.name}('s) active troll attributes:")
                 sender.sendMessage("§6FakePlace: ${target.hasMetadata("FAKEPLACE").toString().colorizeTrueOrFalse()}")
@@ -80,69 +66,47 @@ class TrollCMD : CommandExecutor {
             }
 
             "CLEAR" -> {
-
                 target =
                         // if console executes this
                     if (sender !is Player) {
                         // console must specify a player
-                        if (args.isEmpty()) {
-                            sender.sendMessage(Config.prefix + " §cInvalid usage!")
-                            return false
-                        }
+                        if (args.isEmpty())
+                            return sender.sendMessage(Config.prefix + " §cInvalid usage!")
 
-                        if (Bukkit.getPlayer(args[1]) == null) {
-                            sender.sendMessage(Config.prefix + " §cPlayer not found!")
-                            return false
-                        }
+                        if (Bukkit.getPlayer(args[1]) == null)
+                            return sender.sendMessage(Config.prefix + " §cPlayer not found!")
 
                         Bukkit.getPlayer(args[1])
-
-                        // if executed by player
                     } else
                         sender
 
                 if (args.size == 2 && sender is Player) {
-                    if (Bukkit.getPlayer(args[1]) == null) {
-                        target.sendMessage(Config.prefix + " §cPlayer not found!")
-                        return false
-                    } else {
+                    if (Bukkit.getPlayer(args[1]) == null)
+                        return target.sendMessage(Config.prefix + " §cPlayer not found!")
+                    else {
                         target = Bukkit.getPlayer(args[1])
                         others = true
                     }
                 }
 
                 if (!sender.checkPermission("troll", others))
-                    return false
+                    return
 
-                if (target.hasMetadata("FAKEPLACE"))
-                    target.removeMetadata("FAKEPLACE")
-                if (target.hasMetadata("NOPICKUP"))
-                    target.removeMetadata("NOPICKUP")
-                if (target.hasMetadata("NODAMAGE"))
-                    target.removeMetadata("NODAMAGE")
-                if (target.hasMetadata("NOHIT"))
-                    target.removeMetadata("NOHIT")
-                if (target.hasMetadata("NOPLACE"))
-                    target.removeMetadata("NOPLACE")
-                if (target.hasMetadata("NOBREAK"))
-                    target.removeMetadata("NOBREAK")
-                if (target.hasMetadata("NOINTERACT"))
-                    target.removeMetadata("NOINTERACT")
-                if (target.hasMetadata("ONETAP"))
-                    target.removeMetadata("ONETAP")
-
+                target.removeMetadata("FAKEPLACE")
+                target.removeMetadata("NOPICKUP")
+                target.removeMetadata("NODAMAGE")
+                target.removeMetadata("NOHIT")
+                target.removeMetadata("NOPLACE")
+                target.removeMetadata("NOBREAK")
+                target.removeMetadata("NOINTERACT")
+                target.removeMetadata("ONETAP")
 
                 if (others)
                     sender.sendMessage(Config.prefix + " §aCleared Trolls for §l" + target.name + "!")
                 else
                     target.sendMessage(Config.prefix + " §aYou are no longer trolled!")
-
             }
-
         }
-
-        return false
-
     }
 
 }

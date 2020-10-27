@@ -1,33 +1,21 @@
 package dev.luckynetwork.id.lyrams.commands.features.essentials
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class MoreCMD : CommandExecutor {
+class MoreCMD : BetterCommand {
 
-    override fun onCommand(
-        sender: CommandSender,
-        command: Command,
-        commandName: String,
-        args: Array<out String>
-    ): Boolean {
-        if (sender !is Player)
-            return false
+    override fun execute(sender: CommandSender, args: Array<String>) {
+        if (sender !is Player || !sender.checkPermission("more"))
+            return
 
-        if (!sender.checkPermission("more"))
-            return false
-
-        sender.inventory.itemInHand ?: return false
+        sender.inventory.itemInHand ?: return
 
         val itemInHand = sender.inventory.itemInHand
-
         itemInHand.amount = 64
         sender.updateInventory()
-
-        return false
 
     }
 }

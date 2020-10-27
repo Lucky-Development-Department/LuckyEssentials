@@ -7,72 +7,49 @@ object Whitelist {
     var enabled = false
 
     fun add(name: String, save: Boolean = true): Boolean {
-
         var success = false
-
         if (!whitelistCache.contains(name.toLowerCase())) {
             whitelistCache.add(name.toLowerCase())
             success = true
         }
-
         if (save)
             save()
-        return success
 
+        return success
     }
 
     fun remove(name: String, save: Boolean = true): Boolean {
-
         var success = false
-
         if (whitelistCache.contains(name.toLowerCase())) {
             whitelistCache.remove(name.toLowerCase())
             success = true
         }
-
         if (save)
             save()
-        return success
 
+        return success
     }
 
     fun toggle(boolean: Boolean?): Boolean {
-
         enabled = boolean ?: !enabled
 
         save()
         return enabled
-
     }
 
-    fun list(): List<String> {
+    fun list(): List<String> = whitelistCache
 
-        return whitelistCache
-
-    }
-
-    fun isWhitelisted(name: String): Boolean {
-
-        return whitelistCache.contains(name)
-
-    }
+    fun isWhitelisted(name: String): Boolean = whitelistCache.contains(name)
 
     fun clear() {
-
         whitelistCache.clear()
-
         save()
-
     }
 
-    fun reload() {
-
+    fun reload() =
         Config.reloadWhitelist()
 
-    }
-
     fun save() {
-
         Config.whitelistData.set("whitelist.enabled", enabled)
         Config.whitelistData.set("whitelist.kick_message", kickMessage)
         Config.whitelistData.set("whitelist.whitelisted", whitelistCache)

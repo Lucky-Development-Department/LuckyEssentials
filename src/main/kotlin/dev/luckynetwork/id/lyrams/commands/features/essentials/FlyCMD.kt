@@ -3,32 +3,26 @@ package dev.luckynetwork.id.lyrams.commands.features.essentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.getTargetPlayer
 import dev.luckynetwork.id.lyrams.objects.Config
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class FlyCMD : CommandExecutor {
+class FlyCMD : BetterCommand {
 
-    override fun onCommand(
-        sender: CommandSender,
-        command: Command,
-        commandName: String,
-        args: Array<out String>
-    ): Boolean {
+    override fun execute(sender: CommandSender, args: Array<String>) {
         if (!sender.checkPermission("fly"))
-            return false
+            return
 
         val targets = args.getTargetPlayer(sender, 0)
         val flightMap = HashMap<Player, Boolean>()
 
         if (targets.isEmpty())
-            return false
+            return
 
         val others = !targets.contains(sender) || targets.size > 1
 
         if (!sender.checkPermission("fly", others))
-            return false
+            return
 
         targets.forEach {
             it.allowFlight = !it.allowFlight
@@ -56,8 +50,6 @@ class FlyCMD : CommandExecutor {
                 sender.sendMessage(Config.prefix + " §cToggled flight for §l" + targets.size + " players§a!")
 
         }
-
-        return false
 
     }
 

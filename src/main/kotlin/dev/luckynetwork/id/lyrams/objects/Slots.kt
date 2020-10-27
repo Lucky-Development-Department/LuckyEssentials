@@ -11,30 +11,19 @@ object Slots {
     var enabled = false
 
     fun set(int: Int) {
-
         amount = int
-
         save()
-
     }
 
     fun toggle(boolean: Boolean?): Boolean {
-
         enabled = boolean ?: !enabled
-
         save()
         return enabled
-
     }
 
-    fun getSlots(): Int {
-
-        return amount
-
-    }
+    fun getSlots(): Int = amount
 
     fun convert() {
-
         if (amount != -1)
             return
 
@@ -42,22 +31,18 @@ object Slots {
         val pluginManager = Bukkit.getPluginManager()
         logger.info("[MYSlots Converter] Attempting to convert slots data from MYSlots")
 
-        if (!pluginManager.isPluginEnabled("MYSlots")) {
-            logger.info("[MYSlots Converter] MYSlots not found!")
-            return
-        }
+        if (!pluginManager.isPluginEnabled("MYSlots"))
+            return logger.info("[MYSlots Converter] MYSlots not found!")
 
         logger.info("[MYSlots Converter] MYSlots found!")
 
         val file = File("plugins/MYSlots/config.yml")
         if (!file.exists())
             return
-        val mySlotsConfig = YamlConfiguration.loadConfiguration(file)
-
 
         logger.info("[MYSlots Converter] Converting data...")
 
-
+        val mySlotsConfig = YamlConfiguration.loadConfiguration(file)
         enabled = mySlotsConfig.getBoolean("Enable")
         fullMessage = "Server full!"
         amount = mySlotsConfig.getInt("Slots")
@@ -74,14 +59,10 @@ object Slots {
 
     }
 
-    fun reload() {
-
+    fun reload() =
         Config.reloadSlots()
 
-    }
-
     fun save() {
-
         Config.slotsData.set("slots.enabled", enabled)
         Config.slotsData.set("slots.kick_message", fullMessage)
         Config.slotsData.set("slots.max_player", amount)

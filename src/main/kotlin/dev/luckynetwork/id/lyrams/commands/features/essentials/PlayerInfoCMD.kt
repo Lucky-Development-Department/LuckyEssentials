@@ -4,42 +4,30 @@ import com.google.common.base.Joiner
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.colorizeTrueOrFalse
 import dev.luckynetwork.id.lyrams.objects.Config
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PlayerInfoCMD : CommandExecutor {
+class PlayerInfoCMD : BetterCommand {
 
     @Suppress("DEPRECATION")
-    override fun onCommand(
-        sender: CommandSender,
-        command: Command,
-        commandName: String,
-        args: Array<out String>
-    ): Boolean {
-
+    override fun execute(sender: CommandSender, args: Array<String>) {
         if (!sender.checkPermission("playerinfo"))
-            return false
+            return
 
         var target: Any
-
-        // casts target
         target =
-                // if console executes this
             if (sender !is Player) {
                 // console must specify a player
-                if (args.isEmpty()) {
-                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
-                    return false
-                }
+                if (args.isEmpty())
+                    return sender.sendMessage(Config.prefix + " §cInvalid usage!")
 
                 Bukkit.getOfflinePlayer(args[0])
 
@@ -47,14 +35,10 @@ class PlayerInfoCMD : CommandExecutor {
             } else
                 sender
 
-        if (args.isNotEmpty() && sender is Player) {
-
+        if (args.isNotEmpty() && sender is Player)
             target = Bukkit.getOfflinePlayer(args[0])
 
-        }
-
         if (sender is Player) {
-
             val locationTextComponent = TextComponent("§6Location Info §7(Hover me!)")
             val playerInfoTextComponent = TextComponent("§6Player Info §7(Hover me!)")
             val teleportTextComponent = TextComponent("§aClick me to teleport!")
@@ -148,11 +132,9 @@ class PlayerInfoCMD : CommandExecutor {
                 )
 
             } else {
-
                 locationTextComponent.hoverEvent = HoverEvent(
                     HoverEvent.Action.SHOW_TEXT, ComponentBuilder("§cPlayer not found!").create()
                 )
-
 
                 playerInfoTextComponent.hoverEvent = HoverEvent(
                     HoverEvent.Action.SHOW_TEXT,
@@ -193,7 +175,6 @@ class PlayerInfoCMD : CommandExecutor {
             sender.sendMessage(" ")
 
         } else {
-
             sender.sendMessage(" ")
             sender.sendMessage(
                 "§6Player info: ${
@@ -205,7 +186,6 @@ class PlayerInfoCMD : CommandExecutor {
             )
 
             if (target is Player) {
-
                 val loc = target.location
                 sender.sendMessage(
                     """
@@ -220,7 +200,6 @@ class PlayerInfoCMD : CommandExecutor {
                         
                         """.trimIndent()
                 )
-
 
                 val potionEffectList = ArrayList<String>()
                 target.activePotionEffects.forEach {
@@ -247,15 +226,15 @@ class PlayerInfoCMD : CommandExecutor {
                         §7Level: §a${target.expToLevel}
                         §7Fire ticks: §a${target.fireTicks}
                         ${
-                            if (target.lastDamageCause != null) {
-                                "§7Last damage cause: §a${target.lastDamageCause.cause}"
-                                "§7Last damage: §a${target.lastDamageCause.damage}"
-                                "§7Last final damage: §a${target.lastDamageCause.finalDamage}"
-                                ""
-                            } else {
-                                ""
-                            }
+                        if (target.lastDamageCause != null) {
+                            "§7Last damage cause: §a${target.lastDamageCause.cause}"
+                            "§7Last damage: §a${target.lastDamageCause.damage}"
+                            "§7Last final damage: §a${target.lastDamageCause.finalDamage}"
+                            ""
+                        } else {
+                            ""
                         }
+                    }
                         §7Flight speed: §a${target.flySpeed}
                         §7Walk speed: §a${target.walkSpeed}
                         
@@ -276,10 +255,7 @@ class PlayerInfoCMD : CommandExecutor {
                         """.trimIndent()
                 )
 
-
             } else {
-
-
                 sender.sendMessage(
                     """
                         §7${target.name}('s) information:
@@ -300,10 +276,8 @@ class PlayerInfoCMD : CommandExecutor {
             }
 
             sender.sendMessage(" ")
-
         }
 
-        return false
     }
 
 }
@@ -317,10 +291,8 @@ fun Long.toDate(): String {
     val mMonth = calendar[Calendar.MONTH]
     val mDay = calendar[Calendar.DAY_OF_MONTH]
     val mAmPm =
-        if (calendar[Calendar.AM_PM] == 1)
-            "PM"
-        else
-            "AM"
+        if (calendar[Calendar.AM_PM] == 1) "PM"
+        else "AM"
     val mHour = calendar[Calendar.HOUR]
     val mMinute = calendar[Calendar.MINUTE]
     val mSecond = calendar[Calendar.SECOND]

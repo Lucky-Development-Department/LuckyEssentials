@@ -4,26 +4,17 @@ import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.colorizeTrueOrFalse
 import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.objects.Whitelist
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.command.CommandSender
 
-class EWhitelistCMD : CommandExecutor {
+class EWhitelistCMD : BetterCommand {
 
-    override fun onCommand(
-        sender: CommandSender,
-        command: Command,
-        commandName: String,
-        args: Array<out String>
-    ): Boolean {
-
+    override fun execute(sender: CommandSender, args: Array<String>) {
         if (!sender.checkPermission("ewhitelist"))
-            return false
+            return
 
-        if (args.isEmpty()) {
-            sendUsage(sender)
-            return false
-        }
+        if (args.isEmpty())
+            return sendUsage(sender)
 
         when (args[0].toUpperCase()) {
             "RELOAD" -> {
@@ -48,7 +39,7 @@ class EWhitelistCMD : CommandExecutor {
             }
             "ADD" -> {
                 if (args.size != 2)
-                    return false
+                    return
 
                 val targets = ArrayList<String>()
                 var bulk = false
@@ -83,11 +74,10 @@ class EWhitelistCMD : CommandExecutor {
                             sender.sendMessage(Config.prefix + " §c$toBeAdded is already whitelisted!")
                     }
                 }
-
             }
             "REMOVE" -> {
                 if (args.size != 2)
-                    return false
+                    return
 
                 val targets = ArrayList<String>()
                 var bulk = false
@@ -141,7 +131,7 @@ class EWhitelistCMD : CommandExecutor {
             }
             "CHECK" -> {
                 if (args.size != 2)
-                    return false
+                    return
 
                 val target = args[1].toLowerCase()
 
@@ -157,12 +147,8 @@ class EWhitelistCMD : CommandExecutor {
             }
             else -> sendUsage(sender)
         }
-
-        return false
-
     }
 }
-
 
 private fun sendUsage(sender: CommandSender) {
     sender.sendMessage("§cUsage: /ewl add <name>")

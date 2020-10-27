@@ -1,46 +1,30 @@
 package dev.luckynetwork.id.lyrams.commands.features.essentials
 
+import dev.luckynetwork.id.lyrams.enums.XEnchantment
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.Config
-import dev.luckynetwork.id.lyrams.enums.XEnchantment
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.Bukkit
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class EnchantCMD : CommandExecutor {
+class EnchantCMD : BetterCommand {
 
-    override fun onCommand(
-        sender: CommandSender,
-        command: Command,
-        commandName: String,
-        args: Array<out String>
-    ): Boolean {
-
+    override fun execute(sender: CommandSender, args: Array<String>) {
         if (!sender.checkPermission("enchant"))
-            return false
+            return
 
         var target: Player
-
-        // casts target
         target =
-                // if console executes this
             if (sender !is Player) {
                 // console must specify a player
-                if (args.isEmpty()) {
-                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
-                    return false
-                }
+                if (args.isEmpty())
+                    return sender.sendMessage(Config.prefix + " §cInvalid usage!")
 
-                if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
-                    return false
-                }
+                if (Bukkit.getPlayer(args[0]) == null)
+                    return sender.sendMessage(Config.prefix + " §cPlayer not found!")
 
                 Bukkit.getPlayer(args[0])
-
-                // if executed by player
             } else
                 sender
 
@@ -48,18 +32,15 @@ class EnchantCMD : CommandExecutor {
         var offset = 0
 
         if (args.isNotEmpty() && Bukkit.getPlayer(args[0]) != null && sender is Player) {
-
             target = Bukkit.getPlayer(args[0]) as Player
-
             others = true
             offset = 1
-
         }
 
         if (!sender.checkPermission("enchant", others))
-            return false
+            return
 
-        target.inventory.itemInHand ?: return false
+        target.inventory.itemInHand ?: return
 
         val itemInHand = target.inventory.itemInHand
         val enchantments: ArrayList<String> = ArrayList()
@@ -67,7 +48,6 @@ class EnchantCMD : CommandExecutor {
 
         when {
             args[0 + offset].contains(",") -> {
-
                 if (others) {
                     for (s in argsAsString
                         .split(target.name + " ")[1]
@@ -76,27 +56,18 @@ class EnchantCMD : CommandExecutor {
                         enchantments.add(s)
                     }
                 } else {
-
                     for (s in argsAsString
                         .split(" ")[0]
                         .split(",")) {
                         enchantments.add(s)
                     }
-
                 }
-
             }
-
             else -> {
-
                 enchantments.add(args[0 + offset])
-
             }
-
         }
-
         for (enchantment in enchantments) {
-
             val level =
                 if (enchantment.contains(":"))
                     enchantment.split(":")[1].toInt()
@@ -109,7 +80,6 @@ class EnchantCMD : CommandExecutor {
                             enchantment.split(":")[0]
                         else enchantment
                     ), level
-
                 )
             else
                 itemInHand.removeEnchantment(
@@ -118,15 +88,10 @@ class EnchantCMD : CommandExecutor {
                             enchantment.split(":")[0]
                         else enchantment
                     )
-
                 )
-
         }
 
-
         target.updateInventory()
-
-        return false
 
     }
 

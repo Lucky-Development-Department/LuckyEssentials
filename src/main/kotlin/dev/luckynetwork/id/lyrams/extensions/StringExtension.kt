@@ -103,26 +103,20 @@ fun getAllPlayers(
     range: Double = -1.0,
     includeSender: Boolean = false
 ): ArrayList<Player> {
-
     val targets = ArrayList<Player>()
-
     if (range < 0) {
         Bukkit.getOnlinePlayers().forEach {
             targets.add(it)
         }
     } else {
-
         player.getNearbyEntities(range, range, range)
             .filterIsInstance<Player>()
             .forEach {
                 targets.add(it)
             }
-
         if (includeSender)
             targets.add(player)
-
     }
 
     return targets
-
 }

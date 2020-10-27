@@ -2,7 +2,7 @@ package dev.luckynetwork.id.lyrams.listeners
 
 import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.applyMetadata
-import dev.luckynetwork.id.lyrams.extensions.checkPermissionSilent
+import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.removeMetadata
 import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.objects.Slots
@@ -21,7 +21,6 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.AsyncPlayerChatEvent
-import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerInteractAtEntityEvent
 import org.bukkit.event.player.PlayerLoginEvent
 
@@ -32,7 +31,7 @@ class PlayerListeners : Listener {
     fun onChat(event: AsyncPlayerChatEvent) {
         val player = event.player
 
-        if (LuckyEssentials.isChatLocked && !player.checkPermissionSilent("chatlock.bypass")) {
+        if (LuckyEssentials.isChatLocked && !player.checkPermission("chatlock.bypass", silent = true)) {
             event.isCancelled = true
             player.sendMessage(Config.prefix + " §cChat is currently locked!")
         }
@@ -58,7 +57,6 @@ class PlayerListeners : Listener {
             return
 
         val victim = event.entity as Player
-
         if (victim.hasMetadata("GOD"))
             event.isCancelled = true
 
@@ -70,7 +68,6 @@ class PlayerListeners : Listener {
             return
 
         val victim = event.entity as Player
-
         if (victim.hasMetadata("GOD"))
             event.isCancelled = true
 
@@ -82,7 +79,6 @@ class PlayerListeners : Listener {
             return
 
         val victim = event.entity as Player
-
         if (victim.hasMetadata("GOD"))
             event.isCancelled = true
 
@@ -92,10 +88,7 @@ class PlayerListeners : Listener {
     fun onConnect(event: PlayerLoginEvent) {
         val player = event.player
 
-        if (!Whitelist.enabled)
-            return
-
-        if (Whitelist.isWhitelisted(player.name.toLowerCase()))
+        if (!Whitelist.enabled || Whitelist.isWhitelisted(player.name.toLowerCase()))
             return
 
         event.disallow(
@@ -113,37 +106,27 @@ class PlayerListeners : Listener {
             return
 
         val player = event.player
-
         when (event.result) {
             PlayerLoginEvent.Result.KICK_FULL, PlayerLoginEvent.Result.ALLOWED -> {
 
                 if (Bukkit.getOnlinePlayers().size < Slots.getSlots())
                     event.allow()
-                else if (Bukkit.getOnlinePlayers().size >= Slots.amount && player.checkPermissionSilent("join_full"))
+                else if (Bukkit.getOnlinePlayers().size >= Slots.amount && player.checkPermission(
+                        "join_full",
+                        silent = true
+                    )
+                )
                     event.allow()
                 else
                     event.disallow(
                         PlayerLoginEvent.Result.KICK_FULL,
                         ChatColor.translateAlternateColorCodes('&', Slots.fullMessage)
                     )
-
             }
 
             else -> return
 
         }
-
-    }
-
-    @EventHandler
-    fun onWorldChange(event: PlayerChangedWorldEvent) {
-        val player = event.player
-
-        if (player.checkPermissionSilent("keepfly"))
-            return
-
-        if (player.allowFlight)
-            player.allowFlight = false
 
     }
 
@@ -160,16 +143,14 @@ class PlayerListeners : Listener {
             inventoryType == InventoryType.PLAYER -> {
                 val whoClicked = event.whoClicked as Player
                 val inventoryOwner = topInventory.holder
-
                 if (inventoryOwner !is HumanEntity)
                     return
 
                 inventoryOwner as Player
-
                 if (whoClicked.hasMetadata("INVSEE")) {
                     refreshPlayer = whoClicked
 
-                    if ((!whoClicked.checkPermissionSilent("invsee.modify") || !inventoryOwner.isOnline))
+                    if ((!whoClicked.checkPermission("invsee.modify", silent = true) || !inventoryOwner.isOnline))
                         event.isCancelled = true
                     else
                         Bukkit.getScheduler()
@@ -181,7 +162,6 @@ class PlayerListeners : Listener {
             inventoryType == InventoryType.CHEST && topInventory.size == 9 -> {
                 val whoClicked = event.whoClicked as Player
                 val inventoryOwner = topInventory.holder
-
                 if (inventoryOwner !is HumanEntity)
                     return
 
@@ -195,7 +175,6 @@ class PlayerListeners : Listener {
         }
 
         refreshPlayer ?: return
-
         Bukkit.getScheduler().scheduleSyncDelayedTask(LuckyEssentials.instance, refreshPlayer::updateInventory, 1)
 
     }
@@ -218,7 +197,6 @@ class PlayerListeners : Listener {
 
             InventoryType.CHEST -> {
                 val inventoryOwner = topInventory.holder
-
                 if (inventoryOwner !is Player)
                     return
 
@@ -226,7 +204,6 @@ class PlayerListeners : Listener {
                     player.removeMetadata("INVSEE")
 
             }
-
             else -> return
 
         }

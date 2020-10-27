@@ -23,9 +23,7 @@ class ListCMD(name: String, vararg aliases: String) : SubCommand(name, *aliases)
         pluginList.sortWith(String.CASE_INSENSITIVE_ORDER)
 
         val plugins = Joiner.on(", ").join(pluginList)
-
         sender.sendMessage(Config.prefix + " §7Plugins (${pluginList.size}): $plugins")
-
     }
 
 }

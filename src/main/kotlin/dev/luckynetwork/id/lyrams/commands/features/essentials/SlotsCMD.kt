@@ -4,26 +4,17 @@ import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.colorizeTrueOrFalse
 import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.objects.Slots
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.command.CommandSender
 
-class SlotsCMD : CommandExecutor {
+class SlotsCMD : BetterCommand {
 
-    override fun onCommand(
-        sender: CommandSender,
-        command: Command,
-        commandName: String,
-        args: Array<out String>
-    ): Boolean {
-
+    override fun execute(sender: CommandSender, args: Array<String>) {
         if (!sender.checkPermission("slots"))
-            return false
+            return
 
-        if (args.isEmpty()) {
-            sendUsage(sender)
-            return false
-        }
+        if (args.isEmpty())
+            return sendUsage(sender)
 
         when (args[0].toUpperCase()) {
             "RELOAD" -> {
@@ -48,20 +39,17 @@ class SlotsCMD : CommandExecutor {
             }
             "SET" -> {
                 if (args.size != 2)
-                    return false
+                    return
 
                 val amount: Int
-
                 try {
                     amount = args[1].toInt()
                 } catch (ignored: Exception) {
-                    sender.sendMessage(Config.prefix + " §c" + args[1] + " is not a number")
-                    return false
+                    return sender.sendMessage(Config.prefix + " §c" + args[1] + " is not a number")
                 }
 
                 Slots.set(amount)
                 sender.sendMessage(Config.prefix + " §aSlot: ${Slots.getSlots()} players!")
-
             }
             "CHECK", "INFO" -> {
                 val state = Slots.enabled
@@ -75,11 +63,9 @@ class SlotsCMD : CommandExecutor {
             else -> sendUsage(sender)
         }
 
-        return false
-
     }
-}
 
+}
 
 private fun sendUsage(sender: CommandSender) {
     sender.sendMessage("§cUsage: /slots set <amount>")

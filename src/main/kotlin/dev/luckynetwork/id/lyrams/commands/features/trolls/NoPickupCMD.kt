@@ -4,37 +4,26 @@ import dev.luckynetwork.id.lyrams.extensions.applyMetadata
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.removeMetadata
 import dev.luckynetwork.id.lyrams.objects.Config
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.Bukkit
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class NoPickupCMD : CommandExecutor {
+class NoPickupCMD : BetterCommand {
 
-    override fun onCommand(sender: CommandSender, command: Command, cmd: String, args: Array<out String>): Boolean {
-
-        if (!Config.trollEnabled)
-            return false
-
-        if (!sender.checkPermission("troll.nopickup"))
-            return false
+    override fun execute(sender: CommandSender, args: Array<String>) {
+        if (!Config.trollEnabled || !sender.checkPermission("troll.nopickup"))
+            return
 
         var target: Player
-
         target =
-                // if console executes this
             if (sender !is Player) {
                 // console must specify a player
-                if (args.isEmpty()) {
-                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
-                    return false
-                }
+                if (args.isEmpty())
+                    return sender.sendMessage(Config.prefix + " §cInvalid usage!")
 
-                if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
-                    return false
-                }
+                if (Bukkit.getPlayer(args[0]) == null)
+                    return sender.sendMessage(Config.prefix + " §cPlayer not found!")
 
                 Bukkit.getPlayer(args[0])
 
@@ -43,20 +32,16 @@ class NoPickupCMD : CommandExecutor {
                 sender
 
         var others = false
-
         if (args.isNotEmpty() && sender is Player) {
-            if (Bukkit.getPlayer(args[0]) == null) {
-                target.sendMessage(Config.prefix + " §cPlayer not found!")
-                return false
-            }
+            if (Bukkit.getPlayer(args[0]) == null)
+                return target.sendMessage(Config.prefix + " §cPlayer not found!")
 
             target = Bukkit.getPlayer(args[0])
             others = true
-
         }
 
         if (!sender.checkPermission("troll.nopickup", others))
-            return false
+            return
 
         val state =
             if (target.hasMetadata("NOPICKUP")) {
@@ -67,9 +52,7 @@ class NoPickupCMD : CommandExecutor {
                 false
             }
 
-
         when {
-
             others ->
                 if (state)
                     sender.sendMessage(Config.prefix + " §aEnabled item-pickup for §l" + target.name + "!")
@@ -80,10 +63,7 @@ class NoPickupCMD : CommandExecutor {
                     target.sendMessage(Config.prefix + " §aYou can now pickup items!")
                 else
                     target.sendMessage(Config.prefix + " §cYou can no longer pickup items!")
-
         }
-
-        return false
 
     }
 

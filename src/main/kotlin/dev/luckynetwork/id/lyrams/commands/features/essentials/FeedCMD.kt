@@ -3,35 +3,25 @@ package dev.luckynetwork.id.lyrams.commands.features.essentials
 import com.google.common.base.Joiner
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.getTargetPlayer
-import dev.luckynetwork.id.lyrams.extensions.isDouble
 import dev.luckynetwork.id.lyrams.objects.Config
-import org.bukkit.Bukkit
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
 
-class FeedCMD : CommandExecutor {
+class FeedCMD : BetterCommand {
 
-    override fun onCommand(
-        sender: CommandSender,
-        command: Command,
-        commandName: String,
-        args: Array<out String>
-    ): Boolean {
+    override fun execute(sender: CommandSender, args: Array<String>) {
         if (!sender.checkPermission("feed"))
-            return false
+            return
 
         val targets = args.getTargetPlayer(sender, 0)
         val targetNames = ArrayList<String>()
 
         if (targets.isEmpty())
-            return false
+            return
 
         val others = !targets.contains(sender) || targets.size > 1
-
         if (!sender.checkPermission("feed", others))
-            return false
+            return
 
         targets.forEach {
             it.foodLevel = 20
@@ -47,8 +37,6 @@ class FeedCMD : CommandExecutor {
                 sender.sendMessage(Config.prefix + " §a§l" + targets.size + " players §ahave been fed!")
 
         }
-
-        return false
     }
 
 }

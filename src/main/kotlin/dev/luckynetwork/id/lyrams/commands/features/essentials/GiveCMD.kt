@@ -1,11 +1,11 @@
 package dev.luckynetwork.id.lyrams.commands.features.essentials
 
 import com.google.common.base.Joiner
+import dev.luckynetwork.id.lyrams.enums.XEnchantment
+import dev.luckynetwork.id.lyrams.enums.XItemStack
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.getTargetPlayer
 import dev.luckynetwork.id.lyrams.objects.Config
-import dev.luckynetwork.id.lyrams.enums.XEnchantment
-import dev.luckynetwork.id.lyrams.enums.XItemStack
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -195,7 +195,11 @@ class GiveCMD : CommandExecutor {
             }
 
             it.updateInventory()
-            it.sendMessage(Config.prefix + " §aGave you ${itemStack.amount}x ${(itemStack.type).toString().toLowerCase()}!")
+            it.sendMessage(
+                Config.prefix + " §aGave you ${itemStack.amount}x ${
+                    (itemStack.type).toString().toLowerCase()
+                }!"
+            )
             targetNames.add(it.name)
 
         }

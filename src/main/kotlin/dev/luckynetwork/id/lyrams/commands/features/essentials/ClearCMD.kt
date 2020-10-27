@@ -1,48 +1,32 @@
 package dev.luckynetwork.id.lyrams.commands.features.essentials
 
+import dev.luckynetwork.id.lyrams.enums.XItemStack
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.Config
-import dev.luckynetwork.id.lyrams.enums.XItemStack
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.Bukkit
 import org.bukkit.Material
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class ClearCMD : CommandExecutor {
+class ClearCMD : BetterCommand {
 
-    override fun onCommand(
-        sender: CommandSender,
-        command: Command,
-        commandName: String,
-        args: Array<out String>
-    ): Boolean {
-
+    override fun execute(sender: CommandSender, args: Array<String>) {
         if (!sender.checkPermission("clear"))
-            return false
+            return
 
         var target: Player
-
-        // casts target
         target =
-                // if console executes this
             if (sender !is Player) {
                 // console must specify a player
-                if (args.isEmpty()) {
-                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
-                    return false
-                }
+                if (args.isEmpty())
+                    return sender.sendMessage(Config.prefix + " §cInvalid usage!")
 
-                if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
-                    return false
-                }
+                if (Bukkit.getPlayer(args[0]) == null)
+                    return sender.sendMessage(Config.prefix + " §cPlayer not found!")
 
                 Bukkit.getPlayer(args[0])
-
-                // if executed by player
             } else
                 sender
 
@@ -52,19 +36,16 @@ class ClearCMD : CommandExecutor {
         var itemStack: ItemStack? = null
 
         if (args.isNotEmpty() && Bukkit.getPlayer(args[0]) != null && sender is Player) {
-
             target = Bukkit.getPlayer(args[0]) as Player
 
             others = true
             offset = 1
-
         }
 
         if (!sender.checkPermission("clear", others))
-            return false
+            return
 
         if (args.size == 1 + offset && args[0 + offset].isNotEmpty()) {
-
             if (args[0 + offset] == "**") {
                 type = ClearType.ALL
             } else {
@@ -84,14 +65,9 @@ class ClearCMD : CommandExecutor {
                     type = ClearType.SPECIFIC_ITEM
 
                 } catch (e: Exception) {
-
-                    sender.sendMessage(Config.prefix + " §c§l" + args[0 + offset] + " §cmight not be an item!")
-                    return false
-
+                    return sender.sendMessage(Config.prefix + " §c§l" + args[0 + offset] + " §cmight not be an item!")
                 }
-
             }
-
         }
 
         if (itemStack == null)
@@ -111,7 +87,6 @@ class ClearCMD : CommandExecutor {
         }
 
         target.updateInventory()
-
         when {
             others -> {
                 sender.sendMessage(Config.prefix + " §aCleared §l" + target.name + "('s) §ainventory!")
@@ -121,9 +96,6 @@ class ClearCMD : CommandExecutor {
                 target.sendMessage(Config.prefix + " §aInventory cleared!")
             }
         }
-
-        return false
-
     }
 }
 

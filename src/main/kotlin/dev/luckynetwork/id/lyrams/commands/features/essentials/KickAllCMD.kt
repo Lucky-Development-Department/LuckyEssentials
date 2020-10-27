@@ -3,26 +3,18 @@ package dev.luckynetwork.id.lyrams.commands.features.essentials
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.checkPermissionSilent
 import dev.luckynetwork.id.lyrams.objects.Config
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.Bukkit
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class KickAllCMD : CommandExecutor {
+class KickAllCMD : BetterCommand {
 
-    override fun onCommand(
-        sender: CommandSender,
-        command: Command,
-        commandName: String,
-        args: Array<out String>
-    ): Boolean {
-
+    override fun execute(sender: CommandSender, args: Array<String>) {
         if (!sender.checkPermission("kickall"))
-            return false
+            return
 
         var ignoreStaff = false
-
         if (args.isNotEmpty() && args[0] == "**")
             ignoreStaff = true
 
@@ -48,8 +40,6 @@ class KickAllCMD : CommandExecutor {
         }
 
         sender.sendMessage(Config.prefix + " §aKicked all players!")
-
-        return false
 
     }
 

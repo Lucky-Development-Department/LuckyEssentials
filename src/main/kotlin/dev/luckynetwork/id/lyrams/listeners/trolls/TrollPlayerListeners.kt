@@ -19,8 +19,8 @@ class TrollPlayerListeners : Listener {
 
     @EventHandler
     fun onItemPickup(event: PlayerPickupItemEvent) {
-
-        if (!Config.trollEnabled) return
+        if (!Config.trollEnabled)
+            return
 
         val player = event.player
 
@@ -31,14 +31,14 @@ class TrollPlayerListeners : Listener {
 
     @EventHandler
     fun onDamage(event: EntityDamageEvent) {
-
-        if (!Config.trollEnabled) return
+        if (!Config.trollEnabled)
+            return
 
         event.entity ?: return
 
         val victim = event.entity
-
-        if (victim !is Player) return
+        if (victim !is Player)
+            return
 
         if (victim.hasMetadata("ONETAP"))
             event.damage = 100.0
@@ -47,14 +47,13 @@ class TrollPlayerListeners : Listener {
 
     @EventHandler
     fun onDamageByEntity(event: EntityDamageByEntityEvent) {
-
-        if (!Config.trollEnabled) return
+        if (!Config.trollEnabled)
+            return
 
         event.entity ?: return
         event.damager ?: return
 
         val attacker = event.damager
-
         if (attacker.hasMetadata("NODAMAGE"))
             event.damage = 0.0
 
@@ -65,11 +64,10 @@ class TrollPlayerListeners : Listener {
 
     @EventHandler
     fun onBlockPlace(event: BlockPlaceEvent) {
-
-        if (!Config.trollEnabled) return
+        if (!Config.trollEnabled)
+            return
 
         val player = event.player
-
         if (player.hasMetadata("NOPLACE"))
             event.isCancelled = true
 
@@ -86,11 +84,10 @@ class TrollPlayerListeners : Listener {
 
     @EventHandler
     fun onBlockBreak(event: BlockBreakEvent) {
-
-        if (!Config.trollEnabled) return
+        if (!Config.trollEnabled)
+            return
 
         val player = event.player
-
         if (player.hasMetadata("NOBREAK"))
             event.isCancelled = true
 
@@ -98,16 +95,13 @@ class TrollPlayerListeners : Listener {
 
     @EventHandler
     fun onInteract(event: PlayerInteractEvent) {
-
-        if (!Config.trollEnabled) return
+        if (!Config.trollEnabled)
+            return
 
         val player = event.player
-
         if (player.hasMetadata("NOINTERACT")) {
-
             if (event.action != Action.RIGHT_CLICK_BLOCK || !event.isBlockInHand)
                 event.isCancelled = true
-
         }
 
     }

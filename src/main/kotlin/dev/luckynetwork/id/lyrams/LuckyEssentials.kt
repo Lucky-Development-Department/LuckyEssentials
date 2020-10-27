@@ -14,6 +14,8 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class LuckyEssentials : JavaPlugin() {
 
+    val disabledModules = ArrayList<String>()
+
     companion object {
 
         lateinit var instance: LuckyEssentials
@@ -21,10 +23,10 @@ class LuckyEssentials : JavaPlugin() {
 
     }
 
-
     override fun onEnable() {
-
-        if (Bukkit.getPluginManager().getPlugin("LuckyInjector") == null && Bukkit.getPluginManager().getPlugin("KtLoader") == null)
+        if (Bukkit.getPluginManager().getPlugin("LuckyInjector") == null && Bukkit.getPluginManager()
+                .getPlugin("KtLoader") == null
+        )
             Bukkit.getLogger().warning("LuckyInjector or KtLoader not found! Plugin might not load!")
 
         instance = this
@@ -39,17 +41,13 @@ class LuckyEssentials : JavaPlugin() {
             Slots.convert()
             Slots.reload()
         }, 1L)
-
     }
 
     override fun onDisable() {
-
         Bukkit.getScheduler().cancelTasks(this)
-
     }
 
     private fun registerCommands() {
-
         getCommand("luckyessentials").executor = LuckyEssentialsCMD()
         getCommand("luckyessentials").tabCompleter = PluginsTabCompleter()
 
@@ -87,16 +85,13 @@ class LuckyEssentials : JavaPlugin() {
         getCommand("teleport").executor = TeleportCMD()
         getCommand("top").executor = TopCMD()
         getCommand("troll").executor = TrollCMD()
-
     }
 
     private fun registerListeners() {
-
         val pluginManager = server.pluginManager
 
         pluginManager.registerEvents(PlayerListeners(), this)
         pluginManager.registerEvents(TrollPlayerListeners(), this)
-
     }
 
 }

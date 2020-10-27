@@ -5,22 +5,15 @@ import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.checkPermissionSilent
 import dev.luckynetwork.id.lyrams.extensions.colorizeTrueOrFalse
 import dev.luckynetwork.id.lyrams.objects.Config
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.Bukkit
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 
-class ChatLockCMD : CommandExecutor {
+class ChatLockCMD : BetterCommand {
 
-    override fun onCommand(
-        sender: CommandSender,
-        command: Command,
-        commandName: String,
-        args: Array<out String>
-    ): Boolean {
-
+    override fun execute(sender: CommandSender, args: Array<String>) {
         if (!sender.checkPermission("chatlock"))
-            return false
+            return
 
         var silent = false
         var anonymous = false
@@ -29,10 +22,7 @@ class ChatLockCMD : CommandExecutor {
             when {
                 args[0] == "-s" -> silent = true
                 args[0] == "-a" -> anonymous = true
-                else -> {
-                    sendUsage(sender)
-                    return false
-                }
+                else -> return sendUsage(sender)
             }
         }
 
@@ -68,13 +58,8 @@ class ChatLockCMD : CommandExecutor {
                     it.sendMessage(Config.prefix + " §c${sender.name} turned on chatlock")
                 else
                     it.sendMessage(Config.prefix + " §c${sender.name} turned off chatlock")
-
         }
-
-        return false
-
     }
-
 }
 
 private fun sendUsage(sender: CommandSender) {

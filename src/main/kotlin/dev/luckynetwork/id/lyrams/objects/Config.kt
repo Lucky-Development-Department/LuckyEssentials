@@ -46,7 +46,6 @@ object Config {
     }
 
     fun reloadAll() {
-
         reloadConfig()
         reloadMessages()
         reloadSlots()
@@ -55,27 +54,21 @@ object Config {
     }
 
     private fun reloadConfig() {
-
         val configFile = File(plugin.dataFolder, "config.yml")
-
         if (!configFile.exists())
             plugin.saveResource("config.yml", false)
 
         plugin.reloadConfig()
-
         trollEnabled = plugin.config.getBoolean("troll-features", true)
 
     }
 
-    fun reloadMessages() {
-
+    private fun reloadMessages() {
         messagesFile = File(plugin.dataFolder, "messages.yml")
-
         if (!messagesFile.exists())
             plugin.saveResource("messages.yml", false)
 
         messagesData = YamlConfiguration.loadConfiguration(messagesFile)
-
         prefix = ChatColor.translateAlternateColorCodes(
             '&',
             messagesData.getString("prefix", "&e&lLuckyEssentials &a/")
@@ -84,11 +77,8 @@ object Config {
     }
 
     fun reloadSlots() {
-
         Slots.convert()
-
         slotsFile = File(plugin.dataFolder, "slots.yml")
-
         if (!slotsFile.exists())
             plugin.saveResource("slots.yml", false)
 
@@ -101,9 +91,7 @@ object Config {
     }
 
     fun reloadWhitelist() {
-
         whitelistFile = File(plugin.dataFolder, "whitelist.yml")
-
         if (!whitelistFile.exists())
             plugin.saveResource("whitelist.yml", false)
 

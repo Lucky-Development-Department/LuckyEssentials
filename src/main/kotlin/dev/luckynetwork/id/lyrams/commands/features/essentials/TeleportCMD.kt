@@ -18,11 +18,7 @@ class TeleportCMD : CommandExecutor {
         commandName: String,
         args: Array<out String>
     ): Boolean {
-
-        if (sender !is Player)
-            return false
-
-        if (!sender.checkPermission("teleport"))
+        if (sender !is Player || !sender.checkPermission("teleport"))
             return false
 
         if (args.isEmpty()) {
@@ -94,9 +90,9 @@ class TeleportCMD : CommandExecutor {
                 }
 
                 val world: World
-                val x: Double
+                var x: Double
                 val y: Double
-                val z: Double
+                var z: Double
                 val yaw: Float
                 val pitch: Float
                 var offset = 0
@@ -110,33 +106,33 @@ class TeleportCMD : CommandExecutor {
                 when (args.size - offset) {
                     6 -> {
                         world = Bukkit.getWorld(args[0 + offset])
-                        x = args[1 + offset].toDouble() + 0.5
+                        x = args[1 + offset].toDouble()
                         y = args[2 + offset].toDouble()
-                        z = args[3 + offset].toDouble() + 0.5
+                        z = args[3 + offset].toDouble()
                         yaw = args[4 + offset].toFloat()
                         pitch = args[5 + offset].toFloat()
                     }
                     5 -> {
                         world = sender.world
-                        x = args[0 + offset].toDouble() + 0.5
+                        x = args[0 + offset].toDouble()
                         y = args[1 + offset].toDouble()
-                        z = args[2 + offset].toDouble() + 0.5
+                        z = args[2 + offset].toDouble()
                         yaw = args[3 + offset].toFloat()
                         pitch = args[4 + offset].toFloat()
                     }
                     4 -> {
                         world = Bukkit.getWorld(args[0 + offset])
-                        x = args[1 + offset].toDouble() + 0.5
+                        x = args[1 + offset].toDouble()
                         y = args[2 + offset].toDouble()
-                        z = args[3 + offset].toDouble() + 0.5
+                        z = args[3 + offset].toDouble()
                         yaw = sender.location.yaw
                         pitch = sender.location.pitch
                     }
                     3 -> {
                         world = sender.world
-                        x = args[0 + offset].toDouble() + 0.5
+                        x = args[0 + offset].toDouble()
                         y = args[1 + offset].toDouble()
-                        z = args[2 + offset].toDouble() + 0.5
+                        z = args[2 + offset].toDouble()
                         yaw = sender.location.yaw
                         pitch = sender.location.pitch
                     }
@@ -145,6 +141,12 @@ class TeleportCMD : CommandExecutor {
                         return false
                     }
                 }
+
+                if (x > 0) x += 0.5
+                else if (x < 0) x -= 0.5
+
+                if (z > 0) z += 0.5
+                else if (z < 0) z -= 0.5
 
                 if (!sender.checkPermission("teleport.position", others))
                     return false
@@ -172,14 +174,12 @@ class TeleportCMD : CommandExecutor {
                     sender.sendMessage(Config.prefix + " §cPlayer not found!")
                     return false
                 }
-
                 val toTarget: Player = Bukkit.getPlayer(args[0])
 
                 if (!sender.checkPermission("teleport.here"))
                     return false
 
                 toTarget.teleport(sender.location)
-
                 sender.sendMessage(Config.prefix + " §aTeleported ${toTarget.name} to ${sender.name}")
                 toTarget.sendMessage(Config.prefix + " §aTeleported you to ${sender.name}")
 

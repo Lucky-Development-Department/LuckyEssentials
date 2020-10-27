@@ -18,17 +18,11 @@ class EnableCMD(name: String, vararg aliases: String) : SubCommand(name, *aliase
             return
         }
 
-        val plugin = PluginUtils.getPluginByName(args[0])
+        val plugin =
+            PluginUtils.getPluginByName(args[0]) ?: return sender.sendMessage(Config.prefix + " §cPlugin not found!")
 
-        if (plugin == null) {
-            sender.sendMessage(Config.prefix + " §cPlugin not found!")
-            return
-        }
-
-        if (plugin.isEnabled) {
-            sender.sendMessage(Config.prefix + " §cPlugin is already enabled!")
-            return
-        }
+        if (plugin.isEnabled)
+            return sender.sendMessage(Config.prefix + " §cPlugin is already enabled!")
 
         plugin.enable()
         sender.sendMessage(Config.prefix + " §a§l${args[0]} §aenabled!")

@@ -26,10 +26,9 @@ object PluginUtils {
      * gets a plugin by its name
      */
     fun getPluginByName(name: String): Plugin? {
-
         for (plugin in Bukkit.getPluginManager().plugins) {
             if (plugin.name.equals(name, true))
-                return plugin;
+                return plugin
         }
 
         return null
@@ -52,7 +51,6 @@ object PluginUtils {
 
     fun getUsages(plugin: Plugin): String {
         val parsedCommands = ArrayList<String>()
-
         val commands = plugin.description.commands
 
         if (commands != null) {
@@ -68,7 +66,6 @@ object PluginUtils {
 
     fun getPluginNames(fullName: Boolean): List<String> {
         val plugins = ArrayList<String>()
-
         for (plugin in Bukkit.getPluginManager().plugins) {
             plugins.add(
                 if (fullName)
@@ -83,16 +80,11 @@ object PluginUtils {
 
     fun findByCommand(command: String): List<String> {
         val plugins: MutableList<String> = ArrayList()
-
         for (plugin in Bukkit.getPluginManager().plugins) {
-
             // Map of commands and their attributes.
             val commands = plugin.description.commands
-
             if (commands != null) {
-
                 for (commandNext in commands.entries) {
-
                     // Plugin name matches - return.
                     if (commandNext.key.equals(command, ignoreCase = true)) {
                         plugins.add(plugin.name)
@@ -100,18 +92,14 @@ object PluginUtils {
                     }
 
                     for (attributeNext in commandNext.value.entries) {
-
                         // Has an alias attribute.
                         if (attributeNext.key == "aliases") {
-
                             val aliases = attributeNext.value
-
                             if (aliases is String) {
                                 if (aliases.equals(command, ignoreCase = true))
                                     plugins.add(plugin.name)
 
                             } else {
-
                                 // Cast to a List of Strings.
                                 val array = aliases as List<*>
 
@@ -119,14 +107,12 @@ object PluginUtils {
                                 for (str in array)
                                     if (str is String && str.equals(command, true))
                                         plugins.add(plugin.name)
-
                             }
                         }
                     }
                 }
             }
         }
-
         // No matches.
         return plugins
     }
@@ -134,17 +120,14 @@ object PluginUtils {
     /**
      * loads a plugin
      */
-    fun load(plugin: Plugin) {
+    fun load(plugin: Plugin) =
         load(plugin.name)
-    }
 
     /**
      * loads a plugin
      */
     fun load(name: String): Boolean {
-
         val plugin: Plugin?
-
         val pluginDir = File("plugins")
         var pluginFile = File(pluginDir, "${name}.jar")
 
@@ -196,7 +179,6 @@ object PluginUtils {
         var listeners: Map<Event?, SortedSet<RegisteredListener>>? = null
 
         var reloadlisteners = true
-
         plugin.disable()
 
         try {
@@ -265,7 +247,6 @@ object PluginUtils {
 
         // Attempt to close the classloader to unlock any handles on the plugin's jar file.
         val classLoader: ClassLoader = plugin.javaClass.classLoader
-
         if (classLoader is URLClassLoader) {
             try {
                 val pluginField: Field = classLoader.javaClass.getDeclaredField("plugin")

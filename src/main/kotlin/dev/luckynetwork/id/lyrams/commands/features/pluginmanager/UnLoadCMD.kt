@@ -12,17 +12,11 @@ class UnLoadCMD(name: String, vararg aliases: String) : SubCommand(name, *aliase
         if (!sender.checkPermission("pluginmanager.unload"))
             return
 
-        if (args.isEmpty()) {
-            sender.sendMessage(Config.prefix + " §cPlease provide a plugin!")
-            return
-        }
+        if (args.isEmpty())
+            return sender.sendMessage(Config.prefix + " §cPlease provide a plugin!")
 
-        val plugin = PluginUtils.getPluginByName(args[0])
-
-        if (plugin == null) {
-            sender.sendMessage(Config.prefix + " §c§l${args[0]} §cis already unloaded/not found!")
-            return
-        }
+        val plugin =
+            PluginUtils.getPluginByName(args[0]) ?: return sender.sendMessage(Config.prefix + " §cPlugin not found!")
 
         if (PluginUtils.unload(plugin))
             sender.sendMessage(Config.prefix + " §a§l${args[0]} §aunloaded!")
