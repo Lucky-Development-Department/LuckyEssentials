@@ -8,14 +8,19 @@ import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class TopCMD : BetterCommand {
+class TopCMD : BetterCommand("top") {
 
-    override fun execute(sender: CommandSender, args: Array<String>) {
+    override fun execute(
+        sender: CommandSender,
+        commandLabel: String,
+        args: Array<String>
+    ): Boolean {
         if (sender !is Player || !sender.checkPermission("top"))
-            return
+            return false
 
         sender.teleport(getHighestLocation(sender.location))
         sender.sendMessage(Config.prefix + " §aTeleporting!")
+        return false
     }
 }
 

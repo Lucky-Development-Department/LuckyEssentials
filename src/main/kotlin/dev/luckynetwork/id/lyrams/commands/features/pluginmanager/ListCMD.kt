@@ -19,7 +19,6 @@ class ListCMD(name: String, vararg aliases: String) : SubCommand(name, *aliases)
 
         for (plugin in Bukkit.getPluginManager().plugins)
             pluginList.add(PluginUtils.getFormattedName(plugin, includeVersion))
-
         pluginList.sortWith(String.CASE_INSENSITIVE_ORDER)
 
         val plugins = Joiner.on(", ").join(pluginList)

@@ -8,29 +8,34 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class EnchantCMD : BetterCommand {
+class EnchantCMD : BetterCommand("enchant", "ench") {
 
-    override fun execute(sender: CommandSender, args: Array<String>) {
+    override fun execute(
+        sender: CommandSender,
+        commandLabel: String,
+        args: Array<String>
+    ): Boolean {
         if (!sender.checkPermission("enchant"))
-            return
+            return false
 
         var target: Player
         target =
             if (sender !is Player) {
-                // console must specify a player
-                if (args.isEmpty())
-                    return sender.sendMessage(Config.prefix + " §cInvalid usage!")
-
-                if (Bukkit.getPlayer(args[0]) == null)
-                    return sender.sendMessage(Config.prefix + " §cPlayer not found!")
-
+                if (args.isEmpty()) {
+                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
+                    return false
+                }
+                if (Bukkit.getPlayer(args[0]) == null) {
+                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
+                    return false
+                }
                 Bukkit.getPlayer(args[0])
+
             } else
                 sender
 
         var others = false
         var offset = 0
-
         if (args.isNotEmpty() && Bukkit.getPlayer(args[0]) != null && sender is Player) {
             target = Bukkit.getPlayer(args[0]) as Player
             others = true
@@ -38,9 +43,9 @@ class EnchantCMD : BetterCommand {
         }
 
         if (!sender.checkPermission("enchant", others))
-            return
+            return false
 
-        target.inventory.itemInHand ?: return
+        target.inventory.itemInHand ?: return false
 
         val itemInHand = target.inventory.itemInHand
         val enchantments: ArrayList<String> = ArrayList()
@@ -67,7 +72,9 @@ class EnchantCMD : BetterCommand {
                 enchantments.add(args[0 + offset])
             }
         }
+
         for (enchantment in enchantments) {
+
             val level =
                 if (enchantment.contains(":"))
                     enchantment.split(":")[1].toInt()
@@ -80,6 +87,7 @@ class EnchantCMD : BetterCommand {
                             enchantment.split(":")[0]
                         else enchantment
                     ), level
+
                 )
             else
                 itemInHand.removeEnchantment(
@@ -88,11 +96,13 @@ class EnchantCMD : BetterCommand {
                             enchantment.split(":")[0]
                         else enchantment
                     )
+
                 )
         }
 
-        target.updateInventory()
 
+        target.updateInventory()
+        return false
     }
 
 }

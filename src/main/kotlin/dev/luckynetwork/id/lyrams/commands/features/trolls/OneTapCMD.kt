@@ -9,37 +9,44 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class OneTapCMD : BetterCommand {
+class OneTapCMD : BetterCommand("onetap") {
 
-    override fun execute(sender: CommandSender, args: Array<String>) {
+    override fun execute(
+        sender: CommandSender,
+        commandLabel: String,
+        args: Array<String>
+    ): Boolean {
         if (!sender.checkPermission("troll.onetap"))
-            return
+            return false
 
         var target: Player
         target =
             if (sender !is Player) {
-                // console must specify a player
-                if (args.isEmpty())
-                    return sender.sendMessage(Config.prefix + " §cInvalid usage!")
-
-                if (Bukkit.getPlayer(args[0]) == null)
-                    return sender.sendMessage(Config.prefix + " §cPlayer not found!")
-
+                if (args.isEmpty()) {
+                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
+                    return false
+                }
+                if (Bukkit.getPlayer(args[0]) == null) {
+                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
+                    return false
+                }
                 Bukkit.getPlayer(args[0])
+
             } else
                 sender
 
         var others = false
         if (args.isNotEmpty() && sender is Player) {
-            if (Bukkit.getPlayer(args[0]) == null)
-                return target.sendMessage(Config.prefix + " §cPlayer not found!")
-
+            if (Bukkit.getPlayer(args[0]) == null) {
+                target.sendMessage(Config.prefix + " §cPlayer not found!")
+                return false
+            }
             target = Bukkit.getPlayer(args[0])
             others = true
         }
 
         if (!sender.checkPermission("troll.onetap", others))
-            return
+            return false
 
         val state =
             if (target.hasMetadata("ONETAP")) {
@@ -49,6 +56,7 @@ class OneTapCMD : BetterCommand {
                 target.applyMetadata("ONETAP", true)
                 true
             }
+
 
         when {
             others ->
@@ -63,6 +71,7 @@ class OneTapCMD : BetterCommand {
                     target.sendMessage(Config.prefix + " §cYou are no longer one tap!")
         }
 
+        return false
     }
 
 }

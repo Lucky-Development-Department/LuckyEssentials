@@ -7,22 +7,24 @@ import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.command.CommandSender
 
-class HealCMD : BetterCommand {
+class HealCMD : BetterCommand("heal") {
 
-    override fun execute(sender: CommandSender, args: Array<String>) {
+    override fun execute(
+        sender: CommandSender,
+        commandLabel: String,
+        args: Array<String>
+    ): Boolean {
         if (!sender.checkPermission("heal"))
-            return
+            return false
 
         val targets = args.getTargetPlayer(sender, 0)
         val targetNames = ArrayList<String>()
-
         if (targets.isEmpty())
-            return
+            return false
 
         val others = !targets.contains(sender) || targets.size > 1
-
         if (!sender.checkPermission("heal", others))
-            return
+            return false
 
         targets.forEach {
             it.health = 20.0
@@ -38,6 +40,7 @@ class HealCMD : BetterCommand {
                 sender.sendMessage(Config.prefix + " §a§l" + targets.size + " players §ahave been healed!")
         }
 
+        return false
     }
 
 }

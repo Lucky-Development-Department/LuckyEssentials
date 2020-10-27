@@ -7,14 +7,19 @@ import dev.luckynetwork.id.lyrams.objects.Slots
 import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.command.CommandSender
 
-class SlotsCMD : BetterCommand {
+class SlotsCMD : BetterCommand("slots", "slot") {
 
-    override fun execute(sender: CommandSender, args: Array<String>) {
+    override fun execute(
+        sender: CommandSender,
+        commandLabel: String,
+        args: Array<String>
+    ): Boolean {
         if (!sender.checkPermission("slots"))
-            return
-
-        if (args.isEmpty())
-            return sendUsage(sender)
+            return false
+        if (args.isEmpty()) {
+            sendUsage(sender)
+            return false
+        }
 
         when (args[0].toUpperCase()) {
             "RELOAD" -> {
@@ -39,13 +44,14 @@ class SlotsCMD : BetterCommand {
             }
             "SET" -> {
                 if (args.size != 2)
-                    return
+                    return false
 
                 val amount: Int
                 try {
                     amount = args[1].toInt()
                 } catch (ignored: Exception) {
-                    return sender.sendMessage(Config.prefix + " §c" + args[1] + " is not a number")
+                    sender.sendMessage(Config.prefix + " §c" + args[1] + " is not a number")
+                    return false
                 }
 
                 Slots.set(amount)
@@ -63,8 +69,8 @@ class SlotsCMD : BetterCommand {
             else -> sendUsage(sender)
         }
 
+        return false
     }
-
 }
 
 private fun sendUsage(sender: CommandSender) {

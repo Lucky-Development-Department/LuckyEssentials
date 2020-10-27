@@ -8,23 +8,36 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class FixCMD : BetterCommand {
+class FixCMD : BetterCommand("fix", "repair") {
 
-    override fun execute(sender: CommandSender, args: Array<String>) {
+    override fun execute(
+        sender: CommandSender,
+        commandLabel: String,
+        args: Array<String>
+    ): Boolean {
         if (!sender.checkPermission("fix"))
-            return
+            return false
 
         var target: Player
+
+        // casts target
         target =
+                // if console executes this
             if (sender !is Player) {
                 // console must specify a player
-                if (args.isEmpty())
-                    return sender.sendMessage(Config.prefix + " §cInvalid usage!")
+                if (args.isEmpty()) {
+                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
+                    return false
+                }
 
-                if (Bukkit.getPlayer(args[0]) == null)
-                    return sender.sendMessage(Config.prefix + " §cPlayer not found!")
+                if (Bukkit.getPlayer(args[0]) == null) {
+                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
+                    return false
+                }
 
                 Bukkit.getPlayer(args[0])
+
+                // if executed by player
             } else
                 sender
 
@@ -34,9 +47,10 @@ class FixCMD : BetterCommand {
         if (args.isNotEmpty() && sender is Player &&
             !(args[0].equals("hand", true) || args[0].equals("all", true))
         ) {
-            if (Bukkit.getPlayer(args[0]) == null)
-                return sender.sendMessage(Config.prefix + " §cPlayer not found!")
-
+            if (Bukkit.getPlayer(args[0]) == null) {
+                sender.sendMessage(Config.prefix + " §cPlayer not found!")
+                return false
+            }
             target = Bukkit.getPlayer(args[0]) as Player
             others = true
             offset = 1
@@ -44,17 +58,17 @@ class FixCMD : BetterCommand {
 
         if (args.isEmpty() || args[0 + offset].equals("hand", true)) {
             if (!sender.checkPermission("fix", others))
-                return
-
+                return false
             repairHand(target)
         } else if (args[0 + offset].equals("all", true)) {
             if (!sender.checkPermission("fix.all", others))
-                return
-
+                return false
             repairAll(target)
         } else {
             sendUsage(sender)
         }
+
+        return false
     }
 
 }
@@ -65,12 +79,14 @@ private fun sendUsage(sender: CommandSender) {
 
 private fun repairHand(player: Player) {
     val itemInHand: ItemStack? = player.inventory.itemInHand
-
-    if (itemInHand == null || itemInHand.type.isBlock || itemInHand.durability == 0.toShort() || itemInHand.type.maxDurability < 1)
-        return player.sendMessage(Config.prefix + " §cYou can't fix that!")
-
-    if (itemInHand.durability == 0.toShort())
-        return player.sendMessage(Config.prefix + " §cThis item doesn't need repairing!")
+    if (itemInHand == null || itemInHand.type.isBlock || itemInHand.durability == 0.toShort() || itemInHand.type.maxDurability < 1) {
+        player.sendMessage(Config.prefix + " §cYou can't fix that!")
+        return
+    }
+    if (itemInHand.durability == 0.toShort()) {
+        player.sendMessage(Config.prefix + " §cThis item doesn't need repairing!")
+        return
+    }
 
     itemInHand.durability = 0.toShort()
     player.sendMessage(Config.prefix + " §aItem repaired!")
@@ -80,23 +96,24 @@ private fun repairHand(player: Player) {
 private fun repairAll(player: Player) {
     var count = 0
     for (item in player.inventory.contents) {
-
-        if (item == null || item.type.isBlock || item.durability == 0.toShort() || item.type.maxDurability < 1)
+        if (item == null || item.type.isBlock || item.durability == 0.toShort() || item.type.maxDurability < 1) {
             continue
-
-        if (item.durability == 0.toShort())
+        }
+        if (item.durability == 0.toShort()) {
             continue
+        }
 
         item.durability = 0.toShort()
         count++
     }
 
     for (item in player.inventory.armorContents) {
-        if (item == null || item.type.isBlock || item.durability == 0.toShort() || item.type.maxDurability < 1)
+        if (item == null || item.type.isBlock || item.durability == 0.toShort() || item.type.maxDurability < 1) {
             continue
-
-        if (item.durability == 0.toShort())
+        }
+        if (item.durability == 0.toShort()) {
             continue
+        }
 
         item.durability = 0.toShort()
         count++

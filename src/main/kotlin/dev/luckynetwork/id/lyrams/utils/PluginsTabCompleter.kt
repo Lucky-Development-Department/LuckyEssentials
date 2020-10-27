@@ -8,7 +8,6 @@ import org.bukkit.util.StringUtil
 import java.util.*
 
 class PluginsTabCompleter : TabCompleter {
-
     override fun onTabComplete(
         sender: CommandSender,
         command: Command,
@@ -25,13 +24,11 @@ class PluginsTabCompleter : TabCompleter {
                 val pluginNames = PluginUtils.getPluginNames(false)
                 StringUtil.copyPartialMatches(partialPlugin, pluginNames, completions)
             }
-
             completions.sort()
             return completions
         }
 
         return null
-
     }
 
 }

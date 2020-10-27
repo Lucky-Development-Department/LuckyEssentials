@@ -15,23 +15,26 @@ import org.bukkit.entity.Player
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PlayerInfoCMD : BetterCommand {
+@Suppress("DEPRECATION")
+class PlayerInfoCMD : BetterCommand("playerinfo", "pinfo") {
 
-    @Suppress("DEPRECATION")
-    override fun execute(sender: CommandSender, args: Array<String>) {
+    override fun execute(
+        sender: CommandSender,
+        commandLabel: String,
+        args: Array<String>
+    ): Boolean {
         if (!sender.checkPermission("playerinfo"))
-            return
+            return false
 
         var target: Any
         target =
             if (sender !is Player) {
-                // console must specify a player
-                if (args.isEmpty())
-                    return sender.sendMessage(Config.prefix + " §cInvalid usage!")
-
+                if (args.isEmpty()) {
+                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
+                    return false
+                }
                 Bukkit.getOfflinePlayer(args[0])
 
-                // if executed by player
             } else
                 sender
 
@@ -44,7 +47,6 @@ class PlayerInfoCMD : BetterCommand {
             val teleportTextComponent = TextComponent("§aClick me to teleport!")
 
             if (target is Player) {
-
                 val loc = target.location
                 locationTextComponent.hoverEvent = HoverEvent(
                     HoverEvent.Action.SHOW_TEXT,
@@ -126,11 +128,9 @@ class PlayerInfoCMD : BetterCommand {
                         """.trimIndent()
                     ).create()
                 )
-
                 teleportTextComponent.clickEvent = ClickEvent(
                     ClickEvent.Action.RUN_COMMAND, "/teleport ${target.name}"
                 )
-
             } else {
                 locationTextComponent.hoverEvent = HoverEvent(
                     HoverEvent.Action.SHOW_TEXT, ComponentBuilder("§cPlayer not found!").create()
@@ -155,7 +155,6 @@ class PlayerInfoCMD : BetterCommand {
                         """.trimIndent()
                     ).create()
                 )
-
             }
 
             sender.sendMessage(" ")
@@ -173,7 +172,6 @@ class PlayerInfoCMD : BetterCommand {
             if (target is Player)
                 sender.spigot().sendMessage(teleportTextComponent)
             sender.sendMessage(" ")
-
         } else {
             sender.sendMessage(" ")
             sender.sendMessage(
@@ -272,12 +270,12 @@ class PlayerInfoCMD : BetterCommand {
                      
                         """.trimIndent()
                 )
-
             }
 
             sender.sendMessage(" ")
         }
 
+        return false
     }
 
 }
@@ -291,8 +289,10 @@ fun Long.toDate(): String {
     val mMonth = calendar[Calendar.MONTH]
     val mDay = calendar[Calendar.DAY_OF_MONTH]
     val mAmPm =
-        if (calendar[Calendar.AM_PM] == 1) "PM"
-        else "AM"
+        if (calendar[Calendar.AM_PM] == 1)
+            "PM"
+        else
+            "AM"
     val mHour = calendar[Calendar.HOUR]
     val mMinute = calendar[Calendar.MINUTE]
     val mSecond = calendar[Calendar.SECOND]

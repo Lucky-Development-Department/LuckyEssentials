@@ -6,10 +6,9 @@ import dev.luckynetwork.id.lyrams.enums.XItemStack
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.getTargetPlayer
 import dev.luckynetwork.id.lyrams.objects.Config
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.ChatColor
 import org.bukkit.Material
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
@@ -22,13 +21,12 @@ import org.bukkit.inventory.meta.ItemMeta
  *
  * I'm killing myself
  */
-class GiveCMD : CommandExecutor {
+class GiveCMD : BetterCommand("give", "i") {
 
-    override fun onCommand(
+    override fun execute(
         sender: CommandSender,
-        command: Command,
-        commandName: String,
-        args: Array<out String>
+        commandLabel: String,
+        args: Array<String>
     ): Boolean {
         if (!sender.checkPermission("give"))
             return false
@@ -36,7 +34,7 @@ class GiveCMD : CommandExecutor {
         // get where should the args start from...
         // its complicated :/
         val offset =
-            if (commandName.equals("i", true))
+            if (commandLabel.equals("i", true))
                 0
             else
                 1
@@ -56,8 +54,7 @@ class GiveCMD : CommandExecutor {
         // boi this gonna be a confusing one
 
         if (sender is Player) {
-
-            if (commandName.equals("i", true)) {
+            if (commandLabel.equals("i", true)) {
                 targets.add(sender)
             } else {
                 targets = args.getTargetPlayer(sender, 0)
@@ -66,16 +63,20 @@ class GiveCMD : CommandExecutor {
 
             // did sender specify the item amount?
             if (args.size > 1 + offset) {
-                try {
-                    amount = args[1 + offset].toInt()
-                } catch (ignored: Exception) {
-                    sender.sendMessage(Config.prefix + " §cPlease specify a valid amount")
-                    return false
-                }
+                amount =
+                    try {
+                        args[1 + offset].toInt()
+                    } catch (ignored: Exception) {
+                        if (args[1 + offset].contains("-")) {
+                            -1
+                        } else {
+                            sender.sendMessage(Config.prefix + " §cPlease specify a valid amount")
+                            return false
+                        }
+                    }
             }
 
         } else if (!args[offset + 1].contains("-")) {
-
             try {
                 amount = args[offset + 1].toInt()
             } catch (ignored: Exception) {
@@ -92,7 +93,7 @@ class GiveCMD : CommandExecutor {
         if (!sender.checkPermission("give", others))
             return false
 
-        if (commandName.equals("give", true) && args.size < 2) {
+        if (commandLabel.equals("give", true) && args.size < 2) {
             sendUsage(sender)
             return false
         }
@@ -147,12 +148,9 @@ class GiveCMD : CommandExecutor {
                 itemStack = ItemStack(Material.valueOf(material), amount, damage.toShort())
 
         } catch (e: Exception) {
-
             sender.sendMessage(Config.prefix + " §c§l$material §cmight not be an item!")
             return false
-
         }
-
 
         if (itemName.isNotEmpty()) {
             val itemMeta: ItemMeta = itemStack.itemMeta
@@ -174,20 +172,15 @@ class GiveCMD : CommandExecutor {
                             enchantment.split(":")[0]
                         else enchantment
                     ), enchantLevel
-
                 )
-
             }
-
         }
 
         targets.forEach {
-
             val leftOvers = addOversizedItems(
                 it.inventory,
                 itemStack
             )
-
 
             for (item in leftOvers.values) {
                 val world = it.world
@@ -201,7 +194,6 @@ class GiveCMD : CommandExecutor {
                 }!"
             )
             targetNames.add(it.name)
-
         }
 
         if (others) {
@@ -224,7 +216,6 @@ class GiveCMD : CommandExecutor {
         }
 
         return false
-
     }
 
 }
@@ -334,5 +325,4 @@ private fun firstPartial(inventory: Inventory, item: ItemStack?, maxAmount: Int)
     }
 
     return -1
-
 }

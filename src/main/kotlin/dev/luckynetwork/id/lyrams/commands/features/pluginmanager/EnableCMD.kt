@@ -12,21 +12,17 @@ class EnableCMD(name: String, vararg aliases: String) : SubCommand(name, *aliase
     override fun execute(sender: CommandSender, args: Array<out String>) {
         if (!sender.checkPermission("pluginmanager.enable"))
             return
-
-        if (args.isEmpty()) {
-            sender.sendMessage(Config.prefix + " §cPlease provide a plugin!")
-            return
-        }
+        if (args.isEmpty())
+            return sender.sendMessage(Config.prefix + " §cPlease provide a plugin!")
 
         val plugin =
             PluginUtils.getPluginByName(args[0]) ?: return sender.sendMessage(Config.prefix + " §cPlugin not found!")
-
-        if (plugin.isEnabled)
-            return sender.sendMessage(Config.prefix + " §cPlugin is already enabled!")
-
+        if (plugin.isEnabled) {
+            sender.sendMessage(Config.prefix + " §cPlugin is already enabled!")
+            return
+        }
         plugin.enable()
         sender.sendMessage(Config.prefix + " §a§l${args[0]} §aenabled!")
-
     }
 
 }

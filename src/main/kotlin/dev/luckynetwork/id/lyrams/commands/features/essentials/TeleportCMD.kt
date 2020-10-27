@@ -2,31 +2,28 @@ package dev.luckynetwork.id.lyrams.commands.features.essentials
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.Config
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class TeleportCMD : CommandExecutor {
+class TeleportCMD : BetterCommand("teleport", "tp", "tpall", "tphere", "s") {
 
-    override fun onCommand(
+    override fun execute(
         sender: CommandSender,
-        command: Command,
-        commandName: String,
-        args: Array<out String>
+        commandLabel: String,
+        args: Array<String>
     ): Boolean {
         if (sender !is Player || !sender.checkPermission("teleport"))
             return false
-
         if (args.isEmpty()) {
             sendUsage(sender)
             return false
         }
 
-        when (commandName.toUpperCase()) {
+        when (commandLabel.toUpperCase()) {
             "TELEPORT", "TP" -> {
                 var target: Player = sender
                 var toTarget: Player
@@ -37,7 +34,6 @@ class TeleportCMD : CommandExecutor {
                         sender.sendMessage(Config.prefix + " §cPlayer not found!")
                         return false
                     }
-
                     toTarget = Bukkit.getPlayer(args[0])
 
                     if (!sender.checkPermission("teleport", others))
@@ -52,23 +48,19 @@ class TeleportCMD : CommandExecutor {
                         sender.sendMessage(Config.prefix + " §cPlayer §l${args[0]} §cnot found!")
                         return false
                     }
-
                     target = Bukkit.getPlayer(args[0])
 
                     if (Bukkit.getPlayer(args[1]) == null) {
                         sender.sendMessage(Config.prefix + " §cPlayer §l${args[1]} §cnot found!")
                         return false
                     }
-
                     others = true
-
                     toTarget = Bukkit.getPlayer(args[1])
 
                     if (!sender.checkPermission("teleport", others))
                         return false
 
                     target.teleport(toTarget.location)
-
                     when {
                         others -> {
                             sender.sendMessage(Config.prefix + " §aTeleported ${target.name} to ${args[1]}")
@@ -76,9 +68,7 @@ class TeleportCMD : CommandExecutor {
                         }
                         else -> target.sendMessage(Config.prefix + " §aTeleported you to ${toTarget.name}")
                     }
-
                 }
-
             }
             "TPPOS" -> {
                 var target: Player = sender
@@ -157,9 +147,7 @@ class TeleportCMD : CommandExecutor {
                 }
 
                 val location = Location(world, x, y, z, yaw, pitch)
-
                 target.teleport(location)
-
                 when {
                     others -> {
                         sender.sendMessage(Config.prefix + " §aTeleported ${target.name} to ${world.name} $x $y $z")
@@ -167,7 +155,6 @@ class TeleportCMD : CommandExecutor {
                     }
                     else -> target.sendMessage(Config.prefix + " §aTeleported you to ${world.name} $x $y $z")
                 }
-
             }
             "TPHERE", "S" -> {
                 if (Bukkit.getPlayer(args[0]) == null) {
@@ -182,7 +169,6 @@ class TeleportCMD : CommandExecutor {
                 toTarget.teleport(sender.location)
                 sender.sendMessage(Config.prefix + " §aTeleported ${toTarget.name} to ${sender.name}")
                 toTarget.sendMessage(Config.prefix + " §aTeleported you to ${sender.name}")
-
             }
             else -> sendUsage(sender)
         }

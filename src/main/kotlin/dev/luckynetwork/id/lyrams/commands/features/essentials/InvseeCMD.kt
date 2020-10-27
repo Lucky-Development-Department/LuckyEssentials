@@ -8,18 +8,27 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class InvseeCMD : BetterCommand {
+class InvseeCMD : BetterCommand("invsee") {
 
-    override fun execute(sender: CommandSender, args: Array<String>) {
+    override fun execute(
+        sender: CommandSender,
+        commandLabel: String,
+        args: Array<String>
+    ): Boolean {
         if (sender !is Player || !sender.checkPermission("invsee"))
-            return
-
-        if (args.isEmpty())
-            return sender.sendMessage("§cUsage: /invsee <target> [armorContents = true/false]!")
+            return false
+        if (args.isEmpty()) {
+            sender.sendMessage("§cUsage: /invsee <target> [armorContents = true/false]!")
+            return false
+        }
 
         val target =
-            if (Bukkit.getPlayer(args[0]) != null) Bukkit.getPlayer(args[0])
-            else return sender.sendMessage(Config.prefix + " §cPlayer not found!")
+            if (Bukkit.getPlayer(args[0]) != null) {
+                Bukkit.getPlayer(args[0])
+            } else {
+                sender.sendMessage(Config.prefix + " §cPlayer not found!")
+                return false
+            }
 
         val inventory =
             if (args.size > 1)
@@ -34,6 +43,7 @@ class InvseeCMD : BetterCommand {
         sender.openInventory(inventory)
         sender.applyMetadata("INVSEE", true)
 
+        return false
     }
 
 }

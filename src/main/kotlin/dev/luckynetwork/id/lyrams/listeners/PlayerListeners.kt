@@ -48,7 +48,6 @@ class PlayerListeners : Listener {
         player.closeInventory()
         player.openInventory(target.inventory)
         player.applyMetadata("INVSEE", true)
-
     }
 
     @EventHandler
@@ -59,7 +58,6 @@ class PlayerListeners : Listener {
         val victim = event.entity as Player
         if (victim.hasMetadata("GOD"))
             event.isCancelled = true
-
     }
 
     @EventHandler
@@ -70,7 +68,6 @@ class PlayerListeners : Listener {
         val victim = event.entity as Player
         if (victim.hasMetadata("GOD"))
             event.isCancelled = true
-
     }
 
     @EventHandler
@@ -81,7 +78,6 @@ class PlayerListeners : Listener {
         val victim = event.entity as Player
         if (victim.hasMetadata("GOD"))
             event.isCancelled = true
-
     }
 
     @EventHandler
@@ -108,7 +104,6 @@ class PlayerListeners : Listener {
         val player = event.player
         when (event.result) {
             PlayerLoginEvent.Result.KICK_FULL, PlayerLoginEvent.Result.ALLOWED -> {
-
                 if (Bukkit.getOnlinePlayers().size < Slots.getSlots())
                     event.allow()
                 else if (Bukkit.getOnlinePlayers().size >= Slots.amount && player.checkPermission(
@@ -123,11 +118,8 @@ class PlayerListeners : Listener {
                         ChatColor.translateAlternateColorCodes('&', Slots.fullMessage)
                     )
             }
-
             else -> return
-
         }
-
     }
 
     /*
@@ -147,6 +139,7 @@ class PlayerListeners : Listener {
                     return
 
                 inventoryOwner as Player
+
                 if (whoClicked.hasMetadata("INVSEE")) {
                     refreshPlayer = whoClicked
 
@@ -156,7 +149,6 @@ class PlayerListeners : Listener {
                         Bukkit.getScheduler()
                             .scheduleSyncDelayedTask(LuckyEssentials.instance, inventoryOwner::updateInventory, 1)
                 }
-
             }
 
             inventoryType == InventoryType.CHEST && topInventory.size == 9 -> {
@@ -169,14 +161,11 @@ class PlayerListeners : Listener {
                     event.isCancelled = true
                     refreshPlayer = whoClicked
                 }
-
             }
-
         }
 
         refreshPlayer ?: return
         Bukkit.getScheduler().scheduleSyncDelayedTask(LuckyEssentials.instance, refreshPlayer::updateInventory, 1)
-
     }
 
     /*
@@ -190,9 +179,7 @@ class PlayerListeners : Listener {
 
         when (inventoryType) {
             InventoryType.PLAYER -> {
-                if (player.hasMetadata("INVSEE"))
-                    player.removeMetadata("INVSEE")
-
+                player.removeMetadata("INVSEE")
             }
 
             InventoryType.CHEST -> {
@@ -200,16 +187,13 @@ class PlayerListeners : Listener {
                 if (inventoryOwner !is Player)
                     return
 
-                if (player.hasMetadata("INVSEE"))
-                    player.removeMetadata("INVSEE")
-
+                player.removeMetadata("INVSEE")
             }
-            else -> return
 
+            else -> return
         }
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(LuckyEssentials.instance, player::updateInventory, 1)
-
     }
 
 }

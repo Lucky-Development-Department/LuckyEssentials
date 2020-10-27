@@ -7,21 +7,24 @@ import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.command.CommandSender
 
-class FeedCMD : BetterCommand {
+class FeedCMD : BetterCommand("feed", "eat") {
 
-    override fun execute(sender: CommandSender, args: Array<String>) {
+    override fun execute(
+        sender: CommandSender,
+        commandLabel: String,
+        args: Array<String>
+    ): Boolean {
         if (!sender.checkPermission("feed"))
-            return
+            return false
 
         val targets = args.getTargetPlayer(sender, 0)
         val targetNames = ArrayList<String>()
-
         if (targets.isEmpty())
-            return
+            return false
 
         val others = !targets.contains(sender) || targets.size > 1
         if (!sender.checkPermission("feed", others))
-            return
+            return false
 
         targets.forEach {
             it.foodLevel = 20
@@ -35,8 +38,9 @@ class FeedCMD : BetterCommand {
                 sender.sendMessage(Config.prefix + " §a§l" + Joiner.on(", ").join(targetNames) + " §ahave been fed!")
             else
                 sender.sendMessage(Config.prefix + " §a§l" + targets.size + " players §ahave been fed!")
-
         }
+
+        return false
     }
 
 }

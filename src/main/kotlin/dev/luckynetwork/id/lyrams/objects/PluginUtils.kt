@@ -42,7 +42,6 @@ object PluginUtils {
                 "§c"
 
         var pluginName = color + plugin.name
-
         if (includeVersions)
             pluginName += " (" + plugin.description.version.toString() + ")"
 
@@ -52,7 +51,6 @@ object PluginUtils {
     fun getUsages(plugin: Plugin): String {
         val parsedCommands = ArrayList<String>()
         val commands = plugin.description.commands
-
         if (commands != null) {
             val commandsIt = commands.entries.iterator()
             while (commandsIt.hasNext()) {
@@ -61,7 +59,8 @@ object PluginUtils {
             }
         }
 
-        return if (parsedCommands.isEmpty()) "No commands registered." else Joiner.on(", ").join(parsedCommands)
+        return if (parsedCommands.isEmpty()) "No commands registered."
+        else Joiner.on(", ").join(parsedCommands)
     }
 
     fun getPluginNames(fullName: Boolean): List<String> {
@@ -90,15 +89,14 @@ object PluginUtils {
                         plugins.add(plugin.name)
                         continue
                     }
-
                     for (attributeNext in commandNext.value.entries) {
                         // Has an alias attribute.
                         if (attributeNext.key == "aliases") {
                             val aliases = attributeNext.value
+
                             if (aliases is String) {
                                 if (aliases.equals(command, ignoreCase = true))
                                     plugins.add(plugin.name)
-
                             } else {
                                 // Cast to a List of Strings.
                                 val array = aliases as List<*>
@@ -177,10 +175,9 @@ object PluginUtils {
         val names: MutableMap<String?, Plugin?>?
         val commands: MutableMap<String?, Command>?
         var listeners: Map<Event?, SortedSet<RegisteredListener>>? = null
-
         var reloadlisteners = true
-        plugin.disable()
 
+        plugin.disable()
         try {
             val pluginsField: Field = pluginManager.javaClass.getDeclaredField("plugins")
             pluginsField.isAccessible = true
@@ -205,14 +202,12 @@ object PluginUtils {
             val knownCommandsField: Field = SimpleCommandMap::class.java.getDeclaredField("knownCommands")
             knownCommandsField.isAccessible = true
             commands = knownCommandsField.get(commandMap) as MutableMap<String?, Command>?
-
         } catch (e: Exception) {
             e.printStackTrace()
             return false
         }
 
         plugin.disable()
-
         if (plugins.contains(plugin))
             plugins.remove(plugin)
 

@@ -23,10 +23,8 @@ class TrollPlayerListeners : Listener {
             return
 
         val player = event.player
-
         if (player.hasMetadata("NOPICKUP"))
             event.isCancelled = true
-
     }
 
     @EventHandler
@@ -42,7 +40,6 @@ class TrollPlayerListeners : Listener {
 
         if (victim.hasMetadata("ONETAP"))
             event.damage = 100.0
-
     }
 
     @EventHandler
@@ -56,10 +53,8 @@ class TrollPlayerListeners : Listener {
         val attacker = event.damager
         if (attacker.hasMetadata("NODAMAGE"))
             event.damage = 0.0
-
         if (attacker.hasMetadata("NOHIT"))
             event.isCancelled = true
-
     }
 
     @EventHandler
@@ -73,13 +68,10 @@ class TrollPlayerListeners : Listener {
 
         if (player.hasMetadata("FAKEPLACE")) {
             val block = event.block
-
             Bukkit.getScheduler().runTaskLater(LuckyEssentials.instance, {
                 block.type = Material.AIR
             }, 17L)
-
         }
-
     }
 
     @EventHandler
@@ -90,7 +82,6 @@ class TrollPlayerListeners : Listener {
         val player = event.player
         if (player.hasMetadata("NOBREAK"))
             event.isCancelled = true
-
     }
 
     @EventHandler
@@ -103,7 +94,6 @@ class TrollPlayerListeners : Listener {
             if (event.action != Action.RIGHT_CLICK_BLOCK || !event.isBlockInHand)
                 event.isCancelled = true
         }
-
     }
 
 }

@@ -9,49 +9,53 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class TrollCMD : BetterCommand {
+class TrollCMD : BetterCommand("troll", "trolls", "luckytroll", "luckytrolls", "lt") {
 
-    override fun execute(sender: CommandSender, args: Array<String>) {
-        if (!Config.trollEnabled || !sender.checkPermission("troll"))
-            return
+    override fun execute(
+        sender: CommandSender,
+        commandLabel: String,
+        args: Array<String>
+    ): Boolean {
+        if (!sender.checkPermission("troll"))
+            return false
 
         var others = false
-
         if (args.isEmpty() && sender is Player) {
             sender.sendMessage("§cUsage: /troll check [player]")
             sender.sendMessage("§cUsage: /troll clear [player]")
-            return
+            return false
         }
 
         var target: Player
         when (args[0].toUpperCase()) {
             "CHECK", "INFO" -> {
                 target =
-                        // if console executes this
                     if (sender !is Player) {
-                        // console must specify a player
-                        if (args.isEmpty())
-                            return sender.sendMessage(Config.prefix + " §cInvalid usage!")
-
-                        if (Bukkit.getPlayer(args[1]) == null)
-                            return sender.sendMessage(Config.prefix + " §cPlayer not found!")
-
+                        if (args.isEmpty()) {
+                            sender.sendMessage(Config.prefix + " §cInvalid usage!")
+                            return false
+                        }
+                        if (Bukkit.getPlayer(args[1]) == null) {
+                            sender.sendMessage(Config.prefix + " §cPlayer not found!")
+                            return false
+                        }
                         Bukkit.getPlayer(args[1])
+
                     } else
                         sender
 
                 if (args.size == 2 && sender is Player) {
                     if (Bukkit.getPlayer(args[1]) == null) {
-                        return target.sendMessage(Config.prefix + " §cPlayer not found!")
+                        target.sendMessage(Config.prefix + " §cPlayer not found!")
+                        return false
                     } else {
                         target = Bukkit.getPlayer(args[1])
                         others = true
                     }
                 }
 
-
                 if (!sender.checkPermission("troll", others))
-                    return
+                    return false
 
                 sender.sendMessage("§6${target.name}('s) active troll attributes:")
                 sender.sendMessage("§6FakePlace: ${target.hasMetadata("FAKEPLACE").toString().colorizeTrueOrFalse()}")
@@ -67,30 +71,34 @@ class TrollCMD : BetterCommand {
 
             "CLEAR" -> {
                 target =
-                        // if console executes this
                     if (sender !is Player) {
-                        // console must specify a player
-                        if (args.isEmpty())
-                            return sender.sendMessage(Config.prefix + " §cInvalid usage!")
+                        if (args.isEmpty()) {
+                            sender.sendMessage(Config.prefix + " §cInvalid usage!")
+                            return false
+                        }
 
-                        if (Bukkit.getPlayer(args[1]) == null)
-                            return sender.sendMessage(Config.prefix + " §cPlayer not found!")
+                        if (Bukkit.getPlayer(args[1]) == null) {
+                            sender.sendMessage(Config.prefix + " §cPlayer not found!")
+                            return false
+                        }
 
                         Bukkit.getPlayer(args[1])
+
                     } else
                         sender
 
                 if (args.size == 2 && sender is Player) {
-                    if (Bukkit.getPlayer(args[1]) == null)
-                        return target.sendMessage(Config.prefix + " §cPlayer not found!")
-                    else {
+                    if (Bukkit.getPlayer(args[1]) == null) {
+                        target.sendMessage(Config.prefix + " §cPlayer not found!")
+                        return false
+                    } else {
                         target = Bukkit.getPlayer(args[1])
                         others = true
                     }
                 }
 
                 if (!sender.checkPermission("troll", others))
-                    return
+                    return false
 
                 target.removeMetadata("FAKEPLACE")
                 target.removeMetadata("NOPICKUP")
@@ -107,6 +115,8 @@ class TrollCMD : BetterCommand {
                     target.sendMessage(Config.prefix + " §aYou are no longer trolled!")
             }
         }
+
+        return false
     }
 
 }

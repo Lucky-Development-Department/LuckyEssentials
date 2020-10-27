@@ -9,39 +9,45 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class NoPlaceCMD : BetterCommand {
+class NoPlaceCMD : BetterCommand("noplace") {
 
-    override fun execute(sender: CommandSender, args: Array<String>) {
-        if (!Config.trollEnabled || !sender.checkPermission("troll.noplace"))
-            return
+    override fun execute(
+        sender: CommandSender,
+        commandLabel: String,
+        args: Array<String>
+    ): Boolean {
+        if (!sender.checkPermission("troll.noplace"))
+            return false
 
         var target: Player
         target =
             if (sender !is Player) {
-                // console must specify a player
-                if (args.isEmpty())
-                    return sender.sendMessage(Config.prefix + " §cInvalid usage!")
-
-                if (Bukkit.getPlayer(args[0]) == null)
-                    return sender.sendMessage(Config.prefix + " §cPlayer not found!")
-
+                if (args.isEmpty()) {
+                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
+                    return false
+                }
+                if (Bukkit.getPlayer(args[0]) == null) {
+                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
+                    return false
+                }
                 Bukkit.getPlayer(args[0])
 
-                // if executed by player
             } else
                 sender
 
         var others = false
-        if (args.isNotEmpty() && sender is Player) {
-            if (Bukkit.getPlayer(args[0]) == null)
-                return target.sendMessage(Config.prefix + " §cPlayer not found!")
 
+        if (args.isNotEmpty() && sender is Player) {
+            if (Bukkit.getPlayer(args[0]) == null) {
+                target.sendMessage(Config.prefix + " §cPlayer not found!")
+                return false
+            }
             target = Bukkit.getPlayer(args[0])
             others = true
         }
 
         if (!sender.checkPermission("troll.noplace", others))
-            return
+            return false
 
         val state =
             if (target.hasMetadata("NOPLACE")) {
@@ -65,6 +71,7 @@ class NoPlaceCMD : BetterCommand {
                     target.sendMessage(Config.prefix + " §cYou can no longer place blocks!")
         }
 
+        return false
     }
 
 }

@@ -10,22 +10,28 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class ClearCMD : BetterCommand {
+class ClearCMD : BetterCommand("clear", "ci") {
 
-    override fun execute(sender: CommandSender, args: Array<String>) {
+    override fun execute(
+        sender: CommandSender,
+        commandLabel: String,
+        args: Array<String>
+    ): Boolean {
         if (!sender.checkPermission("clear"))
-            return
+            return false
 
         var target: Player
         target =
             if (sender !is Player) {
                 // console must specify a player
-                if (args.isEmpty())
-                    return sender.sendMessage(Config.prefix + " §cInvalid usage!")
-
-                if (Bukkit.getPlayer(args[0]) == null)
-                    return sender.sendMessage(Config.prefix + " §cPlayer not found!")
-
+                if (args.isEmpty()) {
+                    sender.sendMessage(Config.prefix + " §cInvalid usage!")
+                    return false
+                }
+                if (Bukkit.getPlayer(args[0]) == null) {
+                    sender.sendMessage(Config.prefix + " §cPlayer not found!")
+                    return false
+                }
                 Bukkit.getPlayer(args[0])
             } else
                 sender
@@ -37,13 +43,12 @@ class ClearCMD : BetterCommand {
 
         if (args.isNotEmpty() && Bukkit.getPlayer(args[0]) != null && sender is Player) {
             target = Bukkit.getPlayer(args[0]) as Player
-
             others = true
             offset = 1
         }
 
         if (!sender.checkPermission("clear", others))
-            return
+            return false
 
         if (args.size == 1 + offset && args[0 + offset].isNotEmpty()) {
             if (args[0 + offset] == "**") {
@@ -63,11 +68,13 @@ class ClearCMD : BetterCommand {
                         itemStack = ItemStack(Material.valueOf(args[0 + offset]), 64, damage.toShort())
 
                     type = ClearType.SPECIFIC_ITEM
-
                 } catch (e: Exception) {
-                    return sender.sendMessage(Config.prefix + " §c§l" + args[0 + offset] + " §cmight not be an item!")
+                    sender.sendMessage(Config.prefix + " §c§l" + args[0 + offset] + " §cmight not be an item!")
+                    return false
                 }
+
             }
+
         }
 
         if (itemStack == null)
@@ -87,6 +94,7 @@ class ClearCMD : BetterCommand {
         }
 
         target.updateInventory()
+
         when {
             others -> {
                 sender.sendMessage(Config.prefix + " §aCleared §l" + target.name + "('s) §ainventory!")
@@ -96,22 +104,25 @@ class ClearCMD : BetterCommand {
                 target.sendMessage(Config.prefix + " §aInventory cleared!")
             }
         }
+
+        return false
+    }
+
+    private enum class ClearType {
+        ALL, ALL_EXCEPT_ARMOR, SPECIFIC_ITEM
+    }
+
+    private fun clearInventory(player: Player) {
+        player.inventory.clear()
+        player.inventory.armorContents = null
+    }
+
+    private fun clearInventoryNoArmor(player: Player) {
+        player.inventory.clear()
+    }
+
+    private fun clearSpecificItem(player: Player, material: Material) {
+        player.inventory.remove(material)
     }
 }
 
-private enum class ClearType {
-    ALL, ALL_EXCEPT_ARMOR, SPECIFIC_ITEM
-}
-
-private fun clearInventory(player: Player) {
-    player.inventory.clear()
-    player.inventory.armorContents = null
-}
-
-private fun clearInventoryNoArmor(player: Player) {
-    player.inventory.clear()
-}
-
-private fun clearSpecificItem(player: Player, material: Material) {
-    player.inventory.remove(material)
-}

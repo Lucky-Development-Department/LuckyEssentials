@@ -10,7 +10,7 @@ import dev.luckynetwork.id.lyrams.utils.SubCommand
 import org.bukkit.command.CommandSender
 import java.util.concurrent.CompletableFuture
 
-class LuckyEssentialsCMD : BetterCommand {
+class LuckyEssentialsCMD : BetterCommand("luckyessentials", "less") {
 
     private var subCommands: List<SubCommand> = listOf(
         DisableCMD("disable", "dis"),
@@ -25,18 +25,22 @@ class LuckyEssentialsCMD : BetterCommand {
         UsageCMD("usage"),
     )
 
-    override fun execute(sender: CommandSender, args: Array<String>) {
+    override fun execute(
+        sender: CommandSender,
+        commandName: String,
+        args: Array<String>
+    ): Boolean {
         val plugin = LuckyEssentials.instance
 
         if (args.isEmpty()) {
-            return sender.sendMessage(
+            sender.sendMessage(
                 Config.prefix + " §aCurrently using §eLuckyEssentials §dv" + plugin.description.version +
                         " §aby §e" + Joiner.on(", ").join(plugin.description.authors)
             )
-
+            return false
         } else if (args[0].equals("pluginmanager", true) || args[0].equals("pm", true)) {
             if (!sender.checkPermission("pluginmanager"))
-                return
+                return false
 
             if (args.size < 2) {
                 sender.sendMessage("§cUsage: /less pm disable <plugin>")
@@ -49,12 +53,11 @@ class LuckyEssentialsCMD : BetterCommand {
                 sender.sendMessage("§cUsage: /less pm restart <plugin>")
                 sender.sendMessage("§cUsage: /less pm unload <plugin>")
                 sender.sendMessage("§cUsage: /less pm usage <plugin>")
-                return
+                return false
             }
 
             val subCmd = args[1].toLowerCase()
             val newArgs = args.copyOfRange(2, args.size)
-
             CompletableFuture.runAsync {
                 try {
                     for (subCommand in subCommands) {
@@ -66,15 +69,16 @@ class LuckyEssentialsCMD : BetterCommand {
                     e.printStackTrace()
                 }
             }
-            return
 
+            return false
         } else if (args[0].equals("reload", true)) {
             if (!sender.checkPermission("reload"))
-                return
+                return false
 
             Config.reloadAll()
             sender.sendMessage(Config.prefix + " §aConfig Reloaded!")
-            return
+
+            return false
         }
 
         sender.sendMessage(
@@ -82,6 +86,7 @@ class LuckyEssentialsCMD : BetterCommand {
                     " §aby §e" + Joiner.on(", ").join(plugin.description.authors)
         )
 
+        return false
     }
 
 }

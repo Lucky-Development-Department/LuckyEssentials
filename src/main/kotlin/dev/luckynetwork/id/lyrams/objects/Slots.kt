@@ -21,7 +21,8 @@ object Slots {
         return enabled
     }
 
-    fun getSlots(): Int = amount
+    fun getSlots(): Int =
+        amount
 
     fun convert() {
         if (amount != -1)
@@ -31,8 +32,10 @@ object Slots {
         val pluginManager = Bukkit.getPluginManager()
         logger.info("[MYSlots Converter] Attempting to convert slots data from MYSlots")
 
-        if (!pluginManager.isPluginEnabled("MYSlots"))
-            return logger.info("[MYSlots Converter] MYSlots not found!")
+        if (!pluginManager.isPluginEnabled("MYSlots")) {
+            logger.info("[MYSlots Converter] MYSlots not found!")
+            return
+        }
 
         logger.info("[MYSlots Converter] MYSlots found!")
 
@@ -56,7 +59,6 @@ object Slots {
         pluginManager.disablePlugin(pluginManager.getPlugin("MYSlots"))
         logger.info("[MYSlots Converter] MySlots Disabled!")
         logger.info("[MYSlots Converter] Converting success!")
-
     }
 
     fun reload() =
@@ -68,6 +70,6 @@ object Slots {
         Config.slotsData.set("slots.max_player", amount)
 
         Config.slotsData.save(Config.slotsFile)
-
     }
+
 }

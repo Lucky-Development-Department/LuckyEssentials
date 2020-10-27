@@ -1,24 +1,22 @@
 package dev.luckynetwork.id.lyrams.commands.features.essentials
 
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
-import dev.luckynetwork.id.lyrams.extensions.getAllPlayers
+import dev.luckynetwork.id.lyrams.extensions.getNearbyPlayers
 import dev.luckynetwork.id.lyrams.extensions.isDouble
 import dev.luckynetwork.id.lyrams.objects.Config
+import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class TeleportAllCMD : CommandExecutor {
+class TeleportAllCMD : BetterCommand("teleportall", "tpall", "tpallpos") {
 
-    override fun onCommand(
+    override fun execute(
         sender: CommandSender,
-        command: Command,
         commandName: String,
-        args: Array<out String>
+        args: Array<String>
     ): Boolean {
         if (sender !is Player || !sender.checkPermission("teleportall"))
             return false
@@ -30,6 +28,7 @@ class TeleportAllCMD : CommandExecutor {
 
                 if (args.isEmpty()) {
                     targets = Bukkit.getOnlinePlayers().filter { it != sender }
+
                     targets.forEach {
                         it.teleport(sender.location)
                         it.sendMessage(Config.prefix + " §aTeleported you to ${sender.name}")
@@ -53,14 +52,15 @@ class TeleportAllCMD : CommandExecutor {
                         if (!sender.checkPermission("teleportall", true))
                             return false
 
-                        targets = getAllPlayers(sender, range.toDouble(), true).filter { it != toTarget }
+                        targets = sender.getNearbyPlayers(range.toDouble(), true).filter { it != toTarget }
                         targets.forEach {
                             it.teleport(toTarget.location)
                             it.sendMessage(Config.prefix + " §a${sender.name} teleported you to ${toTarget.name}")
                         }
+
                         sender.sendMessage(Config.prefix + " §aTeleported ${targets.size} to ${toTarget.name}")
                     } else {
-                        targets = getAllPlayers(sender, range.toDouble())
+                        targets = sender.getNearbyPlayers(range.toDouble())
                         targets.forEach {
                             it.teleport(sender.location)
                             it.sendMessage(Config.prefix + " §aTeleported you to ${sender.name}")
@@ -86,7 +86,6 @@ class TeleportAllCMD : CommandExecutor {
 
                     sender.sendMessage(Config.prefix + " §aTeleported ${targets.size} players to ${toTarget.name}")
                 }
-
             }
             "TPALLPOS" -> {
                 var targets = Bukkit.getOnlinePlayers()
@@ -110,8 +109,7 @@ class TeleportAllCMD : CommandExecutor {
                         sendUsage(sender)
                         return false
                     }
-
-                    targets = getAllPlayers(sender, range.toDouble())
+                    targets = sender.getNearbyPlayers(range.toDouble())
                     offset = 1
                 }
 
@@ -176,7 +174,6 @@ class TeleportAllCMD : CommandExecutor {
 
                 sender.sendMessage(Config.prefix + " §aTeleported ${targets.size} players to ${world.name} $x $y $z")
             }
-
             else -> sendUsage(sender)
         }
 

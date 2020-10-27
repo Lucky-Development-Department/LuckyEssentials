@@ -8,25 +8,27 @@ object Whitelist {
 
     fun add(name: String, save: Boolean = true): Boolean {
         var success = false
+
         if (!whitelistCache.contains(name.toLowerCase())) {
             whitelistCache.add(name.toLowerCase())
             success = true
         }
+
         if (save)
             save()
-
         return success
     }
 
     fun remove(name: String, save: Boolean = true): Boolean {
         var success = false
+
         if (whitelistCache.contains(name.toLowerCase())) {
             whitelistCache.remove(name.toLowerCase())
             success = true
         }
+
         if (save)
             save()
-
         return success
     }
 
@@ -37,9 +39,13 @@ object Whitelist {
         return enabled
     }
 
-    fun list(): List<String> = whitelistCache
+    fun list(): List<String> =
+        whitelistCache
 
-    fun isWhitelisted(name: String): Boolean = whitelistCache.contains(name)
+
+    fun isWhitelisted(name: String): Boolean =
+        whitelistCache.contains(name)
+
 
     fun clear() {
         whitelistCache.clear()
@@ -55,7 +61,6 @@ object Whitelist {
         Config.whitelistData.set("whitelist.whitelisted", whitelistCache)
 
         Config.whitelistData.save(Config.whitelistFile)
-
     }
 
 }

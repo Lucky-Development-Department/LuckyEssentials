@@ -7,14 +7,19 @@ import dev.luckynetwork.id.lyrams.objects.Whitelist
 import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.command.CommandSender
 
-class EWhitelistCMD : BetterCommand {
+class EWhitelistCMD : BetterCommand("ewhitelist", "whitelist", "wl", "ewl") {
 
-    override fun execute(sender: CommandSender, args: Array<String>) {
+    override fun execute(
+        sender: CommandSender,
+        commandLabel: String,
+        args: Array<String>
+    ): Boolean {
         if (!sender.checkPermission("ewhitelist"))
-            return
-
-        if (args.isEmpty())
-            return sendUsage(sender)
+            return false
+        if (args.isEmpty()) {
+            sendUsage(sender)
+            return false
+        }
 
         when (args[0].toUpperCase()) {
             "RELOAD" -> {
@@ -39,7 +44,7 @@ class EWhitelistCMD : BetterCommand {
             }
             "ADD" -> {
                 if (args.size != 2)
-                    return
+                    return false
 
                 val targets = ArrayList<String>()
                 var bulk = false
@@ -74,10 +79,11 @@ class EWhitelistCMD : BetterCommand {
                             sender.sendMessage(Config.prefix + " §c$toBeAdded is already whitelisted!")
                     }
                 }
+
             }
             "REMOVE" -> {
                 if (args.size != 2)
-                    return
+                    return false
 
                 val targets = ArrayList<String>()
                 var bulk = false
@@ -131,7 +137,7 @@ class EWhitelistCMD : BetterCommand {
             }
             "CHECK" -> {
                 if (args.size != 2)
-                    return
+                    return false
 
                 val target = args[1].toLowerCase()
 
@@ -147,6 +153,8 @@ class EWhitelistCMD : BetterCommand {
             }
             else -> sendUsage(sender)
         }
+
+        return false
     }
 }
 

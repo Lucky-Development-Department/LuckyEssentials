@@ -1,7 +1,6 @@
 package dev.luckynetwork.id.lyrams.objects
 
 import dev.luckynetwork.id.lyrams.LuckyEssentials
-import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
@@ -18,6 +17,7 @@ object Config {
     lateinit var whitelistData: FileConfiguration
     lateinit var slotsFile: File
     lateinit var slotsData: FileConfiguration
+    lateinit var disabledCommands: List<String>
 
     var trollEnabled: Boolean = true
 
@@ -39,10 +39,7 @@ object Config {
         whitelistData = YamlConfiguration.loadConfiguration(whitelistFile)
         slotsData = YamlConfiguration.loadConfiguration(slotsFile)
 
-        Bukkit.getScheduler().runTaskLater(plugin, {
-            reloadAll()
-        }, 1L)
-
+        reloadAll()
     }
 
     fun reloadAll() {
@@ -50,7 +47,6 @@ object Config {
         reloadMessages()
         reloadSlots()
         reloadWhitelist()
-
     }
 
     private fun reloadConfig() {
@@ -60,7 +56,7 @@ object Config {
 
         plugin.reloadConfig()
         trollEnabled = plugin.config.getBoolean("troll-features", true)
-
+        disabledCommands = plugin.config.getStringList("disabled-commands")
     }
 
     private fun reloadMessages() {
@@ -73,11 +69,11 @@ object Config {
             '&',
             messagesData.getString("prefix", "&e&lLuckyEssentials &a/")
         )
-
     }
 
     fun reloadSlots() {
         Slots.convert()
+
         slotsFile = File(plugin.dataFolder, "slots.yml")
         if (!slotsFile.exists())
             plugin.saveResource("slots.yml", false)
@@ -87,7 +83,6 @@ object Config {
         Slots.enabled = slotsData.getBoolean("slots.enabled")
         Slots.fullMessage = slotsData.getString("slots.kick_message")
         Slots.amount = slotsData.getInt("slots.max_player")
-
     }
 
     fun reloadWhitelist() {
@@ -100,7 +95,6 @@ object Config {
         Whitelist.enabled = whitelistData.getBoolean("whitelist.enabled")
         Whitelist.kickMessage = whitelistData.getString("whitelist.kick_message")
         Whitelist.whitelistCache = whitelistData.getStringList("whitelist.whitelisted") as ArrayList<String>
-
     }
 
 }

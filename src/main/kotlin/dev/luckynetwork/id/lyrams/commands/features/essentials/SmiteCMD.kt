@@ -10,26 +10,32 @@ import org.bukkit.block.Block
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class SmiteCMD : BetterCommand {
+class SmiteCMD : BetterCommand("smite", "thor", "lightning") {
 
-    override fun execute(sender: CommandSender, args: Array<String>) {
+    override fun execute(
+        sender: CommandSender,
+        commandLabel: String,
+        args: Array<String>
+    ): Boolean {
         if (sender !is Player || !sender.checkPermission("smite"))
-            return
+            return false
 
         val nullSet: Set<Material>? = null
         val targets = args.getTargetPlayer(sender, 0)
-
         if (targets.isEmpty())
-            return
+            return false
 
         val others = !targets.contains(sender) || targets.size > 1
         val targetBlocks = ArrayList<Block>()
-
-        if (others) targets.forEach { targetBlocks.add(it.location.block) }
-        else targetBlocks.add(sender.getTargetBlock(nullSet, 120))
+        if (others)
+            targets.forEach {
+                targetBlocks.add(it.location.block)
+            }
+        else
+            targetBlocks.add(sender.getTargetBlock(nullSet, 120))
 
         if (!sender.checkPermission("smite", others))
-            return
+            return false
 
         targetBlocks.forEach {
             val location = Location(
@@ -40,10 +46,13 @@ class SmiteCMD : BetterCommand {
         }
 
         if (others) {
-            targets.forEach { it.sendMessage(Config.prefix + " §aYou have been smitten!") }
+            targets.forEach {
+                it.sendMessage(Config.prefix + " §aYou have been smitten!")
+            }
             sender.sendMessage(Config.prefix + " §aSmitten ${targets.size} players!")
         }
 
+        return false
     }
 
 }
