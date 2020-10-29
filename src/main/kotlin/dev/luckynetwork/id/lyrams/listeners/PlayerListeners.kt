@@ -3,12 +3,12 @@ package dev.luckynetwork.id.lyrams.listeners
 import dev.luckynetwork.id.lyrams.LuckyEssentials
 import dev.luckynetwork.id.lyrams.extensions.applyMetadata
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.extensions.colorize
 import dev.luckynetwork.id.lyrams.extensions.removeMetadata
 import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.objects.Slots
 import dev.luckynetwork.id.lyrams.objects.Whitelist
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor
 import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -89,7 +89,7 @@ class PlayerListeners : Listener {
 
         event.disallow(
             PlayerLoginEvent.Result.KICK_WHITELIST,
-            ChatColor.translateAlternateColorCodes('&', Whitelist.kickMessage)
+            Whitelist.kickMessage.colorize()
         )
     }
 
@@ -115,7 +115,7 @@ class PlayerListeners : Listener {
                 else
                     event.disallow(
                         PlayerLoginEvent.Result.KICK_FULL,
-                        ChatColor.translateAlternateColorCodes('&', Slots.fullMessage)
+                        Slots.fullMessage.colorize()
                     )
             }
             else -> return

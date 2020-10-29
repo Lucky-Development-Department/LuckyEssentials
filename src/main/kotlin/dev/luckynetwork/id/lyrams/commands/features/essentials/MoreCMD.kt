@@ -20,6 +20,7 @@ class MoreCMD : BetterCommand("more") {
         val itemInHand = sender.inventory.itemInHand
         itemInHand.amount = 64
         sender.updateInventory()
+
         return false
     }
 }

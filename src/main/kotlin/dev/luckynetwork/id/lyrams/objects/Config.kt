@@ -1,7 +1,7 @@
 package dev.luckynetwork.id.lyrams.objects
 
 import dev.luckynetwork.id.lyrams.LuckyEssentials
-import org.bukkit.ChatColor
+import dev.luckynetwork.id.lyrams.extensions.colorize
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
@@ -65,10 +65,7 @@ object Config {
             plugin.saveResource("messages.yml", false)
 
         messagesData = YamlConfiguration.loadConfiguration(messagesFile)
-        prefix = ChatColor.translateAlternateColorCodes(
-            '&',
-            messagesData.getString("prefix", "&e&lLuckyEssentials &a/")
-        )
+        prefix = messagesData.getString("prefix", "&e&lLuckyEssentials &a/").colorize()
     }
 
     fun reloadSlots() {

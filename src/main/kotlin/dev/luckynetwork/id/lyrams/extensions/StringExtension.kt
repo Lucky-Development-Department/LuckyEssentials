@@ -2,6 +2,7 @@ package dev.luckynetwork.id.lyrams.extensions
 
 import dev.luckynetwork.id.lyrams.objects.Config
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -12,6 +13,10 @@ internal fun String.colorizeTrueOrFalse(): String =
         this.equals("false", true) -> "§c$this"
         else -> this
     }
+
+/** colorizes [String] */
+internal fun String.colorize(): String =
+    ChatColor.translateAlternateColorCodes('&', this)
 
 /** checks if [String] is a double */
 internal fun String.isDouble(): Boolean =

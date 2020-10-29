@@ -4,10 +4,10 @@ import com.google.common.base.Joiner
 import dev.luckynetwork.id.lyrams.enums.XEnchantment
 import dev.luckynetwork.id.lyrams.enums.XItemStack
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.extensions.colorize
 import dev.luckynetwork.id.lyrams.extensions.getTargetPlayer
 import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.utils.BetterCommand
-import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -155,7 +155,7 @@ class GiveCMD : BetterCommand("give", "i") {
         if (itemName.isNotEmpty()) {
             val itemMeta: ItemMeta = itemStack.itemMeta
 
-            itemMeta.displayName = ChatColor.translateAlternateColorCodes('&', itemName)
+            itemMeta.displayName = itemName.colorize()
             itemStack.itemMeta = itemMeta
         }
 

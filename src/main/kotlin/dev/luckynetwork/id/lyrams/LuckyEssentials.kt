@@ -45,17 +45,13 @@ class LuckyEssentials : JavaPlugin() {
             try {
                 val commandObject = commandClass.newInstance()
                 if (commandObject is BetterCommand) {
-                    // also disables troll commands if trolling id disabled in the config
-                    if ((commandObject.javaClass.name.contains("features.trolls") && !Config.trollEnabled) ||
-                        Config.disabledCommands.contains(commandObject.name)
-                    ) {
-                        ++total
-                        continue
-                    }
-
-                    commandObject.register(this)
                     ++total
-                    ++count
+
+                    // also disables troll commands if trolling is disabled in the config
+                    if (!(commandObject.javaClass.name.contains("features.trolls") && !Config.trollEnabled) && !Config.disabledCommands.contains(commandObject.name)) {
+                        commandObject.register(this)
+                        ++count
+                    }
                 }
             } catch (_: InstantiationException) {
             }

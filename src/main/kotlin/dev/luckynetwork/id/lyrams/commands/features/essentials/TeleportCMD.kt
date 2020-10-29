@@ -9,7 +9,7 @@ import org.bukkit.World
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class TeleportCMD : BetterCommand("teleport", "tp", "tpall", "tphere", "s") {
+class TeleportCMD : BetterCommand("teleport", "tp", "tphere", "s", "tppos") {
 
     override fun execute(
         sender: CommandSender,

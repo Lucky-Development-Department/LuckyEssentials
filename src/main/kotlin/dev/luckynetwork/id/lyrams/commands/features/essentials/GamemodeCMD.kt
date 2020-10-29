@@ -8,7 +8,7 @@ import org.bukkit.GameMode
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class GamemodeCMD : BetterCommand("fly") {
+class GamemodeCMD : BetterCommand("gamemode", "gm", "gmc", "gms", "gmsp", "gma") {
 
     override fun execute(
         sender: CommandSender,
