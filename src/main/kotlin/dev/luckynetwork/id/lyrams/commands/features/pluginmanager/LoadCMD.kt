@@ -14,8 +14,9 @@ class LoadCMD(name: String, vararg aliases: String) : SubCommand(name, *aliases)
         if (args.isEmpty())
             return sender.sendMessage(Config.prefix + " §cPlease provide a plugin!")
 
-        PluginUtils.getPluginByName(args[0])
-            ?: return sender.sendMessage(Config.prefix + " §c§l${args[0]} §cis already loaded!")
+        val pluginByName = PluginUtils.getPluginByName(args[0])
+        if (pluginByName != null) return sender.sendMessage(Config.prefix + " §c§l${args[0]} §cis already loaded!")
+
         if (PluginUtils.load(args[0]))
             sender.sendMessage(Config.prefix + " §a§l${args[0]} §aloaded!")
         else

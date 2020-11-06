@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 class RenameCMD : BetterCommand("rename") {
 
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<String>): Boolean {
-        if (sender !is Player || sender.checkPermission("rename"))
+        if (sender !is Player || !sender.checkPermission("rename"))
             return false
 
         val itemStack = sender.inventory.itemInHand ?: return false

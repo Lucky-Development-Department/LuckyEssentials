@@ -2,6 +2,7 @@ package dev.luckynetwork.id.lyrams.commands.features.essentials
 
 import dev.luckynetwork.id.lyrams.enums.XEnchantment
 import dev.luckynetwork.id.lyrams.extensions.checkPermission
+import dev.luckynetwork.id.lyrams.extensions.isDouble
 import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.Bukkit
@@ -17,6 +18,13 @@ class EnchantCMD : BetterCommand("enchant", "ench") {
     ): Boolean {
         if (!sender.checkPermission("enchant"))
             return false
+
+        if (args.isEmpty()) {
+            sender.sendMessage(Config.prefix + " §cUsage: /enchant <enchantment:level>")
+            sender.sendMessage(Config.prefix + " §cUsage: /enchant <enchantment:level,enchantment:level,...>")
+            sender.sendMessage(Config.prefix + " §cUsage: /enchant <enchantment> <level>")
+            return false
+        }
 
         var target: Player
         target =
@@ -74,20 +82,21 @@ class EnchantCMD : BetterCommand("enchant", "ench") {
         }
 
         for (enchantment in enchantments) {
-
             val level =
                 if (enchantment.contains(":"))
                     enchantment.split(":")[1].toInt()
-                else 1
+                else if (args[1 + offset].isNotEmpty() && args[1 + offset].isDouble())
+                    args[1 + offset].toInt()
+                else
+                    1
 
-            if (level > 0)
+            if (level != 0)
                 itemInHand.addUnsafeEnchantment(
                     XEnchantment.getByName(
                         if (enchantment.contains(":"))
                             enchantment.split(":")[0]
                         else enchantment
                     ), level
-
                 )
             else
                 itemInHand.removeEnchantment(
@@ -96,10 +105,8 @@ class EnchantCMD : BetterCommand("enchant", "ench") {
                             enchantment.split(":")[0]
                         else enchantment
                     )
-
                 )
         }
-
 
         target.updateInventory()
         return false
