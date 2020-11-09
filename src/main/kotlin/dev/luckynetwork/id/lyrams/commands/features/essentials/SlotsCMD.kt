@@ -32,7 +32,7 @@ class SlotsCMD : BetterCommand("slots", "slot") {
             }
             "TOGGLE" -> {
                 val state = Slots.toggle(null)
-                sender.sendMessage(Config.prefix + " §aSlots Modifier: §l${state.toString().colorizeTrueOrFalse()}!")
+                sender.sendMessage(Config.prefix + " §aSlots Modifier: §l${state.toString().colorizeTrueOrFalse}!")
             }
             "ON", "ENABLE", "ENABLED" -> {
                 val state = Slots.toggle(true)

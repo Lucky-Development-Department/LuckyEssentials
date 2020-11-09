@@ -155,7 +155,7 @@ class GiveCMD : BetterCommand("give", "i") {
         if (itemName.isNotEmpty()) {
             val itemMeta: ItemMeta = itemStack.itemMeta
 
-            itemMeta.displayName = itemName.colorize()
+            itemMeta.displayName = itemName.colorize
             itemStack.itemMeta = itemMeta
         }
 

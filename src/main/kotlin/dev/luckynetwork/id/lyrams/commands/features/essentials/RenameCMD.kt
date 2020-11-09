@@ -14,7 +14,7 @@ class RenameCMD : BetterCommand("rename") {
 
         val itemStack = sender.inventory.itemInHand ?: return false
         val itemMeta = itemStack.itemMeta
-        val name = args.joinToString(" ").colorize()
+        val name = args.joinToString(" ").colorize
 
         itemMeta.displayName = name
         itemStack.itemMeta = itemMeta

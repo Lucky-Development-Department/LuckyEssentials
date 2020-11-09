@@ -4,7 +4,6 @@ import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.objects.Config
 import dev.luckynetwork.id.lyrams.utils.BetterCommand
 import org.bukkit.Location
-import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -18,16 +17,16 @@ class TopCMD : BetterCommand("top") {
         if (sender !is Player || !sender.checkPermission("top"))
             return false
 
-        sender.teleport(getHighestLocation(sender.location))
+        val location = sender.location
+        val highest = location.world.getHighestBlockAt(location.blockX, location.blockZ)
+
+        if (location.blockY >= highest.y) {
+            sender.sendMessage(Config.prefix + " §cYou are already at the highest block!")
+            return false
+        }
+
         sender.sendMessage(Config.prefix + " §aTeleporting!")
+        sender.teleport(Location(location.world, location.x, (highest.y + 1.0), location.z, location.yaw, location.pitch))
         return false
     }
-}
-
-fun getHighestLocation(location: Location): Location {
-    var i = 255.0
-    while (location.world.getBlockAt(Location(location.world, location.x, i, location.z)).type == Material.AIR)
-        i--
-
-    return Location(location.world, location.x, i + 1, location.z)
 }

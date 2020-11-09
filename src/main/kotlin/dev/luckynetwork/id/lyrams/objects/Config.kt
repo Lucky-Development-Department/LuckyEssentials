@@ -65,7 +65,7 @@ object Config {
             plugin.saveResource("messages.yml", false)
 
         messagesData = YamlConfiguration.loadConfiguration(messagesFile)
-        prefix = messagesData.getString("prefix", "&e&lLuckyEssentials &a/").colorize()
+        prefix = messagesData.getString("prefix", "&e&lLuckyEssentials &a/").colorize
     }
 
     fun reloadSlots() {

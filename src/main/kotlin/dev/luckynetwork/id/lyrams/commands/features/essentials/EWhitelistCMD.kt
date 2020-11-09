@@ -32,7 +32,7 @@ class EWhitelistCMD : BetterCommand("ewhitelist", "whitelist", "wl", "ewl") {
             }
             "TOGGLE" -> {
                 val state = Whitelist.toggle(null)
-                sender.sendMessage(Config.prefix + " §aWhitelist: §l${state.toString().colorizeTrueOrFalse()}!")
+                sender.sendMessage(Config.prefix + " §aWhitelist: §l${state.toString().colorizeTrueOrFalse}!")
             }
             "ON", "ENABLE", "ENABLED" -> {
                 val state = Whitelist.toggle(true)

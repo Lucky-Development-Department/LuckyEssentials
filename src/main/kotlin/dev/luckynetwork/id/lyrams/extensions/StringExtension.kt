@@ -5,18 +5,31 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import java.util.*
+import kotlin.collections.ArrayList
 
 /** colorizes [String] to RED if false and to GREEN if true*/
-internal fun String.colorizeTrueOrFalse(): String =
-    when {
+internal val String.colorizeTrueOrFalse: String
+    get() = when {
         this.equals("true", true) -> "§a$this"
         this.equals("false", true) -> "§c$this"
         else -> this
     }
 
 /** colorizes [String] */
-internal fun String.colorize(): String =
-    ChatColor.translateAlternateColorCodes('&', this)
+internal val String.colorize: String
+    get() = ChatColor.translateAlternateColorCodes('&', this)
+
+/** checks if [String] is a UUID */
+internal val String.isUUID: Boolean
+    get() {
+        return try {
+            UUID.fromString(this)
+            true
+        } catch (_: Exception) {
+            false
+        }
+    }
 
 /** checks if [String] is a double */
 internal fun String.isDouble(): Boolean =

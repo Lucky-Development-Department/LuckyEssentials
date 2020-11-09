@@ -87,10 +87,7 @@ class PlayerListeners : Listener {
         if (!Whitelist.enabled || Whitelist.isWhitelisted(player.name.toLowerCase()))
             return
 
-        event.disallow(
-            PlayerLoginEvent.Result.KICK_WHITELIST,
-            Whitelist.kickMessage.colorize()
-        )
+        event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, Whitelist.kickMessage.colorize)
     }
 
     /*
@@ -106,17 +103,10 @@ class PlayerListeners : Listener {
             PlayerLoginEvent.Result.KICK_FULL, PlayerLoginEvent.Result.ALLOWED -> {
                 if (Bukkit.getOnlinePlayers().size < Slots.getSlots())
                     event.allow()
-                else if (Bukkit.getOnlinePlayers().size >= Slots.amount && player.checkPermission(
-                        "join_full",
-                        silent = true
-                    )
-                )
+                else if (Bukkit.getOnlinePlayers().size >= Slots.amount && player.checkPermission("join_full", silent = true))
                     event.allow()
                 else
-                    event.disallow(
-                        PlayerLoginEvent.Result.KICK_FULL,
-                        Slots.fullMessage.colorize()
-                    )
+                    event.disallow(PlayerLoginEvent.Result.KICK_FULL, Slots.fullMessage.colorize)
             }
             else -> return
         }

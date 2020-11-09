@@ -58,14 +58,14 @@ class TrollCMD : BetterCommand("troll", "trolls", "luckytroll", "luckytrolls", "
                     return false
 
                 sender.sendMessage("§6${target.name}('s) active troll attributes:")
-                sender.sendMessage("§6FakePlace: ${target.hasMetadata("FAKEPLACE").toString().colorizeTrueOrFalse()}")
-                sender.sendMessage("§6NoBreak: ${target.hasMetadata("NOBREAK").toString().colorizeTrueOrFalse()}")
-                sender.sendMessage("§6NoDamage: ${target.hasMetadata("NODAMAGE").toString().colorizeTrueOrFalse()}")
-                sender.sendMessage("§6NoHit: ${target.hasMetadata("NOHIT").toString().colorizeTrueOrFalse()}")
-                sender.sendMessage("§6NoInteract: ${target.hasMetadata("NOINTERACT").toString().colorizeTrueOrFalse()}")
-                sender.sendMessage("§6NoPickup: ${target.hasMetadata("NOPICKUP").toString().colorizeTrueOrFalse()}")
-                sender.sendMessage("§6NoPlace: ${target.hasMetadata("NOPLACE").toString().colorizeTrueOrFalse()}")
-                sender.sendMessage("§6OneTap: ${target.hasMetadata("ONETAP").toString().colorizeTrueOrFalse()}")
+                sender.sendMessage("§6FakePlace: ${target.hasMetadata("FAKEPLACE").toString().colorizeTrueOrFalse}")
+                sender.sendMessage("§6NoBreak: ${target.hasMetadata("NOBREAK").toString().colorizeTrueOrFalse}")
+                sender.sendMessage("§6NoDamage: ${target.hasMetadata("NODAMAGE").toString().colorizeTrueOrFalse}")
+                sender.sendMessage("§6NoHit: ${target.hasMetadata("NOHIT").toString().colorizeTrueOrFalse}")
+                sender.sendMessage("§6NoInteract: ${target.hasMetadata("NOINTERACT").toString().colorizeTrueOrFalse}")
+                sender.sendMessage("§6NoPickup: ${target.hasMetadata("NOPICKUP").toString().colorizeTrueOrFalse}")
+                sender.sendMessage("§6NoPlace: ${target.hasMetadata("NOPLACE").toString().colorizeTrueOrFalse}")
+                sender.sendMessage("§6OneTap: ${target.hasMetadata("ONETAP").toString().colorizeTrueOrFalse}")
 
             }
 

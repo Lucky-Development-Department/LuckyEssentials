@@ -53,7 +53,7 @@ class ChatLockCMD : BetterCommand("chatlock", "cl") {
                         it.sendMessage(Config.prefix + " §cChat has been locked by a staff member!")
                 }
         } else {
-            sender.sendMessage(Config.prefix + " §aChat lock: ${state.toString().colorizeTrueOrFalse()}")
+            sender.sendMessage(Config.prefix + " §aChat lock: ${state.toString().colorizeTrueOrFalse}")
         }
 
         Bukkit.getOnlinePlayers().forEach {

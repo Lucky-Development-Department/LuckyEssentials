@@ -38,7 +38,7 @@ class EditSignCMD : BetterCommand("editsign") {
             if (args[0].equals("set", true) && args.size > 2) {
                 val line = args[1].toInt() - 1
                 val argsAsString = args.joinToString(" ")
-                val text = argsAsString.split(args[1] + " ")[1].colorize()
+                val text = argsAsString.split(args[1] + " ")[1].colorize
 
                 sign.setLine(line, text)
                 sign.update()
