@@ -1,0 +1,15 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "22:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: org.jetbrains.kotlin.jvm
+    versions:
+    - 1.4.31
+  - dependency-name: org.spigotmc:spigot-api
+    versions:
+    - 1.16.5-R0.1-SNAPSHOT
