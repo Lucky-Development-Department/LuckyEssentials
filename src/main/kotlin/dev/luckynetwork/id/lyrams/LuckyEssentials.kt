@@ -16,14 +16,16 @@ class LuckyEssentials : JavaPlugin() {
     }
 
     override fun onEnable() {
-        if (Bukkit.getPluginManager().getPlugin("LuckyInjector") == null &&
-            Bukkit.getPluginManager().getPlugin("KtLoader") == null
-        )
+        if (Bukkit.getPluginManager().getPlugin("LuckyInjector") == null && Bukkit.getPluginManager().getPlugin("KtLoader") == null)
             Bukkit.getLogger().warning("LuckyInjector or KtLoader not found! Plugin might not load!")
 
         instance = this
 
         Config.init(this)
+
+        // loads these two class
+        Class.forName("dev.luckynetwork.id.lyrams.enums.XEnchantment")
+        Class.forName("dev.luckynetwork.id.lyrams.enums.XItemStack")
 
         registerCommands()
         registerListeners()

@@ -27,7 +27,7 @@ class HealCMD : BetterCommand("heal") {
             return false
 
         targets.forEach {
-            it.health = 20.0
+            it.health = it.maxHealth
             it.foodLevel = 20
             it.sendMessage(Config.prefix + " §aYou have been healed!")
             targetNames.add(it.name)

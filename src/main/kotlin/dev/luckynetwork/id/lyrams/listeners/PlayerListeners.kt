@@ -6,6 +6,7 @@ import dev.luckynetwork.id.lyrams.extensions.checkPermission
 import dev.luckynetwork.id.lyrams.extensions.colorize
 import dev.luckynetwork.id.lyrams.extensions.removeMetadata
 import dev.luckynetwork.id.lyrams.objects.Config
+import dev.luckynetwork.id.lyrams.objects.Lockdown
 import dev.luckynetwork.id.lyrams.objects.Slots
 import dev.luckynetwork.id.lyrams.objects.Whitelist
 import org.bukkit.Bukkit
@@ -24,7 +25,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerInteractAtEntityEvent
 import org.bukkit.event.player.PlayerLoginEvent
 
-
 class PlayerListeners : Listener {
 
     @EventHandler
@@ -39,6 +39,9 @@ class PlayerListeners : Listener {
 
     @EventHandler
     fun onInteract(event: PlayerInteractAtEntityEvent) {
+        if (Config.disabledCommands.contains("invsee"))
+            return
+
         val player = event.player
         val target = event.rightClicked
 
@@ -84,10 +87,13 @@ class PlayerListeners : Listener {
     fun onConnect(event: PlayerLoginEvent) {
         val player = event.player
 
-        if (!Whitelist.enabled || Whitelist.isWhitelisted(player.name.toLowerCase()))
-            return
+        if (Lockdown.enabled) {
+            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "§cCould not connect to a default or fallback server, please try again later: io.netty.channel.AbstractChannel\$AnnotatedConnectionException")
+        } else if (Whitelist.enabled) {
+            if (Whitelist.isWhitelisted(player.name.toLowerCase())) return
 
-        event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, Whitelist.kickMessage.colorize)
+            event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, Whitelist.kickMessage.colorize)
+        }
     }
 
     /*
@@ -101,12 +107,13 @@ class PlayerListeners : Listener {
         val player = event.player
         when (event.result) {
             PlayerLoginEvent.Result.KICK_FULL, PlayerLoginEvent.Result.ALLOWED -> {
-                if (Bukkit.getOnlinePlayers().size < Slots.getSlots())
+                if (Bukkit.getOnlinePlayers().size < Slots.getSlots()) {
                     event.allow()
-                else if (Bukkit.getOnlinePlayers().size >= Slots.amount && player.checkPermission("join_full", silent = true))
+                } else if (Bukkit.getOnlinePlayers().size >= Slots.amount && player.checkPermission("join_full", silent = true)) {
                     event.allow()
-                else
+                } else {
                     event.disallow(PlayerLoginEvent.Result.KICK_FULL, Slots.fullMessage.colorize)
+                }
             }
             else -> return
         }
@@ -117,6 +124,9 @@ class PlayerListeners : Listener {
      */
     @EventHandler
     fun onInventoryClick(event: InventoryClickEvent) {
+        if (Config.disabledCommands.contains("invsee"))
+            return
+
         val topInventory = event.view.topInventory
         val inventoryType = topInventory.type
         var refreshPlayer: Player? = null
@@ -129,7 +139,6 @@ class PlayerListeners : Listener {
                     return
 
                 inventoryOwner as Player
-
                 if (whoClicked.hasMetadata("INVSEE")) {
                     refreshPlayer = whoClicked
 
@@ -163,6 +172,9 @@ class PlayerListeners : Listener {
      */
     @EventHandler
     fun onInventoryClose(event: InventoryCloseEvent) {
+        if (Config.disabledCommands.contains("invsee"))
+            return
+
         val topInventory = event.view.topInventory
         val inventoryType = topInventory.type
         val player = event.player as Player

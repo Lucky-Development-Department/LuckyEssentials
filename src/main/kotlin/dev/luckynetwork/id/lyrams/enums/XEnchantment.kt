@@ -62,22 +62,7 @@ enum class XEnchantment(private val enchantment: Enchantment) {
     LOTS(Enchantment.LUCK),
     LUCKOFTHESEA(Enchantment.LUCK),
     LUCK_OF_THE_SEA(Enchantment.LUCK),
-    LURE(Enchantment.LURE),
-
-    // 1.9 - 1.12 enchantments
-    FROSTWALKER(Enchantment.getByName("FROST_WALKER")),
-    FROST(Enchantment.getByName("FROST_WALKER")),
-    MENDING(Enchantment.getByName("MENDING")),
-    BINDINGCURSE(Enchantment.getByName("BINDING_CURSE")),
-    BINDING(Enchantment.getByName("BINDING_CURSE")),
-    BIND(Enchantment.getByName("BINDING_CURSE")),
-    VANISHINGCURSE(Enchantment.getByName("VANISHING_CURSE")),
-    VANISHING(Enchantment.getByName("VANISHING_CURSE")),
-    VANISH(Enchantment.getByName("VANISHING_CURSE")),
-    SWEEPINGEDGE(Enchantment.getByName("SWEEPING_EDGE")),
-    SWEEPEDGE(Enchantment.getByName("SWEEPING_EDGE")),
-    SWEEP(Enchantment.getByName("SWEEPING_EDGE"));
-
+    LURE(Enchantment.LURE);
 
     companion object {
         /**
@@ -89,8 +74,9 @@ enum class XEnchantment(private val enchantment: Enchantment) {
             var enchantment: Enchantment? = null
 
             // tries to get it the normal way
-            if (Enchantment.getByName(name.toUpperCase()) != null)
+            if (Enchantment.getByName(name.toUpperCase()) != null) {
                 enchantment = Enchantment.getByName(name.toUpperCase())
+            }
 
             // tries to get it from the map
             if (enchantment == null) {
@@ -100,8 +86,48 @@ enum class XEnchantment(private val enchantment: Enchantment) {
                 }
             }
 
-            return enchantment ?: Enchantment.LUCK
+            if (enchantment == null) {
+                enchantment = getNewerEnchantments(name)
+            }
 
+            return enchantment ?: Enchantment.LUCK
         }
+
+        /**
+         * tries to get newer enchantments...
+         */
+        private fun getNewerEnchantments(name: String): Enchantment? {
+            var enchantment: Enchantment? = null
+
+            try {
+                enchantment = Enchantment.getByName(name)
+            } catch (_: Exception) {
+            }
+
+            if (enchantment != null)
+                return enchantment
+
+            when (name.toUpperCase()) {
+                "FROSTWALKER",
+                "FROST" -> return Enchantment.FROST_WALKER
+
+                "MENDING" -> return Enchantment.MENDING
+
+                "BINDINGCURSE",
+                "BINDING",
+                "BIND" -> return Enchantment.BINDING_CURSE
+
+                "VANISHINGCURSE",
+                "VANISHING",
+                "VANISH" -> return Enchantment.VANISHING_CURSE
+
+                "SWEEPINGEDGE",
+                "SWEEPEDGE",
+                "SWEEP" -> return Enchantment.SWEEPING_EDGE
+
+                else -> return null
+            }
+        }
+
     }
 }
