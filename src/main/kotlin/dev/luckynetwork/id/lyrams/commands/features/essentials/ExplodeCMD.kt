@@ -42,10 +42,10 @@ class ExplodeCMD : BetterCommand("explode") {
             return false
 
         val argsAsString = args.joinToString(" ")
-        if (argsAsString.toLowerCase().contains("-nodamage"))
+        if (argsAsString.lowercase().contains("-nodamage"))
             damage = false
 
-        if (argsAsString.toLowerCase().contains("-power="))
+        if (argsAsString.lowercase().contains("-power="))
             power = argsAsString
                 .split("-power=")[1].toFloat()
 

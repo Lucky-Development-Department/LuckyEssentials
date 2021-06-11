@@ -56,7 +56,7 @@ class LuckyEssentialsCMD : BetterCommand("luckyessentials", "less") {
                 return false
             }
 
-            val subCmd = args[1].toLowerCase()
+            val subCmd = args[1].lowercase()
             val newArgs = args.copyOfRange(2, args.size)
             CompletableFuture.runAsync {
                 try {

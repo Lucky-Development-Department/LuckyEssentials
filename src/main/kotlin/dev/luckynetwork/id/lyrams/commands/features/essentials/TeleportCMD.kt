@@ -23,7 +23,7 @@ class TeleportCMD : BetterCommand("teleport", "tp", "tphere", "s", "tppos") {
             return false
         }
 
-        when (commandLabel.toUpperCase()) {
+        when (commandLabel.uppercase()) {
             "TELEPORT", "TP" -> {
                 var target: Player = sender
                 var toTarget: Player

@@ -27,7 +27,7 @@ class TrollCMD : BetterCommand("troll", "trolls", "luckytroll", "luckytrolls", "
         }
 
         var target: Player
-        when (args[0].toUpperCase()) {
+        when (args[0].uppercase()) {
             "CHECK", "INFO" -> {
                 target =
                     if (sender !is Player) {

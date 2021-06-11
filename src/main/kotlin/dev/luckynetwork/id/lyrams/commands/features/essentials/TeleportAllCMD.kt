@@ -21,7 +21,7 @@ class TeleportAllCMD : BetterCommand("teleportall", "tpall", "tpallpos") {
         if (sender !is Player || !sender.checkPermission("teleportall"))
             return false
 
-        when (commandName.toUpperCase()) {
+        when (commandName.uppercase()) {
             "TPALL" -> {
                 val targets: List<Player>
                 val toTarget: Player

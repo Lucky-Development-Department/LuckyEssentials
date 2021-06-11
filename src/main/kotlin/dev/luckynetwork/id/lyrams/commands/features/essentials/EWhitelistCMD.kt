@@ -21,7 +21,7 @@ class EWhitelistCMD : BetterCommand("ewhitelist", "whitelist", "wl", "ewl") {
             return false
         }
 
-        when (args[0].toUpperCase()) {
+        when (args[0].uppercase()) {
             "RELOAD" -> {
                 Whitelist.reload()
                 sender.sendMessage(Config.prefix + " §aWhitelist cache reloaded!")
@@ -49,14 +49,14 @@ class EWhitelistCMD : BetterCommand("ewhitelist", "whitelist", "wl", "ewl") {
                 val targets = ArrayList<String>()
                 var bulk = false
 
-                if (args[1].toLowerCase().contains(",")) {
+                if (args[1].lowercase().contains(",")) {
                     for (toBeAdded in args[1].split(",")) {
                         if (toBeAdded != "")
                             targets.add(toBeAdded)
                     }
                     bulk = true
                 } else {
-                    targets.add(args[1].toLowerCase())
+                    targets.add(args[1].lowercase())
                 }
 
                 if (bulk) {
@@ -88,14 +88,14 @@ class EWhitelistCMD : BetterCommand("ewhitelist", "whitelist", "wl", "ewl") {
                 val targets = ArrayList<String>()
                 var bulk = false
 
-                if (args[1].toLowerCase().contains(",")) {
+                if (args[1].lowercase().contains(",")) {
                     for (toBeRemoved in args[1].split(",")) {
                         if (toBeRemoved != "")
                             targets.add(toBeRemoved)
                     }
                     bulk = true
                 } else {
-                    targets.add(args[1].toLowerCase())
+                    targets.add(args[1].lowercase())
                 }
 
                 if (bulk) {
@@ -139,7 +139,7 @@ class EWhitelistCMD : BetterCommand("ewhitelist", "whitelist", "wl", "ewl") {
                 if (args.size != 2)
                     return false
 
-                val target = args[1].toLowerCase()
+                val target = args[1].lowercase()
 
                 val check = Whitelist.isWhitelisted(target)
                 if (check)

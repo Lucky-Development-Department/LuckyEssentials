@@ -50,18 +50,18 @@ class GamemodeCMD : BetterCommand("gamemode", "gm", "gmc", "gms", "gmsp", "gma")
                 return false
             }
 
-            val targetGamemode = when (commandLabel.split("gm")[1].toLowerCase()) {
+            val targetGamemode = when (commandLabel.split("gm")[1].lowercase()) {
                 "s", "0" -> "survival"
                 "c", "1" -> "creative"
                 "a", "2" -> "adventure"
                 "sp", "3" -> "spectator"
-                else -> args[0].toLowerCase()
+                else -> args[0].lowercase()
             }
 
             if (!sender.checkPermission("gamemode.$targetGamemode", others))
                 return false
 
-            target.gameMode = GameMode.valueOf(targetGamemode.toUpperCase())
+            target.gameMode = GameMode.valueOf(targetGamemode.uppercase())
 
             if (others) {
                 sender.sendMessage(Config.prefix + " §a§l" + target.name + "('s) §agamemode has been updated!")
@@ -104,19 +104,19 @@ class GamemodeCMD : BetterCommand("gamemode", "gm", "gmc", "gms", "gmsp", "gma")
                 others = true
             }
 
-            val targetGamemode = when (args[0].toLowerCase()) {
+            val targetGamemode = when (args[0].lowercase()) {
                 "s", "0" -> "survival"
                 "c", "1" -> "creative"
                 "a", "2" -> "adventure"
                 "sp", "3" -> "spectator"
-                else -> args[0].toLowerCase()
+                else -> args[0].lowercase()
             }
 
             if (!sender.checkPermission("gamemode.$targetGamemode", others))
                 return false
 
             try {
-                target.gameMode = GameMode.valueOf(targetGamemode.toUpperCase())
+                target.gameMode = GameMode.valueOf(targetGamemode.uppercase())
             } catch (ignored: Exception) {
                 sendUsage(sender)
                 return false

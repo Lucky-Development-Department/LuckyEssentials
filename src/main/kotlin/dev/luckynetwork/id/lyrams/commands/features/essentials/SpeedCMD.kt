@@ -32,7 +32,7 @@ class SpeedCMD : BetterCommand("speed") {
 
         if (args.size > 1) {
             type =
-                when (args[1].toUpperCase()) {
+                when (args[1].uppercase()) {
                     "WALK", "WALKING" -> SpeedType.WALKING
                     "FLY", "FLIGHT", "FLYING" -> SpeedType.FLYING
                     else -> {

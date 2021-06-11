@@ -21,7 +21,7 @@ class SlotsCMD : BetterCommand("slots", "slot") {
             return false
         }
 
-        when (args[0].toUpperCase()) {
+        when (args[0].uppercase()) {
             "RELOAD" -> {
                 Slots.reload()
                 sender.sendMessage(Config.prefix + " §aSlots cache reloaded!")

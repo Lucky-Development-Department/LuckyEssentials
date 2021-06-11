@@ -34,7 +34,7 @@ abstract class BetterCommand(
     )
 
     init {
-        this.commandName = command.toLowerCase()
+        this.commandName = command.lowercase()
         this.commandAliases = aliases
     }
 }

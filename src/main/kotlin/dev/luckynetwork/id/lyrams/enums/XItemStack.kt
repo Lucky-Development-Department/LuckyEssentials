@@ -495,13 +495,13 @@ enum class XItemStack(private val itemStack: ItemStack) {
             var itemStack: ItemStack? = null
 
             try {
-                itemStack = valueOf(name.toUpperCase()).itemStack
+                itemStack = valueOf(name.uppercase()).itemStack
             } catch (e: Exception) {
             }
 
             if (itemStack == null) {
-                if (Material.getMaterial(name.toUpperCase()) != null) {
-                    itemStack = ItemStack(Material.getMaterial(name.toUpperCase()), amount)
+                if (Material.getMaterial(name.uppercase()) != null) {
+                    itemStack = ItemStack(Material.getMaterial(name.uppercase()), amount)
                 }
             }
 

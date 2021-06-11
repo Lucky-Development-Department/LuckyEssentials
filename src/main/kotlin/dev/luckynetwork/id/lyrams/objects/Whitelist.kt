@@ -9,8 +9,8 @@ object Whitelist {
     fun add(name: String, save: Boolean = true): Boolean {
         var success = false
 
-        if (!whitelistCache.contains(name.toLowerCase())) {
-            whitelistCache.add(name.toLowerCase())
+        if (!whitelistCache.contains(name.lowercase())) {
+            whitelistCache.add(name.lowercase())
             success = true
         }
 
@@ -22,8 +22,8 @@ object Whitelist {
     fun remove(name: String, save: Boolean = true): Boolean {
         var success = false
 
-        if (whitelistCache.contains(name.toLowerCase())) {
-            whitelistCache.remove(name.toLowerCase())
+        if (whitelistCache.contains(name.lowercase())) {
+            whitelistCache.remove(name.lowercase())
             success = true
         }
 

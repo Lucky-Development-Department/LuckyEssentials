@@ -101,8 +101,8 @@ class GiveCMD : BetterCommand("give", "i") {
         // what material
         val material =
             if (args[offset].contains(":"))
-                args[offset].split(":")[0].toUpperCase()
-            else args[offset].toUpperCase()
+                args[offset].split(":")[0].uppercase()
+            else args[offset].uppercase()
 
         // whats the material damage amount
         val damage =
@@ -116,22 +116,22 @@ class GiveCMD : BetterCommand("give", "i") {
         val argsAsString = args.joinToString(" ")
 
         // does it contain '-name='
-        if (argsAsString.toLowerCase().contains("-name=\""))
+        if (argsAsString.lowercase().contains("-name=\""))
             itemName = argsAsString
                 .split("name=\"")[1]
                 .split("\"")[0]
-        else if (argsAsString.toLowerCase().contains("-name="))
+        else if (argsAsString.lowercase().contains("-name="))
             itemName = argsAsString
                 .split("name=")[1]
                 .split(" ")[0]
 
         // does it contain '-enchant='
-        if (argsAsString.toLowerCase().contains("-enchant="))
+        if (argsAsString.lowercase().contains("-enchant="))
             enchantments = argsAsString
                 .split("-enchant=")[1]
                 .split(" ")[0]
                 .split(",")
-        else if (argsAsString.toLowerCase().contains("-enchants="))
+        else if (argsAsString.lowercase().contains("-enchants="))
             enchantments = argsAsString
                 .split("-enchants=")[1]
                 .split(" ")[0]
@@ -190,7 +190,7 @@ class GiveCMD : BetterCommand("give", "i") {
             it.updateInventory()
             it.sendMessage(
                 Config.prefix + " §aGave you ${itemStack.amount}x ${
-                    (itemStack.type).toString().toLowerCase()
+                    (itemStack.type).toString().lowercase()
                 }!"
             )
             targetNames.add(it.name)
@@ -202,7 +202,7 @@ class GiveCMD : BetterCommand("give", "i") {
                     Config.prefix + " §aGiven §l" + Joiner.on(", ").join(targetNames) + " §a${itemStack.amount}x " +
                             "${
                                 (itemStack.type).toString()
-                                    .toLowerCase()
+                                    .lowercase()
                             }!"
                 )
             else
@@ -210,7 +210,7 @@ class GiveCMD : BetterCommand("give", "i") {
                     Config.prefix + " §aGiven §l" + targets.size + " players §a${itemStack.amount}x " +
                             "${
                                 (itemStack.type).toString()
-                                    .toLowerCase()
+                                    .lowercase()
                             }!"
                 )
         }

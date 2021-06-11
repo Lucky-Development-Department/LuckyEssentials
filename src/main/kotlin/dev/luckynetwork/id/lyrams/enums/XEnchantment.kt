@@ -74,14 +74,14 @@ enum class XEnchantment(private val enchantment: Enchantment) {
             var enchantment: Enchantment? = null
 
             // tries to get it the normal way
-            if (Enchantment.getByName(name.toUpperCase()) != null) {
-                enchantment = Enchantment.getByName(name.toUpperCase())
+            if (Enchantment.getByName(name.uppercase()) != null) {
+                enchantment = Enchantment.getByName(name.uppercase())
             }
 
             // tries to get it from the map
             if (enchantment == null) {
                 try {
-                    enchantment = valueOf(name.toUpperCase()).enchantment
+                    enchantment = valueOf(name.uppercase()).enchantment
                 } catch (ignored: Exception) {
                 }
             }
@@ -107,7 +107,7 @@ enum class XEnchantment(private val enchantment: Enchantment) {
             if (enchantment != null)
                 return enchantment
 
-            when (name.toUpperCase()) {
+            when (name.uppercase()) {
                 "FROSTWALKER",
                 "FROST" -> return Enchantment.FROST_WALKER
 

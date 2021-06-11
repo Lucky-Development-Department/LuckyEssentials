@@ -90,7 +90,7 @@ class PlayerListeners : Listener {
         if (Lockdown.enabled) {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "§cCould not connect to a default or fallback server, please try again later: io.netty.channel.AbstractChannel\$AnnotatedConnectionException")
         } else if (Whitelist.enabled) {
-            if (Whitelist.isWhitelisted(player.name.toLowerCase())) return
+            if (Whitelist.isWhitelisted(player.name.lowercase())) return
 
             event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, Whitelist.kickMessage.colorize)
         }

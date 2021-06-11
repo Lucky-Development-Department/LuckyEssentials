@@ -16,8 +16,8 @@ import org.bukkit.entity.Player
  */
 internal fun Player.checkPermission(permission: String, others: Boolean = false, silent: Boolean = false): Boolean {
     val toCheck =
-        if (others) "luckyessentials." + permission.toLowerCase() + ".others"
-        else "luckyessentials." + permission.toLowerCase()
+        if (others) "luckyessentials." + permission.lowercase() + ".others"
+        else "luckyessentials." + permission.lowercase()
 
     val allowed = this.hasPermission(toCheck)
     if (!allowed && !silent)
@@ -36,8 +36,8 @@ internal fun Player.checkPermission(permission: String, others: Boolean = false,
  */
 internal fun CommandSender.checkPermission(permission: String, others: Boolean = false): Boolean {
     val toCheck =
-        if (others) "luckyessentials." + permission.toLowerCase() + ".others"
-        else "luckyessentials." + permission.toLowerCase()
+        if (others) "luckyessentials." + permission.lowercase() + ".others"
+        else "luckyessentials." + permission.lowercase()
 
     val allowed = this.hasPermission(toCheck)
     if (!allowed)
