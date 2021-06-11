@@ -1,7 +1,7 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.5.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.5.10'
 }
 
 def pluginName = 'LuckyEssentials'
@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.jetbrains:annotations:21.0.0'
+    implementation 'org.jetbrains:annotations:21.0.1'
 
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
