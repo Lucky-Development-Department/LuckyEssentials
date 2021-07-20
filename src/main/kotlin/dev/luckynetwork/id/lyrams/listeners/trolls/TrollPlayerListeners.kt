@@ -39,7 +39,7 @@ class TrollPlayerListeners : Listener {
             return
 
         if (victim.hasMetadata("ONETAP"))
-            event.damage = 100.0
+            victim.health = 0.0
     }
 
     @EventHandler
@@ -80,8 +80,21 @@ class TrollPlayerListeners : Listener {
             return
 
         val player = event.player
-        if (player.hasMetadata("NOBREAK"))
+        if (player.hasMetadata("NOBREAK")) {
             event.isCancelled = true
+            return
+        }
+
+        if (player.hasMetadata("FAKEBREAK")) {
+            val block = event.block
+            val type = block.type
+            val data = block.data
+            val location = block.location
+            Bukkit.getScheduler().runTaskLater(LuckyEssentials.instance, {
+                location.world.getBlockAt(location).type = type
+                location.world.getBlockAt(location).data = data
+            }, 17L)
+        }
     }
 
     @EventHandler

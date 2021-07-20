@@ -1,6 +1,7 @@
 package dev.luckynetwork.id.lyrams
 
 import com.google.common.reflect.ClassPath
+import dev.luckynetwork.id.lyrams.listeners.trolls.LagBackStickyListener
 import dev.luckynetwork.id.lyrams.listeners.PlayerListeners
 import dev.luckynetwork.id.lyrams.listeners.trolls.TrollPlayerListeners
 import dev.luckynetwork.id.lyrams.objects.Config
@@ -66,7 +67,11 @@ class LuckyEssentials : JavaPlugin() {
         val pluginManager = server.pluginManager
 
         pluginManager.registerEvents(PlayerListeners(), this)
-        pluginManager.registerEvents(TrollPlayerListeners(), this)
+
+        if (Config.trollEnabled) {
+            pluginManager.registerEvents(TrollPlayerListeners(), this)
+            pluginManager.registerEvents(LagBackStickyListener(), this)
+        }
     }
 
 }
