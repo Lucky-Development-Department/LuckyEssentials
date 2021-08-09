@@ -8,3 +8,4 @@ Lucky Essentials is a plugin mainly created to replace EssentialsX's essential f
 * [Wiki](https://github.com/Lucky-Development-Department/LuckyEssentials/wiki)
 * [Installation](https://github.com/Lucky-Development-Department/LuckyEssentials/wiki/Installation)
 * [Commands and Permissions](https://github.com/Lucky-Development-Department/LuckyEssentials/wiki/Documentation)
+* [Short QnA](https://github.com/Lucky-Development-Department/LuckyEssentials/wiki/Short-QnA)
